@@ -125,7 +125,7 @@ cover: /assets/images/h1/h1-photogallery-logo.png
     	app.run(host='0.0.0.0', port=80)
     ```
 
-    2. This part of the code stood out as dangerous:
+2. This part of the code stood out as dangerous:
 
     ```python
     rep += '<i>Space used: ' + subprocess.check_output('du -ch %s || exit 0' % ' '.join('files/' + fn for fn in fns), shell=True, stderr=subprocess.STDOUT).strip().rsplit('\n', 1)[-1] + '</i>'
