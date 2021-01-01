@@ -54,13 +54,13 @@ cover: /assets/images/h1/h1-codysfirstblog-logo.png
 
 ### Flag1
 
-    1. Circling back to the first flag, I've found the admin page but haven't discovered any vulnerabilities yet. The admin page has a login form and a text box. The text box can be used to submit comments waiting for approval. I'm guessing this means that there must be an approval page somewhere to be found. During my enumeration of possible hidden files and directories, I've managed to guess the file `admin.inc` which leads to an admin page to approve comments. Flag1 has been captured.
+1. Circling back to the first flag, I've found the admin page but haven't discovered any vulnerabilities yet. The admin page has a login form and a text box. The text box can be used to submit comments waiting for approval. I'm guessing this means that there must be an approval page somewhere to be found. During my enumeration of possible hidden files and directories, I've managed to guess the file `admin.inc` which leads to an admin page to approve comments. Flag1 has been captured.
 
     ![admin-approval](/assets/images/h1/h1-codysfirstblog-3.png)
 
 ### Flag2
 
-    1. Circling back to the potential LFI vulnerability, I tried enumerating the files using nullbytes but no luck. I tried using SQL injection authentication bypass methods and no luck either. After reading the hints given, it does mention LFI is the likely vulnerability to be targeting for. In my first attempt in flag0, I've identified the possibilities of the files that can be read with denied permissions. What I didn't check for is, can I actually read the `index.php` file that is being hosted? I started to look for ways to read files using PHP injection.
+1. Circling back to the potential LFI vulnerability, I tried enumerating the files using nullbytes but no luck. I tried using SQL injection authentication bypass methods and no luck either. After reading the hints given, it does mention LFI is the likely vulnerability to be targeting for. In my first attempt in flag0, I've identified the possibilities of the files that can be read with denied permissions. What I didn't check for is, can I actually read the `index.php` file that is being hosted? I started to look for ways to read files using PHP injection.
 
     I took notes while I was tinkering around the possibilties, I know I can read files in the local app directory:
 
