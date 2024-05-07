@@ -17,6 +17,6 @@ Want to get in touch? Slide into my pseudo [💬](https://forms.gle/1g8coYT3HQXd
 
 # Lowered Expectations 🎢
 
-I'm not just a pale skinned basement dweller, folks! When I'm not glued to my screens, I'm a hot mess of hobbies and interests. Have dogs? I'm a [dog watcher](./gallery/doggos) of a few fluffers - woof! Love coffee? Let's [geek out](./gallery/experiment-hardness/) over espresso and caffeine addiction! Into hardcore endurance sports? I'm scared but [sign me up](./gallery/running/) for the next event... or at least the couch-to-fridge sprint (let's be real, that's my PR on Strava). And don't even get me started on taming the noisy brain - we can [meditate](./posts/personal-10dayspt1/), manifest, and maybe even conjure up some inner peace (just kidding, I'll probably just zone out thinking about coffee again).️
+I'm not just a pale skinned basement dweller, folks! When I'm not glued to my screens, I'm a hot mess of hobbies and interests. Have dogs? I'm a [dog watcher](./gaze/doggos) of a few fluffers - woof! Love coffee? Let's [geek out](./gaze/experiment-hardness/) over espresso and caffeine addiction! Into hardcore endurance sports? I'm scared but [sign me up](./gaze/running/) for the next event... or at least the couch-to-fridge sprint (let's be real, that's my PR on Strava). And don't even get me started on taming the noisy brain - we can [meditate](./posts/personal-10dayspt1/), manifest, and maybe even conjure up some inner peace (just kidding, I'll probably just zone out thinking about coffee again).️
 
 # Talk later ✌️

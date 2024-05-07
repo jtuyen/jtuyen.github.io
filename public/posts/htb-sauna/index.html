@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Sauna</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Sauna"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-sauna/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Sauna" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">16</span>
+        <span class="rest">Mar 20</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Sauna </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p><code>nmap</code> scans show ports 80, 135, 53, and 389 are opened.</p>
+</li>
+<li>
+<p>I started with enumerating the SMB shares and see if anything would show up. Unfortunately, there wasn't any accessible shares.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-smbmap.png" alt="htb-sauna-smbmap.png" /></p>
+</li>
+<li>
+<p>Next service to be enumerated is DNS and see if I could get any zone transfers by guessing or PTR records. Again, there wasn't any DNS records that can be found.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-dig.png" alt="htb-sauna-dig.png" /></p>
+</li>
+<li>
+<p>Next service to be enumerated is LDAP using <code>ldapsearch</code>. I did find up finding a username &quot;Hugo Smith&quot;. I tried guessing the password to see if I would login but no luck.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-ldapsearch.png" alt="htb-sauna-ldapsearch.png" /></p>
+</li>
+<li>
+<p>Next, I would proceed with the HTTP service. I found it was hosting a banking site called Egotistical Bank. Running <code>gobuster</code> in the background, I started to inspect the site code and eventually I found this page that could be in use for enumerating possible usernames.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-httpserver.png" alt="htb-sauna-httpserver.png" /></p>
+</li>
+<li>
+<p>I started to compile a list of possible usernames that most companies would use such as:</p>
+<ul>
+<li>hsmith</li>
+<li>hugos</li>
+<li>hugosmith</li>
+</ul>
+</li>
+<li>
+<p>I used a tool called <code>kerbrute</code> python script to help enumerate the list of users that I created to validate the possible usernames. As you can see, it validated the user <code>hsmith</code>. Eventually I created the other possible users listed on the website and enumerated again. The second user found was <code>fsmith</code>.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-kerbrute.png" alt="htb-sauna-kerbrute.png" /></p>
+</li>
+<li>
+<p>Using the Impacket script, <code>GetNPUsers.py</code>, I used <code>fsmith</code> username and see if the ASREPRoast attack would work on this account. This attack looks for users without required Kerberos pre-authentication. The python script tries to harvest the non-preauth AS_REP responses for brute forcing. As you can see, an AS_REP response has been acquired.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-getnp.png" alt="htb-sauna-getnp.png" /></p>
+</li>
+<li>
+<p>Using <code>hashcat</code>, I saved the AS_REP response hash to a file and proceeded to deploy brute force attack. The hash has been cracked.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>hashcat -m 18200 -a 0 ~/Documents/hackthebox/sauna/fsmith.txt /usr/share/wordlists/rockyou.txt --force
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-hashcatfsmith.png" alt="htb-sauna-hashcatfsmith.png" /></p>
+</li>
+<li>
+<p>With this new username and password, the next logical step is trying to connect using WinRM using <code>evil-winrm</code>. Once connected, I was able to obtain user.txt flag.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-winrm.png" alt="htb-sauna-winrm.png" /></p>
+</li>
+</ol>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<ol>
+<li>
+<p>I began enumerating the Windows machines using <code>Winpeas</code>. It immediately found AutoLogon credentials in the registry for <code>svc_loanmgr</code>. You can also find this registry manually using a command. Using this newly found username and password, I used <code>evil-winrm</code> to login.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-winpeas.png" alt="htb-sauna-winpeas.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-registry.png" alt="htb-sauna-registry.png" /></p>
+</li>
+<li>
+<p>Enumerating the system even further didn't find anything too obvious so tried to get the TGT ticket of other possible accounts but I ran into clock skew errors.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-gettgt.png" alt="htb-sauna-gettgt.png" /></p>
+</li>
+<li>
+<p>I had to remove <code>ntp</code> command from my system because it was conflicting with <code>timesyncd</code>.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>apt purge ntp
+</span></code></pre>
+<p>Once <code>ntp</code> has been removed, I reconfigured my <code>timesyncd.conf</code> file to sync with Sauna.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sudo vim /etc/systemd/timesyncd.conf
+</span><span>
+</span><span>sudo systemctl restart systemd-timesyncd
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-ntpfix.png" alt="htb-sauna-ntpfix.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-timesyncd.png" alt="htb-sauna-timesyncd.png" /></p>
+</li>
+<li>
+<p>Once the clock skew errors has been resolved, I used <code>GetUserSPNs.py</code> script to deploy Kerberoasting attack and see if I could obtain any TGS tickets from other users. How kerberoasting attack work is attempting to harvest TGS tickets for services that run on behalf of user accounts in the AD, not computer accounts. As you can see, <code>hsmith</code> TGS ticket has been obtained.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-getuserspn.png" alt="htb-sauna-getuserspn.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-hsmith.png" alt="htb-sauna-hsmith.png" /></p>
+</li>
+<li>
+<p>I sent the TGS ticket to <code>hashcat</code> for brute forcing. The hash has been cracked and had the same password as <code>fsmith</code>.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-hashcathsmith.png" alt="htb-sauna-hashcathsmith.png" /></p>
+</li>
+<li>
+<p>After spending some time poking around using the <code>hsmith</code> credentials and enumerate services with it, I didn't find anything special about the account.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-otherremoteports.png" alt="htb-sauna-otherremoteports.png" /></p>
+</li>
+<li>
+<p>After digging further, I decided to see if I can dump the Administrator password using <code>secretsdump.py</code>. I got lucky. I sent the hash to <code>hashcat</code> and I was unable to crack the hash using <code>rockyou.txt</code>.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-secretsdump.png" alt="htb-sauna-secretsdump.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-hashcatadministrator.png" alt="htb-sauna-hashcatadministrator.png" /></p>
+</li>
+<li>
+<p>Eventually, I was able to login as Administrator using <code>evil-winrm</code> using pass-the-hash technique. The root flag has been obtained.</p>
+<p><img src="https://johntuyen.com/posts/htb-sauna/htb-sauna-root.png" alt="htb-sauna-root.png" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

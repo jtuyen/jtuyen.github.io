@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Netmon</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Netmon"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-netmon/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Netmon" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">21</span>
+        <span class="rest">Jun 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Netmon </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>Nmap scans show FTP is open on port 21 with allowed anonymous access. Looking through the directories, I found the <code>user.txt</code> flag, that was way too easy.</p>
+<p><img src="https://johntuyen.com/posts/htb-netmon/htb-netmon-ftp.png" alt="htb-netmon-ftp" /></p>
+</li>
+<li>
+<p>Nmap scans show Netmon is running a web server on port 80. The web server is hosting a web application called PRTG which is a network monitoring software. The version 18.1.37.13946 can be found below. Looking through exploit-db, there is no vulnerable exploits to be found.</p>
+<p>Trying to figure out how to bypass the login, I've proceeded with brute forcing the login using <code>hydra</code> but no luck.</p>
+<p>I started to dig through what else was on the system using FTP. I would find a hidden folder for PRTG located in:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>C:\ProgramData\Paessler|PRTG Network Monitor
+</span></code></pre>
+<p>Inside this folder, there are old backup files and configuration files.</p>
+<p><img src="https://johntuyen.com/posts/htb-netmon/htb-netmon-oldbak.png" alt="htb-netmon-oldbak.png" /></p>
+<p>Roaming through the configuration files, I found something that was notable. The configuration files contain passwords even if it was encrypted. I started to dig through all the configuration files that I could find and there was only 1 file that showed an unencrypted password.</p>
+<p><img src="https://johntuyen.com/posts/htb-netmon/htb-netmon-prtgconfig.png" alt="htb-netmon-prtgconfig" /></p>
+<p>Username <code>prtgadmin</code> and password <code>PrTg@dmin2018</code>. I tried logging in with these credentials and it didn't work. Not sure what to do next, so I got a hint from someone in Discord and they said try using the <code>PrTg@dmin2019</code> instead. Wow, it worked and something I would have never guessed. Enumerating passwords is something I will take note of next time.</p>
+</li>
+<li>
+<p>Once I'm logged in, I started to play around with PRTG as I never used this platform before. It was kind of confusing where everything is and how it works. After a while, I had a hunch that I had to create a sensor or something to trigger a script of some sort. I googled for possible code execution and I stumbled upon this site: <code>https://www.codewatch.org/blog/?p=453</code></p>
+<p>It's smooth sailing from here following his instructions and modifying parts as my own. How it works is creating an EXE notification object that triggers the <code>Demo - Outfile.ps1</code>. Why <code>Outfile.ps1</code>? <code>Outfile.ps1</code> doesn't sanitize the parameter being passed to it so you can append your own code for execution.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>if ($Args.Count -eq 0) {
+</span><span> 
+</span><span>  #No Arguments. Filename must be specified.
+</span><span> 
+</span><span>  exit 1;
+</span><span> }elseif ($Args.Count -eq 1){
+</span><span> 
+</span><span> 
+</span><span>  $Path = split-path $Args[0];
+</span><span> 
+</span><span>  if (Test-Path $Path)    
+</span><span>  {
+</span><span>    $Text = Get-Date;
+</span><span>    $Text | out-File $Args[0]; # This is where it doesn&#39;t sanitize the parameter being passed to it
+</span><span>    exit 0;
+</span><span> 
+</span><span>  }else
+</span><span>  {
+</span><span>    # Directory does not exist.
+</span><span>    exit 2;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+</li>
+<li>
+<p>Make a EXE notification with the parameters to read and output the flag to <code>C:\root.txt</code></p>
+<p><img src="https://johntuyen.com/posts/htb-netmon/htb-netmon-exenotification.png" alt="htb-netmon-exenotification" /></p>
+</li>
+<li>
+<p>Now you need to assign this notification object to an existing sensor. You can choose any sensor at this point and modify it's notification setting to execute your EXE notification. I chose a sensor that was failing and assigned with these settings:</p>
+<p><img src="https://johntuyen.com/posts/htb-netmon/htb-netmon-editnotification.png" alt="htb-netmon-editnotification" /></p>
+<p>All you do now is watch and wait for the root flag file to be generated at <code>C:\</code></p>
+<p><img src="https://johntuyen.com/posts/htb-netmon/htb-netmon-root.png" alt="htb-netmon-root" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

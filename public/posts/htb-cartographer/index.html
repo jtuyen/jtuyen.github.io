@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Cartographer</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Cartographer"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-cartographer/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Cartographer" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">17</span>
+        <span class="rest">Jun 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Cartographer </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>&quot;Some underground hackers are developing a new command and control server. Can you break in and see what they are up to?&quot;</p>
+<p>This challenge was finding out if you can bypass the login screen. At first, I thought the hint was Cartography so I thought that “oh, maybe I take the .png image and decode the message using steganography tools.” Nope, this was the first mistake. I should have not focused so much time on doing the hard stuff first when I should have tried the lower hanging fruit such as SQL injection attacks.</p>
+<p>To bypass the login screen, it was a matter of trying out SQL injection attack. I used the <a href="https://pentestlab.blog/2012/12/24/sql-injection-authentication-bypass-cheat-sheet/">SQL injection cheat sheet</a> and if you insert:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>admin&#39; or &#39;1&#39;=&#39;1
+</span></code></pre>
+<p>on the login page, it will bypass the login form.</p>
+<p>After logging in, there isn't much to look at besides a page that says under construction. In the URL, I noticed a strange <code>?info=</code> parameter.</p>
+<p><code>http://docker.hackthebox.eu:36005/panel.php?info=lol</code></p>
+</li>
+<li>
+<p>Playing around with it, invalid parameters show <code>page not found</code> error. I wonder if I could fuzz the URL and see if there are possible pages that can be found using a word list.</p>
+<p><code>wfuzz</code> is the tool of choice of what I need to do. First, we need to grab the cookie and pass onto <code>wfuzz</code> so it can produce the results correctly. If you don't do this, it will only give you false positive results. Using <code>burpsuite</code>, we can grab the cookie:</p>
+<p><img src="https://johntuyen.com/posts/htb-cartographer/htb-cartographer-cookie.png" alt="htb-cartographer-cookie.png" /></p>
+<p>Now we pass this cookie information to the <code>wfuzz</code> command.</p>
+<p><img src="https://johntuyen.com/posts/htb-cartographer/htb-cartographer-urlfuzz.png" alt="htb-cartographer-urlfuzz.png" /></p>
+<p><code>Protip</code>{: .info }</p>
+<p>The <code>–ss</code> switch is for displaying only pages that contains the flag.</p>
+<p>Navigating to the URL will show us the HTB flag.</p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

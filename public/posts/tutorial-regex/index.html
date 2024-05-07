@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Regular Expression Tutorial</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Regular Expression Tutorial"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/tutorial-regex/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Regular Expression Tutorial" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">01</span>
+        <span class="rest">Mar 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Regular Expression Tutorial </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://www.lynda.com/Regular-Expressions-tutorials">https://www.lynda.com/Regular-Expressions-tutorials</a></p>
+<h3 id="1">1</h3>
+<ul>
+<li>There are different types of RegEx engines that will behave slightly different than others.</li>
+</ul>
+<h3 id="2">2</h3>
+<ul>
+<li>
+<p>Literal characters</p>
+</li>
+<li>
+<p>Regular expressions are eager - important to keep in mind. It wants to return a match as fast as possible. Meta characters</p>
+</li>
+<li>
+<p>Characters with special meaning:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\ . * + - {} [] ^ $ | ? () : ! =
+</span></code></pre>
+<ul>
+<li>A wildcard match:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>.
+</span></code></pre>
+<ul>
+<li>Escape the next character:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\
+</span></code></pre>
+<p>Escaping characters like this is generally used inside programming languages. Take note of the slash period.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/\9.00/ matches &quot;9.00&quot; but not &quot;9500&quot; or &quot;9-00&quot;
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\/home\/user\/document\/text\.txt
+</span><span>```	
+</span><span>
+</span></code></pre>
+</li>
+<li>
+<p>Other special characters:</p>
+<ul>
+<li>Tabs:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\t
+</span></code></pre>
+<ul>
+<li>Line returns:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\r \n \r\n
+</span></code></pre>
+<ul>
+<li>Non-printable characters. Not commonly used. Bell, escape, form feed, vertical tab:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\a \e \f \v
+</span></code></pre>
+<ul>
+<li>ASCII or ANSI Codes</li>
+</ul>
+</li>
+</ul>
+<h3 id="3">3</h3>
+<ul>
+<li>
+<p>Defining a character set</p>
+</li>
+<li>
+<p>Match any one of several characters but only one character</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>[]
+</span></code></pre>
+</li>
+<li>
+<p>This does not match &quot;great&quot;.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/gr[ea]t/
+</span></code></pre>
+</li>
+<li>
+<p>Character ranges</p>
+<ul>
+<li>Match zero to nine:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>[0-9]
+</span></code></pre>
+</li>
+<li>
+<p>Negative character sets</p>
+<ul>
+<li>Do not match character:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^
+</span></code></pre>
+<ul>
+<li>Matches any one non-vowel:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/[^aeiou]/
+</span></code></pre>
+<ul>
+<li>Matches &quot;seek&quot; and &quot;sees&quot; but not &quot;seem&quot; or &quot;seen&quot; or &quot;see&quot;. &quot;See &quot; is a match so be aware</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/see[^mn]/ 
+</span></code></pre>
+</li>
+<li>
+<p>Metacharacters inside character sets</p>
+<ul>
+<li>Metacharacters inside character sets are already escaped with the exception of <code>[ - ^</code></li>
+</ul>
+</li>
+<li>
+<p>Shorthand character sets</p>
+<ul>
+<li>Digit:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\d or [0-9]
+</span></code></pre>
+<ul>
+<li>Word character:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\w or [a-zA-Z0-9_]
+</span></code></pre>
+<ul>
+<li>Whitespace:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\s or [ \t\r\n]
+</span></code></pre>
+<ul>
+<li>Not digit:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\D or [^0-9]
+</span></code></pre>
+<ul>
+<li>Not word character:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\W or [^a-zA-Z0-9_]
+</span></code></pre>
+<ul>
+<li>Not whitespace:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\S or [^ \t\r\n]
+</span></code></pre>
+</li>
+</ul>
+<h3 id="4">4</h3>
+<ul>
+<li>
+<p>Repetition metacharacters</p>
+<ul>
+<li>Preceding item zero or more times:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>*
+</span></code></pre>
+<ul>
+<li>Preceding item one or more times:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>+
+</span></code></pre>
+<ul>
+<li>Preceding item zero or more times:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>?
+</span></code></pre>
+<ul>
+<li>Repetition example 1:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/apples*/ matches &quot;apple&quot;, &quot;apples&quot;, and &quot;applessssss&quot;
+</span></code></pre>
+<ul>
+<li>Repetition example 2:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/apples+/ matches &quot;apples&quot; and &quot;applessssss&quot;
+</span></code></pre>
+<ul>
+<li>Repetition example 3:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/apples?/ matches &quot;apple&quot; and &quot;apples&quot;
+</span></code></pre>
+</li>
+<li>
+<p>Quantified repetition</p>
+<ul>
+<li><code>min</code> must be included, <code>max</code> is optional:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>{min,max}
+</span></code></pre>
+<ul>
+<li>Matches numbers with 4 to 8 digits:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\d{4,8}
+</span></code></pre>
+<ul>
+<li>Matches numbers with exactly 4 digits:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\d{4}
+</span></code></pre>
+<ul>
+<li>Matches numbers with 4 or more digits:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\d{4,}
+</span></code></pre>
+</li>
+<li>
+<p>Greedy expressions</p>
+<ul>
+<li>
+<p>Regular expressions are greedy - important to keep in mind.</p>
+</li>
+<li>
+<p>Greedy strategy - match as much as possible before giving control to the next expression part</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Lazy expressions</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>*?, +?, {min,max}?, ??
+</span></code></pre>
+<ul>
+<li>Lazy strategy - match as little as possible before giving control to the next expression part</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/\w*?\d{3}/
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/[A-Za-z-]+?./
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/.{4-8}?_.{4,8}/
+</span></code></pre>
+</li>
+<li>
+<p>Using repetition efficiently</p>
+<ul>
+<li>
+<p>Efficient matching + less backtracking = speedy results</p>
+</li>
+<li>
+<p>Define the quantity of repeated expressions</p>
+<ul>
+<li>
+<p><code>/.+/</code> is faster than <code>/.*/</code></p>
+</li>
+<li>
+<p><code>/.{5}/</code> and <code>/.{3,7}/</code> are even faster</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Narrow the scope of the repeated expression</p>
+<ul>
+<li><code>/.+/</code> can become <code>/[A-Za-z]+/</code></li>
+</ul>
+</li>
+<li>
+<p>Provide clearer starting and ending points</p>
+<ul>
+<li><code>/&lt;.+&gt;/</code> can become <code>/&lt;[^&gt;]+&gt;/</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="5-grouping-and-alternation">5: Grouping and Alternation</h3>
+<ul>
+<li>
+<p>Grouping metacharacters</p>
+<ul>
+<li>Grouping</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>( )
+</span></code></pre>
+<ul>
+<li>
+<p>Apply repetition operators to a group</p>
+</li>
+<li>
+<p>Makes expressions easier to read</p>
+</li>
+<li>
+<p>Captures group for use in matching and replacing</p>
+</li>
+<li>
+<p>Cannot be used inside character set</p>
+</li>
+<li>
+<p><code>/(abc)+/</code> matches &quot;abc&quot; and &quot;abcabcabc&quot;</p>
+</li>
+<li>
+<p><code>/(in)?dependent/</code> matches &quot;independent&quot; and &quot;dependent&quot;</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Alternation metacharacter</p>
+<ul>
+<li>OR operator:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>| -
+</span></code></pre>
+<ul>
+<li>
+<p>Match expression on left or right side</p>
+</li>
+<li>
+<p>Ordered, leftmost expression gets precedence. If first expression matches, it will stop searching.</p>
+</li>
+<li>
+<p>Multiple choices can be daisy-chained</p>
+</li>
+<li>
+<p><code>/apple|orange/</code> matches &quot;apple&quot; and &quot;orange&quot;</p>
+</li>
+<li>
+<p><code>/abc|def|ghi|jkl/</code> matches &quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, and &quot;jkl&quot;</p>
+</li>
+<li>
+<p><code>/w(ei|ie)rd/</code> matches &quot;weird&quot; and &quot;wierd&quot;</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Writing local and efficient alternations</p>
+<ul>
+<li>
+<p><code>peanut(butter)?</code> matches &quot;peanutbutter&quot; and not peanut first because (butter) is greedy.</p>
+</li>
+<li>
+<p><code>(\w+|FY\d{4}_report.xls)</code> matches &quot;FY2003_report.xls&quot; using the first expression <code>w+</code> because it's greedy. It doesn't understand the second expression even though it's more precise</p>
+</li>
+<li>
+<p><code>/xyz|abc|def|ghi/</code> matches &quot;abc&quot; first and not &quot;xyz&quot; because it doesn't scan the entire string. It will scan the first few characters first and see if it matches the first alternation</p>
+</li>
+<li>
+<p>Put simplest (most efficient) expression first</p>
+<ul>
+<li><code>/\w+_\d{2,4}|\d{4}_\d{2}_\w+|export\d{2}/</code> (inefficent,backtrack) vs <code>/export\d{2}|\d{4}_\d{2}_\w+|\w+_\d{2,4}/</code> (efficient,simple)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Repeating and nesting alternations</p>
+<ul>
+<li>
+<p>Nesting means when you have an expression that looks like <code>(apple(juice|sauce))</code> and not <code>(applejuice|applesauce)</code></p>
+</li>
+<li>
+<p>Repeating alternations: first matched alternation does not affect the next matches meaning.</p>
+<ul>
+<li><code>(AA|BB|CC){6}</code> matches &quot;AABBCCAABBCC&quot;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-anchored-expressions">6: Anchored Expressions</h3>
+<ul>
+<li>
+<p>Start and end anchors</p>
+<ul>
+<li>
+<p>Reference a position, not an actual character</p>
+</li>
+<li>
+<p>Start of string/line:</p>
+</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^
+</span></code></pre>
+<ul>
+<li>End of string/line:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>$
+</span></code></pre>
+<ul>
+<li>Start of string, never end of line (not supported by some programming languages):</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\A
+</span></code></pre>
+<ul>
+<li>End of string, never end of line (not supported by some programming languages):</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\Z
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/^apple/ or /\Aapple/
+</span><span>
+</span><span>/apple$/ or /apple\Z/
+</span><span>
+</span><span>/^apple$/ or /\Aapple\Z/
+</span></code></pre>
+<ul>
+<li>If you have <code>^</code> and <code>$</code> in a single expression, it will have to match the whole string</li>
+</ul>
+</li>
+<li>
+<p>Line breaks and multiline mode</p>
+<ul>
+<li>
+<p><code>/[a-z]+/</code> matches the first line on the list but does the next lines after it. This is due to being in single line mode</p>
+<ul>
+<li>To match multiple lines, you need to add <code>/m</code> to end of line. Just like adding a global (/g) switch.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Word boundaries</p>
+<ul>
+<li>
+<p>Word boundaries references a position, not a character.</p>
+</li>
+<li>
+<p>Word boundary (start/end word boundary):</p>
+</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\b
+</span></code></pre>
+<ul>
+<li>Not a word boundary:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\B
+</span></code></pre>
+<ul>
+<li>
+<p>Watch out, it doesn't match certain characters such as <code>.</code> or <code>-</code> or spaces unless specified</p>
+</li>
+<li>
+<p><code>/\b/w+s\b/</code> matches &quot;apples&quot; - This expression is efficient because you are exactly specifying the boundaries.</p>
+</li>
+<li>
+<p><code>/apples\b</code> <code>\band\b</code> <code>\boranges/</code> matches &quot;apples and oranges&quot;</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-capturing-groups-and-backreferences">7: Capturing groups and Backreferences</h3>
+<ul>
+<li>
+<p>Backreferences</p>
+<ul>
+<li>
+<p>Allow access to captured data</p>
+</li>
+<li>
+<p>How it works: <code>/a(p{2}l)e/</code> matches &quot;apple&quot; and the regex engine will store &quot;ppl&quot; automatically.</p>
+</li>
+<li>
+<p><code>\1</code> through <code>\9</code></p>
+</li>
+<li>
+<p><code>/(apple)</code> to <code>\1/</code> matches &quot;apples to apples&quot;</p>
+</li>
+<li>
+<p><code>/&lt;(i|em)&gt;.+?&lt;/\1&gt;/</code> matches <i>Hello</i> and <em>Hello</em></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Non-capturing group expressions</p>
+<ul>
+<li>Turns off capture and backreferences to optimize for speed and preserve space for captures</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>?:
+</span></code></pre>
+</li>
+</ul>
+<h3 id="8-lookaround-assertions">8: Lookaround Assertions</h3>
+<ul>
+<li>
+<p>Positive lookahead assertions</p>
+<ul>
+<li>Positive lookahead assertion</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>?=
+</span></code></pre>
+<ul>
+<li>
+<p><code>/(?=seashore)sea/</code> matches &quot;sea&quot; in &quot;seashore&quot; but not &quot;seaside&quot;</p>
+</li>
+<li>
+<p><code>/\b[A-Za-z']+\b(?=,)</code> matches words with commas after it but does not capture the comma</p>
+</li>
+<li>
+<p>This is a good way to sift through large documents for specific words with symbols before or after it</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Double-testing with lookahead assertions</p>
+<ul>
+<li><code>(?=^[0-5-]+$)(?=.*4321)\d{3}-\d{3}-\d{4}</code> - matches &quot;555-302-4321&quot; and not &quot;555-245-1312&quot;. Pay attention how many times it goes through and check the line</li>
+</ul>
+</li>
+<li>
+<p>Negative lookahead assertions</p>
+<ul>
+<li>Negative lookahead assertion:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>?!
+</span></code></pre>
+<ul>
+<li>
+<p>Used to rule out cases you specific to not search for</p>
+</li>
+<li>
+<p><code>/(?!seashore)sea/</code> matches &quot;sea&quot; in &quot;seaside&quot; but not &quot;seashore&quot;</p>
+</li>
+<li>
+<p><code>/online (?!.*training)/</code> does not match &quot;online video training&quot;</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Lookbehind assertions</p>
+<ul>
+<li>Lookbehind positive assertion:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>?&lt;=
+</span></code></pre>
+<ul>
+<li>Lookbehind negative assertion:</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>?&lt;!
+</span></code></pre>
+<ul>
+<li>
+<p><code>/(?&lt;=base)ball/</code> matches the &quot;ball&quot; in &quot;baseball&quot; but not &quot;football&quot;</p>
+</li>
+<li>
+<p><code>/(?!=base)ball/</code> matches the &quot;ball&quot; in &quot;football&quot; but not &quot;baseball&quot;</p>
+</li>
+<li>
+<p>Alternation only with fixed-length items</p>
+<ul>
+<li>
+<p>Allowed: <code>(?&lt;=cat|dog|rat)</code></p>
+</li>
+<li>
+<p>Not allowed: <code>(?&lt;=apple|banana|plum)</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>The power of positions</p>
+<ul>
+<li>
+<p>Zero-width means zero position movement</p>
+</li>
+<li>
+<p><code>/(?&lt;![$\d])(?=\d+\.\d\d)/</code> - doesn't match either &quot;54.00&quot; or &quot;$54.00&quot;. It moves the cursor infront of the 5 instead, no insertion of characters or anything, just the cursor. This is an ideal situation where you don't need to do a text replacement but instead text insertion like commas between large numbers 123,123,123.00 rather than 123123123.00</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-unicode-and-multibyte-characters">9: Unicode and Multibyte characters</h3>
+<ul>
+<li>Briefly glanced at it, not interested as it doesn't apply to me yet. Never had an experience with unicode issues yet.</li>
+</ul>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/tutorial'>tutorial</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

