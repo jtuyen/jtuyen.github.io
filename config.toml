@@ -42,7 +42,7 @@ avatar = ""
 # Your Google Analytics measurement id ("G-XXXXXXXXXX")
 # google_analytics_tag_id = "";
 
-keywords = "zola, theme, ink, hugo-ink"
+keywords = "zola, theme, ink, hugo-ink, john tuyen, jtuyen"
 
 search_enabled = false
 
@@ -52,7 +52,7 @@ image_format = "auto"           # "auto", "jpg", "png", "webp"
 
 # responsive image shortcode 
 # example: {{ image(src="foo.jpeg", alt="some image") }}
-image_quality = 80
+image_quality = 100
 images_default_size = 1024
 images_sizes = [512, 1024, 2048]
 
@@ -63,6 +63,7 @@ thumbnail_sizes = [128, 256]
 
 link_github_username = "jtuyen"
 link_twitter_username = "jtuyen"
+link_pgp = "johntuyenprotonmailcom-pgp.asc"
 # link_mastodon_url = ""
 # link_medium_username = ""
 # link_instagram_username = ""
@@ -71,7 +72,7 @@ menu_links = [
     { url = "$BASE_URL/", name = "About" },
     { url = "$BASE_URL/posts/", name = "Posts" },
     { url = "$BASE_URL/gaze/", name = "Gaze" },
+    { url = "$BASE_URL/wiretap/", name = "Wiretap" },
     { url = "$BASE_URL/tags/", name = "Tags" },
-    # { url = "https://github.com/jimmyff/zola-inky", name = "Github" },
     { url = "$BASE_URL/search/", name = "Search" },
 ]
