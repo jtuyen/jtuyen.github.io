@@ -13,7 +13,7 @@ My unique blend of technical expertise and foundational knowledge of governance,
 
 Throughout my professional journey, I've consistently demonstrated a collaborative spirit, earning recognition as a cheerful and reliable expert who is always willing to lend my expertise to others. With a strong sense of agency and a deep commitment to helping others achieve their goals, I take pride in being able to make a positive impact on those around me and enjoying the relationships I've built along the way.
 
-Want to get in touch? Slide into my pseudo [💬](https://forms.gle/1g8coYT3HQXdQVRKA), my 🤖 may respond depending on mood.
+Want to get in touch? Slide into my pseudo [💬](https://forms.gle/1g8coYT3HQXdQVRKA)
 
 # Lowered Expectations 🎢
 
