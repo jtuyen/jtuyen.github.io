@@ -64,6 +64,7 @@ thumbnail_sizes = [128, 256]
 link_github_username = "jtuyen"
 link_twitter_username = "jtuyen"
 link_pgp = "johntuyenprotonmailcom-pgp.asc"
+disable_powered_by = true
 # link_mastodon_url = ""
 # link_medium_username = ""
 # link_instagram_username = ""
