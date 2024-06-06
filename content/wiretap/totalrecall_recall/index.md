@@ -17,6 +17,8 @@ tags = ["microsoft", "privacy", "AI", "infostealer"]
 
 Well this is worst than I [thought](https://johntuyen.com/wiretap/microsoft-recall/), unencrypted SQLite and raw images stored in AppData, Microsoft didn't even bother with DPAPI. It's like they rolled out from alpha and didn't even GAF about security.
 
-I like the blurb about infostealer. It's like a smash and grab of data and who gives AF about your endpoint security, I already exfiltrated it.
+I like the blurb about infostealer. It's like a smash and grab of data and who gives AF about your endpoint security, data has been exfiltrated already.
 
 Enterprise editions of Windows has Recall enabled by default 🤦 Enough of this shit show, let's see how they will fix this in Windows 15 😏
+
+EDIT: just to clarify, I'm not hating on the idea that Recall or AI is useless, I think it's a useful piece of tech that will change the way you interface with your computer and offload tasks to Edge compute. Whether this is bad or good is up for the user to decide, there are choices. My gripe is how the data is being contained and handled.
