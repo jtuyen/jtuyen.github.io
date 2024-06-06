@@ -2,7 +2,7 @@
 title = "TerminalTextEffects: Because why not?"
 date = 2024-06-04
 [taxonomies]
-tags = ["terminal", "demo", "cli"] 
+tags = ["terminal", "demo", "CLI"] 
 +++
 
 ![](https://chrisbuilds.github.io/terminaltexteffects/img/application_demos/shadow_title_blackhole.gif)

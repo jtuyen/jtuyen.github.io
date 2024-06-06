@@ -2,7 +2,7 @@
 title = "Microsoft Recall: FML"
 date = 2024-05-23
 [taxonomies]
-tags = ["microsoft", "privacy", "ai"]
+tags = ["microsoft", "privacy", "AI"]
 +++
 
 > [Privacy and control over your Recall experience]("https://support.microsoft.com/en-us/windows/privacy-and-control-over-your-recall-experience-d404f672-7647-41e5-886c-a3c59680af15")

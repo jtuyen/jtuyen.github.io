@@ -2,7 +2,7 @@
 title = "Practical Password Cracking with a Modern Touch"
 date = 2024-05-28
 [taxonomies]
-tags = ["password cracking", "hashcat", "passgpt", "llm"]
+tags = ["password cracking", "hashcat", "passgpt", "LLM"]
 +++
 
 [Practical password cracking - hardware, tools, methods, and AI](https://github.com/sean-t-smith/pwned-by-passgpt/blob/main/Practical%20Password%20Cracking%20-%20Hardware%2C%20Tools%2C%20Methods%20and%20AI%20-%20vF.pdf)

@@ -2,7 +2,7 @@
 title = "SSID Confusion: EvilTwin Remix?"
 date = 2024-05-29
 [taxonomies]
-tags = ["wireless", "wpa3", "eviltwin", "mitm"]
+tags = ["wireless", "wpa3", "eviltwin", "MitM"]
 +++
 
 [SSID Confusion - CVE-2023-52424](https://www.top10vpn.com/research/wifi-vulnerability-ssid/)

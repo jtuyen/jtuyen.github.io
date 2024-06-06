@@ -2,7 +2,7 @@
 title = "Hacking Millions of Modems"
 date = 2024-06-05
 [taxonomies]
-tags = ["api", "web application", "obfuscation"]
+tags = ["API", "web application", "obfuscation"]
 +++
 
 [Hacking Millions of Modems (and investigating who hacked my modem)](https://samcurry.net/hacking-millions-of-modems)

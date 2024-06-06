@@ -2,7 +2,7 @@
 title = "Offensive AI Tooling: Finally Arrived?"
 date = 2024-05-30
 [taxonomies]
-tags = ["automation", "redteam", "ai"]
+tags = ["automation", "red team", "AI"]
 +++
 
 [AI red-teaming tools helped X-Force break into a major tech manufacturer 'in 8 hours'](https://www.theregister.com/2024/05/13/ai_xforce_red_penetration)
