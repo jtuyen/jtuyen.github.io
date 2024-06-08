@@ -7,7 +7,7 @@ tags = ["LLM", "AI", "Engineering"]
 
 [What We Learned from a Year of Building with LLMs (Part I)](https://www.oreilly.com/radar/what-we-learned-from-a-year-of-building-with-llms-part-i)
 
-I still find LLMs still mysterious in some ways and at times it doesn't steer towards the answers I'm expecting. This article does help demystify my assumptions of how things work, a structure that can be followed, and goes a bit further without going deep into the weeds.
+I still find LLMs mysterious in some ways and at times it doesn't steer towards the answers I'm expecting. This article does help demystify my assumptions of how things work, a structure that can be followed, and goes a bit further without going deep into the weeds.
 
 > We recommend starting with prompting when developing new applications. It’s easy to both underestimate and overestimate its importance. It’s underestimated because the right prompting techniques, when used correctly, can get us very far. It’s overestimated because even prompt-based applications require significant engineering around the prompt to work well.
 
