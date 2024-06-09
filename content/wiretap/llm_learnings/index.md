@@ -2,7 +2,7 @@
 title = "Building LLMs: Insights"
 date = 2024-06-07
 [taxonomies]
-tags = ["LLM", "AI", "Engineering"]
+tags = ["LLM", "AI", "engineering"]
 +++
 
 [What We Learned from a Year of Building with LLMs (Part I)](https://www.oreilly.com/radar/what-we-learned-from-a-year-of-building-with-llms-part-i)
