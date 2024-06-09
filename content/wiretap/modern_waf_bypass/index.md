@@ -2,7 +2,7 @@
 title = "Modern WAF Bypass Techniques"
 date = 2024-06-08
 [taxonomies]
-tags = ["web application", "appsec"]
+tags = ["web application", "appsec", "WAF bypass"]
 +++
 
 [Modern WAF Bypass Techniques on Large Attack Surfaces](https://www.youtube.com/watch?v=0OMmWtU2Y_g)
