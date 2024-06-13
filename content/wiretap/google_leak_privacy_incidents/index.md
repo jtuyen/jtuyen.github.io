@@ -15,7 +15,7 @@ tags = ["google", "privacy", "leaks"]
 
 > The reports obtained by 404 are from over six years ago and are examples of these flags—every one was reviewed and resolved at that time. In some cases, these employee flags turned out not to be issues at all or were issues that employees found in third party services.”
 
-A quick glance of the collected issues appear to be group in the following: UX/UI design issues, misconfiguration, faulty application logic, mergers and acquisitions gone wrong. Although across the board, some are quite bad and unsure if it was intentional or not such as:
+A quick glance of the collected issues appear to be grouped in the following: UX/UI design issues, misconfiguration, faulty application logic, mergers and acquisitions gone wrong. Although across the board, some are quite bad and unsure if it was intentional or not such as:
 
 > YouTube made recommendations based on videos users had deleted from their watch history, which was against YouTube’s own policy.
 
