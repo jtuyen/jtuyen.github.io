@@ -5,6 +5,8 @@ template = "index.html"
 in_search_index = true
 +++
 
+Welcome to my digital space where I write experimental short/long form content about what I'm [working on](https://johntuyen.com/posts/), [looking at](https://johntuyen.com/gaze/), processing [discoveries, ideas, and stories](https://johntuyen.com/wiretap/).
+
 # My Job Thingy 🤓
 
 I'm a seasoned IT professional with a passion for Cybersecurity. Throughout my career, I've had the privilege of serving both public and private sectors across North America, earning a reputation as a trusted advisor and go-to expert in my field.
