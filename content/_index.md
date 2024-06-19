@@ -5,7 +5,7 @@ template = "index.html"
 in_search_index = true
 +++
 
-Welcome to my digital space where I write experimental short/long form content about what I'm [working on](https://johntuyen.com/posts/), [looking at](https://johntuyen.com/gaze/), processing [discoveries, ideas, and stories](https://johntuyen.com/wiretap/).
+Welcome to my digital space, where I share my thoughts on information security and a sprinkle of humanities. Here, you'll find a glimpse into what I'm [exploring](https://johntuyen.com/posts/) - from [articles and news](https://johntuyen.com/wiretap/) that pique my interest, to the everyday moments I capture through [photography](https://johntuyen.com/gaze/).
 
 # My Job Thingy 🤓
 
