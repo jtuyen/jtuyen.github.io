@@ -9,6 +9,6 @@ images= ["vienna.jpg"]
 
 > "It's like Berlin but smaller" <br><br> - Local dweller
 
-The right amount of city people, not too crowded and not too quiet either.
+Not just smaller but condensed with cool hidden gems to explore, rich in history/art, and OG cafes to hang out.
 
 {{ image(src="vienna.jpg", alt="Vienna, Austria") }}
