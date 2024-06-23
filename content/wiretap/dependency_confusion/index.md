@@ -1,6 +1,6 @@
 +++
 title = "Dependency Confusion"
-date = 2024-06-22
+date = 2024-06-21
 [taxonomies]
 tags = ["web application", "appsec", "supply chain"]
 +++
