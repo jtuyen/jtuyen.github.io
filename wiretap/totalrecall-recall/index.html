@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | TotalRecall: Recall is worst than I thought</title>
+<meta
+  property="og:title"
+  content="John Tuyen | TotalRecall: Recall is worst than I thought"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/totalrecall-recall/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="TotalRecall: Recall is worst than I thought" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">06</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">TotalRecall: Recall is worst than I thought </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://github.com/xaitax/TotalRecall">TotalRecall - a 'privacy nightmare'?</a></p>
+<blockquote>
+<p>Windows Recall stores everything locally in an unencrypted SQLite database, and the screenshots are simply saved in a folder on your PC. Here’s where you can find them: <code>C:\Users\$USER\AppData\Local\CoreAIPlatform.00\UKP\{GUID}</code>. The images are all stored in the following subfolder <code>.\ImageStore\</code></p>
+</blockquote>
+<blockquote>
+<p>TotalRecall copies the databases and screenshots and then parses the database for potentially interesting artifacts. You can define dates to limit the extraction as well as search for strings (that were extracted via Recall OCR) of interest. There is no rocket science behind all this. It's very basic SQLite parsing.</p>
+</blockquote>
+<blockquote>
+<p>During testing this with an off the shelf infostealer, I used Microsoft Defender for Endpoint — which detected the off the shelve infostealer — but by the time the automated remediation kicked in (which took over ten minutes) my Recall data was already long gone.</p>
+</blockquote>
+<blockquote>
+<p>In enterprise, you have to turn off Recall as it is enabled by default.</p>
+</blockquote>
+<p>Well this is worst than I <a href="https://johntuyen.com/wiretap/microsoft-recall/">thought</a>, unencrypted SQLite and raw images stored in AppData, Microsoft didn't even bother with DPAPI. It's like they rolled out from alpha and didn't even GAF about security.</p>
+<p>I like the blurb about infostealer. It's like a smash and grab of data and who gives AF about your endpoint security, data has been exfiltrated already.</p>
+<p>Enterprise editions of Windows has Recall enabled by default 🤦 Enough of this shit show, let's see how they will fix this in Windows 15 😏</p>
+<p>EDIT: just to clarify, I'm not hating on the idea that Recall or AI is useless, I think it's a useful piece of tech that will change the way you interface with your computer and offload tasks to Edge compute. Whether this is bad or good is up for the user to decide, there are choices. My gripe is how the data is being contained and handled.</p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/microsoft'>microsoft</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/privacy'>privacy</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/ai'>AI</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/infostealer'>infostealer</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

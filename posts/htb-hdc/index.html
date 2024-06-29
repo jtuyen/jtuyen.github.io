@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | HDC</title>
+<meta
+  property="og:title"
+  content="John Tuyen | HDC"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-hdc/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="HDC" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">03</span>
+        <span class="rest">Jul 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">HDC </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>On the main page, it shows a simple login form. The first thing I did is browse around the source code and see if there are any hidden username and passwords. There are two js files, <code>jquery-3.2.1.js</code> and <code>myscripts.js</code> that I looked into.</p>
+<p><img src="https://johntuyen.com/posts/htb-hdc/htb-hdc-doprocess.png" alt="htb-hdc-doprocess.png" /></p>
+<p><code>myscripts.js</code> has a function named <code>doProcess()</code> which handles the submission I would imagine. Let's take a look at what this function does in <code>jquery-3.2.1.js</code> file.</p>
+<p><a href="https://johntuyen.com/posts/htb-hdc/htb-hdc-jquery.png">htb-hdc-jquery.png</a></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>{var form=document.createElement(&quot;form&quot;);	form.setAttribute(&quot;method&quot;,&quot;post&quot;);	form.setAttribute(&quot;action&quot;,&quot;main/index.php&quot;);	form.setAttribute(&quot;target&quot;,&quot;view&quot;);	var hiddenField=document.createElement(&quot;input&quot;);	hiddenField.setAttribute(&quot;type&quot;,&quot;hidden&quot;);	hiddenField.setAttribute(&quot;name&quot;,&quot;name1&quot;);	hiddenField.setAttribute(&quot;value&quot;,&quot;TXlMaXR0bGU&quot;);	var hiddenField2=document.createElement(&quot;input&quot;);	hiddenField2.setAttribute(&quot;type&quot;,&quot;hidden&quot;);	hiddenField2.setAttribute(&quot;name&quot;,&quot;name2&quot;);	hiddenField2.setAttribute(&quot;value&quot;,&quot;cDB3bmll&quot;);	form.appendChild(hiddenField2);		form.appendChild(hiddenField);	form.appendChild(hiddenField2);	document.body.appendChild(form);			window.open(&#39;&#39;,&#39;view&#39;);	form.submit();}
+</span></code></pre>
+<p>Oh look, there is a <code>hiddenField</code> attribute set for username and password. This must be the ticket to log into the login page.</p>
+</li>
+<li>
+<p>After logging, it shows that this platform is used for &quot;Central Greece Station&quot;. Whatever that means, it sounds important.. I think. Browsing around the displayed links, most are junk except two places that seems suspect.</p>
+<p><img src="https://johntuyen.com/posts/htb-hdc/htb-hdc-securityarea.png" alt="htb-hdc-securityarea.png" /></p>
+<p>This security area seems like a good place to dig around. Let's take a look at the source code.</p>
+<p><img src="https://johntuyen.com/posts/htb-hdc/htb-hdc-secretarea.png" alt="htb-hdc-secretarea.png" /></p>
+</li>
+<li>
+<p>Poking around, I eventually landed on a link that leads to a directory called <code>secret_area_</code>. Seems juicy, let's take a look at what's inside.</p>
+<p><img src="https://johntuyen.com/posts/htb-hdc/htb-hdc-mailstxt.png" alt="htb-hdc-mailstxt.png" /></p>
+<p>A list of email addresses, I wonder what it can be possibly used for? Oh, there was a strange mail form that can be used to submit these email addresses, I guess we try it out?</p>
+<p><img src="https://johntuyen.com/posts/htb-hdc/htb-hdc-mailform.png" alt="htb-hdc-mailform.png" /></p>
+<p>Going through the first half of the list, we finally landed upon the root flag. </p>
+<p><img src="https://johntuyen.com/posts/htb-hdc/htb-hdc-rooted.png" alt="htb-hdc-rooted.png" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

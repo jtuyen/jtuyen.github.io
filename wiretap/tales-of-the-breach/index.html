@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Tales of the Breach with Field CISO</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Tales of the Breach with Field CISO"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/tales-of-the-breach/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tales of the Breach with Field CISO" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">12</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Tales of the Breach with Field CISO </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://streamyard.com/watch/W46eD36gq2a9">Tales of the Breach With Field CISO Jason Haddix</a></p>
+<p>Thoughts and takeaways:</p>
+<ul>
+<li>Almost 40% of breaches are started by leaked credentials found offered on the dark web. 18% of breaches came from phishing and 18% came from exploit of vulnerabilities.</li>
+<li>Most modern threat actors don't bother with sophisticated attacks that can trigger EDR/AV. What they do most is searching through applications that has web interfaces which mean hiding within HTTP(S) traffic as long as possible. This is why I tend to preach the idea of building payloads around reverse proxying a network connection to understand the lay of the land. In my experience, it's easier to sneak by on the network level rather than splintering off unusual processes.</li>
+<li>The presenter categorized levels of sophisication and order of operations based on the threat actor. It ranges from skiddies searching or buying fresh creds, adversaries performing AitM, N/0-day exploits, and the hardest to detect of them all is insider threats.</li>
+<li>Threat actors are looking through various management software and knowledge bases to understand what is available to them and see if there are hardcoded credentials that can be further leveraged. Items that are being targeted: knowledge bases, dev and project management, SCM, code repositories, build servers, dev platforms, config managerment, operations and monitoring, IaaC platforms, and secrets managers. Most of these has some form of web interface or knowledge has been dumped cleartext into a readable knowledge base for everyone to read. Believe me, it happens more than you think.</li>
+<li><a href="https://github.com/fastfire/deepdarkCTI">deepdarkCTI</a> - Collection of Cyber Threat Intelligence sources from the Deep and Dark Web. Kudos to all the CTI spies that keep this fresh as possible, it's not easy at all.</li>
+<li>Airgap your DCJs, nuff said..</li>
+</ul>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/threat-actors'>threat actors</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/red-team'>red team</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/dark-web'>dark web</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

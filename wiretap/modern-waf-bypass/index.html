@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Modern WAF Bypass Techniques</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Modern WAF Bypass Techniques"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/modern-waf-bypass/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Modern WAF Bypass Techniques" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">08</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Modern WAF Bypass Techniques </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://www.youtube.com/watch?v=0OMmWtU2Y_g">Modern WAF Bypass Techniques on Large Attack Surfaces</a></p>
+<p>Takeaway and thoughts:</p>
+<ul>
+<li>WAF Bypass Philosophy: simple bypasses are the best bypasses.</li>
+<li>Increase of request size limits can almost always universally bypass WAFs due to the universal design decision.</li>
+<li>The burp plugin <a href="https://github.com/assetnote/nowafpls">nowafpls</a> help pads HTTP requests to bypass WAF. Honestly, you can probably get away with Match and Replace feature.</li>
+<li><a href="https://portswigger.net/bappstore/2eb2b1cb1cf34cc79cda36f0f9019874">IP Rotate</a> burp plugin rotates IP addresses from multiple regions using API gateways which help with bypassing rate limiting protection features. This is a must have if you want to use intruder against a target.</li>
+<li><a href="https://github.com/ustayready/fireprox">Fireprox</a> is similar to IP Rotate but a CLI version of which you can pipe in your other tools like <code>ffuf</code>.</li>
+<li><a href="https://github.com/fyoorer/ShadowClone">Shadowclone</a> this is a great tool and IMO the next gen of Axiom. No need to run heavy and slow VPS instances no more. Task distribution using serverless functions is more nimble, scalable, and cheaper to complete. With the free monthly compute usage that cloud providers hand out like candy, it's simple to test out theories against targets.</li>
+<li>Bypassing WAF via the WAF using shared certificates or WAF IP whitelisting. Great trick and the thought process is similar to bypassing conditional access rules.</li>
+<li>Bypassing on-premise or reverse proxy based WAFs via H2C smuggling is an underrated bypass method.</li>
+</ul>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/web-application'>web application</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/appsec'>appsec</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/waf-bypass'>WAF bypass</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

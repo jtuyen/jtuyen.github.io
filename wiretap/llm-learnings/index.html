@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Building LLMs: Insights</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Building LLMs: Insights"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/llm-learnings/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Building LLMs: Insights" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">07</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Building LLMs: Insights </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://www.oreilly.com/radar/what-we-learned-from-a-year-of-building-with-llms-part-i">What We Learned from a Year of Building with LLMs (Part I)</a></p>
+<p>I still find LLMs mysterious in some ways and at times it doesn't steer towards the answers I'm expecting. This article does help demystify my assumptions of how things work, a structure that can be followed, and goes a bit further without going deep into the weeds.</p>
+<blockquote>
+<p>We recommend starting with prompting when developing new applications. It’s easy to both underestimate and overestimate its importance. It’s underestimated because the right prompting techniques, when used correctly, can get us very far. It’s overestimated because even prompt-based applications require significant engineering around the prompt to work well.</p>
+</blockquote>
+<p>Prompt engineering does take time but it does pay off especially when scaled across a community as seen in the frameworks like <a href="https://github.com/danielmiessler/fabric">Fabric</a>.</p>
+<blockquote>
+<p>Focus on getting the most out of fundamental prompting techniques. A few prompting techniques have consistently helped improve performance across various models and tasks: n-shot prompts + in-context learning, chain-of-thought, and providing relevant resources.</p>
+</blockquote>
+<blockquote>
+<p>Structured input and output help models better understand the input as well as return output that can reliably integrate with downstream systems.</p>
+</blockquote>
+<blockquote>
+<p>Have small prompts that do one thing, and only one thing, well.</p>
+</blockquote>
+<p>The chain-of-thought technique can be referred as a step-by-step learning process to enable complex reasoning abilities. I find it helpful in situations where you get stuck with a generative piece of code of which does not make sense. It is easier to reason your way through a final result rather than relying on a zero shot prompt. You'll see this quite often if you start diving into malware development.</p>
+<blockquote>
+<p>The quality of your RAG’s output is dependent on the quality of retrieved documents, which in turn can be considered along a few factors.</p>
+</blockquote>
+<blockquote>
+<p>The first and most obvious metric is relevance. This is typically quantified via ranking metrics such as Mean Reciprocal Rank (MRR) or Normalized Discounted Cumulative Gain (NDCG).</p>
+</blockquote>
+<blockquote>
+<p>Like traditional recommendation systems, the rank of retrieved items will have a significant impact on how the LLM performs on downstream tasks.</p>
+</blockquote>
+<blockquote>
+<p>Second, we also want to consider information density. If two documents are equally relevant, we should prefer one that’s more concise and has lesser extraneous details.</p>
+</blockquote>
+<blockquote>
+<p>Finally, consider the level of detail provided in the document. The additional detail could help the LLM better understand the semantics of the table and thus generate more correct SQL.</p>
+</blockquote>
+<p>RAG can be precise in output based on the context given. However, RAG does struggles with specific keyword-based search such as names, acronyms, ID and etc. Implementation of vector databases attempt to solve this problem but..</p>
+<blockquote>
+<p>We’ve been communicating this to our customers and partners for months now. Nearest Neighbor Search with naive embeddings yields very noisy results and you’re likely better off starting with a keyword-based approach.</p>
+</blockquote>
+<p>It's not perfect nor it may not be the right solution to begin with. A hybrid search technique may be the better approach to improve the relevance of search results by fusing the traditional keyword-based search technique and modern way of ranking of results into vector embeddings. As a result:</p>
+<blockquote>
+<p>In most cases, a hybrid will work best: keyword matching for the obvious matches, and embeddings for synonyms, hypernyms, and spelling errors, as well as multimodality (e.g., images and text).</p>
+</blockquote>
+<p>What about instances where you want to add new knowledge to an LLM? Is it better to retrain a model or keep RAG data as relevant as possible?</p>
+<blockquote>
+<p>Beyond improved performance, RAG comes with several practical advantages too. First, compared to continuous pretraining or fine-tuning, it’s easier—and cheaper!—to keep retrieval indices up-to-date. Second, if our retrieval indices have problematic documents that contain toxic or biased content, we can easily drop or modify the offending documents.</p>
+</blockquote>
+<p>I heard that RAG is going out of style because as LLM context windows grows in size, there is no need for RAG anymore.</p>
+<blockquote>
+<p>While it’s true that long contexts will be a game-changer for use cases such as analyzing multiple documents or chatting with PDFs, the rumors of RAG’s demise are greatly exaggerated. First, even with a context window of 10M tokens, we’d still need a way to select information to feed into the model. Second, beyond the narrow needle-in-a-haystack eval, we’ve yet to see convincing data that models can effectively reason over such a large context. Thus, without good retrieval (and ranking), we risk overwhelming the model with distractors, or may even fill the context window with completely irrelevant information.</p>
+</blockquote>
+<blockquote>
+<p>Finally, there’s cost. The Transformer’s inference cost scales quadratically (or linearly in both space and time) with context length. Just because there exists a model that could read your organization’s entire Google Drive contents before answering each question doesn’t mean that’s a good idea.</p>
+</blockquote>
+<p>This only goes to show LLM tech stack is still maturing and I think most developers are throwing whatever solution to a problem and see how it performs. As an example, working on agent workflows seems complicated to be fine tuning:</p>
+<blockquote>
+<p>Small tasks with clear objectives make for the best agent or flow prompts. It’s not required that every agent prompt requests structured output, but structured outputs help a lot to interface with whatever system is orchestrating the agent’s interactions with the environment.</p>
+</blockquote>
+<blockquote>
+Some things to try:
+<ul>
+<li>
+<p>An explicit planning step, as tightly specified as possible. Consider having predefined plans to choose from (c.f. https://youtu.be/hGXhFa3gzBs?si=gNEGYzux6TuB1del).</p>
+</li>
+<li>
+<p>Rewriting the original user prompts into agent prompts. Be careful, this process is lossy!</p>
+</li>
+<li>
+<p>Agent behaviors as linear chains, DAGs, and State-Machines; different dependency and logic relationships can be more and less appropriate for different scales. Can you squeeze performance optimization out of different task architectures?</p>
+</li>
+<li>
+<p>Planning validations; your planning can include instructions on how to evaluate the responses from other agents to make sure the final assembly works well together.</p>
+</li>
+<li>
+<p>Prompt engineering with fixed upstream state—make sure your agent prompts are evaluated against a collection of variants of what may happen before.</p>
+</li>
+</ul>
+</blockquote>
+<p>IDK, for a mere mortal that is tinkering with this stuff on and off during weekends, it's time consuming and everchanging. I'll stick with the agentless stuff for now and leave the over engineering stuff to the pros.</p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/llm'>LLM</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/ai'>AI</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/engineering'>engineering</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

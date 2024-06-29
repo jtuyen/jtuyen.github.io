@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Hijacking GitHub Runners</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Hijacking GitHub Runners"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/github-runners-compromise/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Hijacking GitHub Runners" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">22</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Hijacking GitHub Runners </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://www.synacktiv.com/publications/hijacking-github-runners-to-compromise-the-organization">Hijacking GitHub runners to compromise the organization</a></p>
+<p>Summary:</p>
+<blockquote>
+<p>In a recent engagement we managed to compromise a GitHub app allowed to register self-hosted runners at the organization level. Turns out, it is possible to register a GitHub runner with the ubuntu-latest tag, granting access to jobs originally designated for GitHub-provisioned runners. Using this method, an attacker could compromise any workflow of the organization and steal CI/CD secrets or push malicious code on the different repositories.</p>
+</blockquote>
+<p>The fundamental breakdown of what to look out for and think about:</p>
+<blockquote>
+<p>the runs-on directive indicates that the workflow must run on a runner with the ubuntu-latest tag. This label is one of the tags meaning the workflow should be executed on a runner provided by GitHub. </p>
+</blockquote>
+<blockquote>
+<p>They are used to specify the type of runner and the operating system needed for a workflow. The ubuntu-latest label is quite common.</p>
+</blockquote>
+<blockquote>
+<p>this repository is protected with branch protections. Even with write access it would not be possible to deploy a malicious workflow with nord-stream to extract the different secrets, since the required_pull_request_reviews protection is enabled</p>
+</blockquote>
+<img alt="" title="" src="https://johntuyen.com/processed_images/github_runner.5bbfca06bd426748.png" srcset="https://johntuyen.com/processed_images/github_runner.f071407d8f3e4362.png 512w" class="" />
+
+<blockquote>
+<p>This workflow is set to run when a comment is posted on a pull request. Between lines 12 and 22, it retrieves the pull request reference associated with the comment. It then uses the GitHub API through some JavaScript to obtain the branch reference of the targeted pull request. Finally, the code performs a checkout of the code coming from the pull request at line 26.</p>
+</blockquote>
+<blockquote>
+<p>Contexts can be accessed using the following expression syntax: <code>${{ &lt;context&gt; }}</code>. At runtime, the context will be replaced with the associated value, like a match and replace.</p>
+</blockquote>
+<blockquote>
+<p>The vulnerability is present at line 25. The code uses the GitHub context to obtain a reference to the pull request, which corresponds to the branch name of the pull request. This branch name is under the attacker's control, meaning they can create a dummy pull request with the following branch name. Then to trigger the vulnerable code, the attacker just need to create a comment on the associated pull request.</p>
+</blockquote>
+<p>It's like anything else when looking for code injection within a software stack. Researching what Github Runners are about and understand what user controlled variables allowed in a workflow to gain server-side code execution. All this does take time unless you are a specialist in secdevops of which is in their wheelhouse.</p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/github'>github</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/ci-cd'>CI&#x2F;CD</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/secdevops'>secdevops</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

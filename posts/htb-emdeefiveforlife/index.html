@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Emdee Five For Life</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Emdee Five For Life"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-emdeefiveforlife/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Emdee Five For Life" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">17</span>
+        <span class="rest">Jun 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Emdee Five For Life </h1>
+    </div>
+  </div>
+    
+  <article><p>“Can you encrypt fast enough?”</p>
+<p>This was my first challenge on HTB. It was fun and a little bit challenging. I couldn't write this in Python as it was annoying for something this simple. I should do it in Python though so at least I understand how to write HTTP responses. In Ruby, I had less of trouble as the documentation is better and understandable. Overall, this is a nice challenge to get warmed up for other challenges to come.</p>
+<p>What I could have improved on is the if else could be more precise when it finds the flag. I didn't realized the flag was a specific string until I submitted the flag. Next time, I will know what to look for.</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#8fa1b3;">require </span><span>&#39;</span><span style="color:#a3be8c;">net/http</span><span>&#39;
+</span><span style="color:#8fa1b3;">require </span><span>&#39;</span><span style="color:#a3be8c;">uri</span><span>&#39;
+</span><span style="color:#8fa1b3;">require </span><span>&#39;</span><span style="color:#a3be8c;">digest</span><span>&#39;
+</span><span> 
+</span><span>uri = </span><span style="color:#ebcb8b;">URI</span><span>.parse(&quot;</span><span style="color:#a3be8c;">http://docker.hackthebox.eu</span><span>&quot;)
+</span><span>uri.scheme = &quot;</span><span style="color:#a3be8c;">http</span><span>&quot;
+</span><span>uri.host = &quot;</span><span style="color:#a3be8c;">docker.hackthebox.eu</span><span>&quot;
+</span><span>uri.port = </span><span style="color:#d08770;">35404
+</span><span>uri.path = &quot;</span><span style="color:#a3be8c;">/</span><span>&quot;
+</span><span> 
+</span><span>http = </span><span style="color:#ebcb8b;">Net</span><span>::</span><span style="color:#ebcb8b;">HTTP</span><span>::</span><span style="color:#8fa1b3;">new</span><span>(uri.host, uri.port)
+</span><span> 
+</span><span>i = </span><span style="color:#d08770;">0
+</span><span> 
+</span><span style="color:#b48ead;">while</span><span> i &lt;= </span><span style="color:#d08770;">10 </span><span style="color:#b48ead;">do
+</span><span> 
+</span><span style="color:#96b5b4;">puts </span><span>&quot;</span><span style="color:#a3be8c;">Loop #: </span><span>&quot; + i.</span><span style="color:#96b5b4;">to_s
+</span><span> 
+</span><span>	get_request = </span><span style="color:#ebcb8b;">Net</span><span>::</span><span style="color:#ebcb8b;">HTTP</span><span>::</span><span style="color:#ebcb8b;">Get</span><span>.</span><span style="color:#8fa1b3;">new</span><span>(uri.request_uri)
+</span><span>	get_response = http.request(get_request)
+</span><span> 
+</span><span>	get_string = /</span><span style="color:#96b5b4;">[A-Za-z0-9]{20}</span><span>/.</span><span style="color:#96b5b4;">match</span><span>(get_response.body)
+</span><span> 
+</span><span>	</span><span style="color:#96b5b4;">puts </span><span>&quot;</span><span style="color:#a3be8c;">Captured string: </span><span>&quot; + get_string.</span><span style="color:#96b5b4;">to_s
+</span><span> 
+</span><span>	cookies = get_response.response[&#39;</span><span style="color:#a3be8c;">set-cookie</span><span>&#39;]
+</span><span> 
+</span><span>	encrypt_string_md5 = </span><span style="color:#ebcb8b;">Digest</span><span>::</span><span style="color:#ebcb8b;">MD5</span><span>.hexdigest(get_string.</span><span style="color:#96b5b4;">to_s</span><span>)
+</span><span> 
+</span><span>	</span><span style="color:#96b5b4;">puts </span><span>&quot;</span><span style="color:#a3be8c;">Encrypted MD5: </span><span>&quot; + encrypt_string_md5
+</span><span> 
+</span><span>	post_request = </span><span style="color:#ebcb8b;">Net</span><span>::</span><span style="color:#ebcb8b;">HTTP</span><span>::</span><span style="color:#ebcb8b;">Post</span><span>.</span><span style="color:#8fa1b3;">new</span><span>(uri.request_uri)
+</span><span> 
+</span><span>	post_request.set_form_data({&quot;</span><span style="color:#a3be8c;">hash</span><span>&quot; =&gt; encrypt_string_md5})
+</span><span> 
+</span><span>	post_request[&#39;</span><span style="color:#a3be8c;">Cookie</span><span>&#39;] = cookies
+</span><span> 
+</span><span>	post_response = http.request(post_request)
+</span><span> 
+</span><span>	get_post_response = /</span><span style="color:#96b5b4;">Too\sslow!</span><span>/.</span><span style="color:#96b5b4;">match</span><span>(post_response.body)
+</span><span> 
+</span><span>	</span><span style="color:#b48ead;">if</span><span> get_post_response.</span><span style="color:#96b5b4;">nil? </span><span>== </span><span style="color:#d08770;">false
+</span><span>		</span><span style="color:#96b5b4;">puts</span><span> get_post_response.</span><span style="color:#96b5b4;">to_s </span><span>+ &quot;</span><span style="color:#96b5b4;">\n\n</span><span>&quot;
+</span><span>	</span><span style="color:#b48ead;">else
+</span><span>		</span><span style="color:#96b5b4;">puts</span><span> post_response.body
+</span><span>	</span><span style="color:#b48ead;">end
+</span><span> 
+</span><span>i += </span><span style="color:#d08770;">1
+</span><span> 
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>Useful link: <a href="https://yukimotopress.github.io/http">https://yukimotopress.github.io/http</a></p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

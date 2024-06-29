@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Infrastructure as Code for Red Teamers</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Infrastructure as Code for Red Teamers"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/redteam-iaac/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Infrastructure as Code for Red Teamers" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">15</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Infrastructure as Code for Red Teamers </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://github.com/bluscreenofjeff/Red-Team-Infrastructure-Wiki">Red Team Infrastructure Wiki</a></p>
+<p>Prior before starting a new red team engagement, there are plenty of infrastructure setup that is required to prepare for engagements. The process is always the same as you can see in the link above. There are a lot of moving pieces like setting up the C2 network, redirectors, proxies, phishing, domains, and etc. For every component, there is a custom configuration that may be required. This can be difficult to track and doing this all manually is a repetitive chore.</p>
+<p>Modern sysadmin/devops teams encounter the same issues but they are smarter than us by using tools like <a href="https://www.packer.io/">packer</a>, <a href="https://www.terraform.io/">terraform</a>, and <a href="https://www.ansible.com/">ansible</a>. These set of tools help with the provisioning the infrastructure in a quick, iterative, and consistent fashion. There is too much info to dive deep into these three tools in this single post but here is the general idea.</p>
+<ul>
+<li>Packer can help with creating a custom &quot;gold&quot; image of which you can load up tools/scripts/settings preloaded so you don't need to.</li>
+<li>Terraform can help with provisioning the images that you created with packer by deploying on whatever platform you end up using, it can be cloud or on-premise hardware, it doesn't matter as long as there is a supported terraform script that interfaces with the platform's API.</li>
+<li>Finally with Ansible, it can help with logging into the newly setup VMs that is created by terraform via SSH and start executing commands that you generally perform when you first setup a host. For example, adding new users, setting up SSH keys, configuring apache modules, running package updates, and etc.</li>
+</ul>
+<p>Learning and understanding these three tools does take some time but it will pay off in the end as you can also easily offload this task to anyone. Quite frankly, any red teamer worth their salt should know how their operational security and infrastructure works. The best way to learn is by writing IaaC scripts and track changes as you develop the core components. Take a peek at this simple <a href="https://www.detectionlab.network/deployment/azure/">example</a> to get an fundamental idea of how components are put together.</p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/iaac'>IaaC</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/automation'>automation</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/red-team'>red team</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/devops'>devops</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

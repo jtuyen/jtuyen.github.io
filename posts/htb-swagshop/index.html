@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Swagshop</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Swagshop"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-swagshop/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Swagshop" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">28</span>
+        <span class="rest">Sep 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Swagshop </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>Initial scans show swagshop is hosting a web server on port 80. Upon investigation, it's running Magento version 1.9x after digging deep into the xml files and cross referencing using Google.</p>
+<p>Source file: <a href="http://10.10.10.140/skin/frontend/default/default/css/styles.css">http://10.10.10.140/skin/frontend/default/default/css/styles.css</a></p>
+<p>Version confirmation: <a href="https://magento.stackexchange.com/questions/60476/determine-magento-version-without-access-to-code-base">https://magento.stackexchange.com/questions/60476/determine-magento-version-without-access-to-code-base</a></p>
+</li>
+<li>
+<p>I used <code>dirbuster</code> to dig into what other possible folders are accessible. <code>dirbuster</code> showed a number of accessible folders and the two that stood out was:</p>
+<p><a href="http://swagshop/downloader/">http://swagshop/downloader/</a> - Magento Downloader</p>
+<p><a href="http://swagshop/index.php/admin">http://swagshop/index.php/admin</a> - Magento Admin Portal</p>
+<p>I didn't have much experience with Magento so I found the Downloader first. Brute forcing the username and password didn't produce any results as I believe it banned my IP during my attempt.</p>
+</li>
+<li>
+<p>One thing I learned from the <code>dirbuster</code> results was that index.php can be searched as well using <code>dirbuster</code>. I received this hint through the HTB discord chat and I did not realize you can do this. I thought these two links are the same but it's not:</p>
+<p><a href="http://swagshop/">http://swagshop/</a></p>
+<p><a href="http://swagshop/index.php">http://swagshop/index.php</a></p>
+<p>You will see next how this information is important.</p>
+</li>
+<li>
+<p>I started to search for possible Magento exploits on exploits-db. There are a lot of exploits to read through but most seem to be targeting version 2.0+. In addition, my mistake during my search on exploit-db was searching only verified exploits. I began to realize that unverified exploits also add to the missing pieces of this swagshop puzzle.</p>
+<p><a href="https://www.exploit-db.com/exploits/37977">https://www.exploit-db.com/exploits/37977</a></p>
+<p>Pay attention to the index.php in the target variable. Without this part, you cannot exploit Magento. I was struggling with this part as mentioned above. It was an oversight on my end.</p>
+</li>
+<li>
+<p>Once the script has been executed, it will create Magento admin credentials of <code>forme:forme</code>.</p>
+</li>
+<li>
+<p>Now I needed to find a way to edit files just like how you would on a Wordpress site. A quick Google search shows you can install plugins. This is great because now you can install a File Manager type plugin and make our life easier.</p>
+<p><a href="https://pluginarchive.com/magento/magpleasure_filesystem">https://pluginarchive.com/magento/magpleasure_filesystem</a></p>
+<p>Download and install the plugin using the Magento Downloader control panel.</p>
+<p><img src="https://johntuyen.com/posts/htb-swagshop/htb-swagbox-magento-filesystem.png" alt="htb-swagbox-magento-filesystem" /></p>
+</li>
+<li>
+<p>Once activated, use the Magento Admin control panel and navigate to:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>System &gt; Filesystem &gt; IDE
+</span></code></pre>
+<p>Modify the <code>errors/503.php</code> with your own PHP reverse shell code and save the file.</p>
+<p><img src="https://johntuyen.com/posts/htb-swagshop/htb-swagshop-magento-reverseshell.png" alt="htb-swagshop-magento-reverseshell" /></p>
+</li>
+<li>
+<p>Start netcat to catch reverse shell:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>nc -nvlp 4444
+</span></code></pre>
+</li>
+<li>
+<p>Use firefox and navigate to <a href="http://10.10.10.140/errors/503.php">http://10.10.10.140/errors/503.php</a> and a reverse shell has been established. Obtain user flag.</p>
+</li>
+</ol>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<ol>
+<li>
+<p>After enumerating the machine using <code>LinEnum</code> script, I noticed the sudoers file has been misconfigured:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>User www-data may run the following commands on swagshop:
+</span><span>(root) NOPASSWD: /usr/bin/vi /var/www/html/*
+</span></code></pre>
+</li>
+<li>
+<p>This means sudo vi will work in /var/www/html folder and you will obtain root flag.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo vi /var/www/html/api.php
+</span><span>
+</span><span>:sh
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-swagshop/htb-swagshop-root.png" alt="htb-swagshop-root" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Adversary Tactics RTO - Day 4</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Adversary Tactics RTO - Day 4"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/specterops-atrto-d4/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Adversary Tactics RTO - Day 4" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">27</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Adversary Tactics RTO - Day 4 </h1>
+    </div>
+  </div>
+    
+  <article><p>It's the last day and it was a humbling experience. Today we focused on Bloodhound operations and opsec considerations, tapping into DPAPI and understanding the extraction mechanisms for local/remote scenarios (underrated technique), and finally more dizzying details about kerberos attacks focusing on delegation methodologies. Here are couple of personal takeaways:</p>
+<blockquote>
+<p>BloodHound is not comprehensive and it has blind spots.</p>
+</blockquote>
+<p>This has always been my take about Bloodhound. Bloodhound in the real world doesn't reflect the way you'll see in labs nor as simple to execute in mature environments that has conducted Bloodhound assessments in the past. As mentioned in the class, SharpHound should still be used to understand the lay of the land but keep data collection as minimal as possible by scoping the collection method. I like this take on it: perform a full collection on a sacrifical host/account that is unaffiliated with the main campaign.</p>
+<blockquote>
+<p>DPAPI: Master Key Extraction with the Domain Backup Key. If you have Domain Admin or equivalent privileges and you steal the DPAPI domain backup key, you can decrypt any domain user master key (and then associated DPAPI-protected data) forever! This key never changes, protect it like you would the krbtgt.</p>
+</blockquote>
+<p>Two words: Holy shit 🤯. I find it neat that you can remotely retrieve a decrypted master key from a DC using MS-BKRP protocol.</p>
+<blockquote>
+<p>Defensive debrief: Sysmon and HELK provides logging visibility to endpoints</p>
+</blockquote>
+<p>This might be a controversial take but red teamers should know how defensive mechanics work to be a better operator in future engagements. Sysmon and HELK stack would give a better understanding of weighing benefits and risks of operational security and situational awareness.</p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/red-team'>red team</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/specterops'>specterops</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

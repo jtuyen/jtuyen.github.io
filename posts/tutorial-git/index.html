@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Git Tutorial</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Git Tutorial"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/tutorial-git/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Git Tutorial" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">27</span>
+        <span class="rest">Dec 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Git Tutorial </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://www.lynda.com/Git-tutorials/Git-Essential-Training">https://www.lynda.com/Git-tutorials/Git-Essential-Training</a></p>
+<h3 id="0-introduction">0: Introduction</h3>
+<h3 id="1-what-is-git">1: What is Git</h3>
+<h3 id="2-installing-git">2: Installing Git</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git help log
+</span></code></pre>
+<h3 id="3-getting-started">3: Getting Started</h3>
+<ul>
+<li>
+<p>Most often accessed</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>.git/config
+</span></code></pre>
+</li>
+<li>
+<p>Add every change that's been made</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git add .
+</span></code></pre>
+</li>
+<li>
+<p>Add commit message after adding the changes</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git commit -m
+</span></code></pre>
+</li>
+<li>
+<p>Tips when writing commit messages:</p>
+<ul>
+<li>
+<p>Add shorthand codes such as &quot;Bugfix:&quot; or &quot;[css,js]&quot; or &quot;#8128 - &quot;</p>
+</li>
+<li>
+<p>Be clear and descriptive</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Show log of previous commits</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log
+</span></code></pre>
+</li>
+<li>
+<p>Show log number 1</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log -n 1
+</span></code></pre>
+</li>
+<li>
+<p>Show commit log since specific date</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --since=2012-06-14
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --unit=2012-05-14
+</span></code></pre>
+</li>
+<li>
+<p>Search commit messages by name</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --author=&quot;jtuyen&quot;
+</span></code></pre>
+</li>
+<li>
+<p>Search commit messages by search term</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --grep=&quot;javascript&quot;
+</span></code></pre>
+</li>
+</ul>
+<h3 id="4-concepts-and-architecture">4: Concepts and Architecture</h3>
+<ul>
+<li>
+<p>Two-tree (old) vs three-tree structure (git)</p>
+<ul>
+<li>
+<p>Two-tree: Working - Repository</p>
+</li>
+<li>
+<p>Three-tree: Working - Staging Index - Repository</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When you <code>git add .</code>, it will add all files from the Working to Staging Index. When you <code>git commit</code>, it will push changes to the Repository.</p>
+</li>
+<li>
+<p>When you git commit, it will generate a checksum(SHA-1) for each changed set. Data integrity.</p>
+</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>commit 998d834391ae434cbd41e402b61a5c38cd226b43 (HEAD -&gt; master)
+</span><span>Author: jtuyen &lt;john.tuyen@gmail.com&gt;
+</span><span>Date:   Thu Dec 27 09:48:16 2018 -0500
+</span><span>HEAD pointer - It&#39;s job is to reference commits in the Repository, not the Working or Staging Index. Last state of Repository, what was last checked out. The HEAD always moves to the tip of the current branch. 5c15e3(Master) -&gt; 38e73d -&gt; a614b5(HEAD)
+</span></code></pre>
+<ul>
+<li>
+<p>This command shows where the HEAD pointer is currently positioned.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cat .git/HEAD
+</span></code></pre>
+</li>
+<li>
+<p>This command shows the SHA1 where the HEAD pointer is currently positioned.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cat .git/refs/heads/master
+</span></code></pre>
+</li>
+</ul>
+<h3 id="5-making-changes-to-files">5: Making changes to files</h3>
+<ul>
+<li>
+<p>Show the current git status of the repository. It will show the current branch, what files has been added, and what files hasn't been committed yet.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git status
+</span></code></pre>
+</li>
+<li>
+<p>Show the difference between files in Working vs HEAD</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git diff
+</span><span>
+</span><span>git diff firstfile.txt
+</span></code></pre>
+</li>
+<li>
+<p>Show the difference between files in Staging Index vs Repository</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git diff --staged
+</span></code></pre>
+</li>
+<li>
+<p><code>git</code> will remove the file from the directory and from it's Staging Index. If you manually remove a file via Finder, you will still have to remove the file from the git repository. The advantage of having it in your git repository is that you can still copy the file back from repository to Working Index.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git rm firstfile.txt
+</span></code></pre>
+</li>
+<li>
+<p>The takeaway lesson is letting git to handle the moving/renaming/deletion of files instead of your OS commands.</p>
+</li>
+</ul>
+<h3 id="6-git-and-real-projects">6: Git and real projects</h3>
+<ul>
+<li>
+<p>This will show diff in a side-by-side instead of two separate lines f - forward b - backward + S - This will fold the lines</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git diff --color-words contact.html
+</span></code></pre>
+</li>
+<li>
+<p>This is an easy way to add everything in a directory</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git add tours/
+</span></code></pre>
+</li>
+<li>
+<p>The takeaway lesson is pay attention to the git status and make sure before committing, the files added is related to the message. I know I have ran into issues before where I lumped all my files into one big commit and it's all unrelated changes to each other.</p>
+</li>
+</ul>
+<h3 id="7-undoing-changes">7: Undoing Changes</h3>
+<ul>
+<li>
+<p>This command restores the file from repository to working tree. As part of best practices, -- indicates current branch</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git checkout -- index.html
+</span></code></pre>
+</li>
+<li>
+<p>Unstaging files. This is a way to unstage a file after accidently running git add . command. You don't want to lump unnecessary files into a commit that isn't related.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git reset HEAD index.html
+</span></code></pre>
+</li>
+<li>
+<p>Amending commits. This command is a way to make changes to the last commit (HEAD position). You will have to execute git add first before amending.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git commit --amend -m &quot;Commit message&quot;
+</span></code></pre>
+</li>
+<li>
+<p>Retrieving old versions. This command will checkout a specific file based on the SHA1 revision in git log. When executed, it will store the file in Staging Index so you can run git diff --staged to see the changes between Staging Index vs HEAD.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git checkout &lt;SHA1&gt; -- index.html
+</span></code></pre>
+</li>
+<li>
+<p>Scary command. This repositions where the HEAD position should start recording. Cassette tape analogy. Be careful when running these commands as git log won't show commits depending on HEAD position.</p>
+</li>
+</ul>
+<p><code>--soft</code> - Safest option. Reposition HEAD. Does not change Staging Index or Working directory</p>
+<p><code>--mixed</code> - Default option. Changes Staging Index to match Repository</p>
+<p><code>--hard</code> - Scariest option. Use this option when everything seems to be completely wrong. Changes Working and Staging Index to match Repository</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git reset
+</span></code></pre>
+<ul>
+<li>
+<p>Removing untracked files. This command will remove untracked files as a dry-run.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git clean -n
+</span></code></pre>
+</li>
+<li>
+<p>This command will delete the untracked file even in Working and Staging Index</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git clean -f
+</span></code></pre>
+</li>
+</ul>
+<h3 id="8-ignoring-files">8: Ignoring files</h3>
+<ul>
+<li>
+<p>Supports basic RegEx. If you add <code>*.php</code> and <code>!index.php</code>, it means that all .php files will be ignored except for index.php</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>.gitignore
+</span></code></pre>
+</li>
+<li>
+<p>What to ignore: compiled source code, packages and compressed files, logs and databases, OS generated files (.DS_Store), user-uploaded assets (images, videos, PDF)</p>
+</li>
+<li>
+<p>This command affects all .gitignore files globally, not repository specific.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git config --global core.excludesfiles ~/.gitignore_global
+</span></code></pre>
+</li>
+<li>
+<p>Ignore tracked files. This command untracks and removes the file from the Working Index. It does not remove from Working or Repository.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git rm --cached index.html
+</span></code></pre>
+</li>
+<li>
+<p>To track empty directories, create a <code>.gitkeep</code> file inside the empty directory. Git will not track empty directories by default.</p>
+</li>
+</ul>
+<h3 id="9-navigating-commit-tree">9: Navigating Commit Tree</h3>
+<ul>
+<li>tree-ish - Means something that references part of the tree. Tree-ish is a reference to a commit (SHA1)</li>
+</ul>
+<p>parent commit - <code>HEAD^, acf87503^, master^, HEAD~1, HEAD~</code></p>
+<p>grandparent commit - <code>HEAD^^, acf87503^^, master^^, HEAD~2</code></p>
+<p>great-grandparent commit - <code>HEAD^^^, acf87503^^^, master^^^, HEAD~3</code></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git ls-tree &lt;tree-ish&gt;
+</span></code></pre>
+<ul>
+<li>
+<p>Most commonly used</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --oneline
+</span></code></pre>
+</li>
+<li>
+<p>Show the last 3 commits</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --oneline -3
+</span></code></pre>
+</li>
+<li>
+<p>Show commit log 3 days ago git log --since=&quot;2.days&quot;</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --until=&quot;3 days ago&quot; - 
+</span></code></pre>
+</li>
+<li>
+<p>Show all commit logs between two SHA hashes</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log 2907a32..acf8750 --oneline
+</span></code></pre>
+</li>
+<li>
+<p>Show all logs from SHA1 going forward (..) that affects index.html and show changes (-p)</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log -p 2907a32.. index.html
+</span></code></pre>
+</li>
+<li>
+<p>Show all stats and summary of commit log. A good high level view of what is most frequently changed.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --stat --summary
+</span></code></pre>
+</li>
+<li>
+<p>Show log as a graph. Great way to visualize branches.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --graph
+</span></code></pre>
+</li>
+<li>
+<p>Nice combo</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --oneline --graph --all --decorate
+</span></code></pre>
+</li>
+<li>
+<p>Show changes in a commit log</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git show &lt;tree-ish&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Show changes at HEAD position</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git show --format=oneline HEAD
+</span></code></pre>
+</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git diff &lt;SHA1&gt;..&lt;SHA1&gt; --oneline
+</span></code></pre>
+<ul>
+<li>Compare two commits and ignore whitespace changes<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git diff -w &lt;SHA1&gt;..&lt;tree-ish&gt;
+</span></code></pre>
+</li>
+</ul>
+<h3 id="10-branching">10: Branching</h3>
+<ul>
+<li>Diagram of how git branching looks like and where the HEAD position moves when branched: Git Branching</li>
+</ul>
+<p><img src="https://johntuyen.com/posts/tutorial-git/lynda-git-branching.png" alt="lynda-git-branching" /></p>
+<ul>
+<li>
+<p>Find which branch you are currently working on</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git branch
+</span></code></pre>
+</li>
+<li>
+<p>Switch to specific branch</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git checkout &lt;branch&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Create and switch to new branch</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git checkout -b &lt;branch&gt;
+</span></code></pre>
+</li>
+<li>
+<p>One thing to note, if you make a change to a file without committing and you try to switch a branch, git may throw an error saying by switching branches. It will indicate that by checking out a different branch, the file you made a change in Working will be discarded. The reason behind this is because switching branches mirrors what is in the Repository into your Working. Three ways to resolve this issue:</p>
+<ul>
+<li>
+<p>Switch to branch and discard changes</p>
+</li>
+<li>
+<p>Commit changes to current branch</p>
+</li>
+<li>
+<p>Stash the changes</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Show changes between two branches</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git diff &lt;branch name&gt;..&lt;branch name&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Show current branch and the branch ancestors of what the current branch also contains.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git branch --merged
+</span></code></pre>
+</li>
+<li>
+<p>Rename branch name</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git branch -m &lt;branch&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Delete branch</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git branch -d &lt;branch&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Delete branch forcefully</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git branch -D &lt;branch&gt;
+</span></code></pre>
+</li>
+</ul>
+<h3 id="11-merging-branches">11: Merging Branches</h3>
+<ul>
+<li>
+<p>Merge specific branch into current branch</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git merge &lt;branch&gt;
+</span></code></pre>
+</li>
+</ul>
+<p>When merging, the current branch is the receiving branch.</p>
+<p>Fast-forward merge vs true merge. FF merge is when the master branch hasn't diverged into a branch that has been making changes ahead of master branch. True merge (no-ff) is when it creates a new commit on current branch with merging branch as a new starting point. It does not remove the merging branch.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-git/lynda-git-fast-forward-merge.jpg" alt="lynda-git-fast-forward-merge" /></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git merge --no-ff branch
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git merge --ff-only branch
+</span></code></pre>
+<p>Git merge conflicts. Git will indicate that there is a merging conflict and advises to resolve conflicts before committing. <code>git status</code> will show you which file is causing the issue and if you edit the file, it will have sections where the conflicts begin and end.</p>
+<ul>
+<li>
+<p>Resolving git conflicts:</p>
+<ol>
+<li>
+<p>Abort merge</p>
+</li>
+<li>
+<p>Resolve the conflict manually</p>
+</li>
+<li>
+<p>Use a merge tool (learn to do this manually first)</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Abort the merge</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git merge --abort
+</span></code></pre>
+</li>
+<li>
+<p>Use this command to show changes when resolving merging conflict issues</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git show &lt;tree-ish&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Great way to take a look at the branches in terminal. Use this when resolving conflicts.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git log --oneline --graph --all --decorate
+</span></code></pre>
+</li>
+<li>
+<p>Show various tools you can use to troubleshoot conflict issues.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git mergetool
+</span></code></pre>
+</li>
+<li>
+<p>Strategies to reduce conflicts:</p>
+<ol>
+<li>
+<p>Keep lines short. It will be easier for git to indicate where the conflict between two files are rather than a chunk of paragraph</p>
+</li>
+<li>
+<p>Keep commits small and focused.</p>
+</li>
+<li>
+<p>Beware stray edits to whitespaces (spaces, tabs, line returns)</p>
+</li>
+<li>
+<p>Merge often. May not be practical but the longer you wait, the chances of running into conflicts become greater</p>
+</li>
+<li>
+<p>Track changes to master</p>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://johntuyen.com/posts/tutorial-git/lynda-git-trackchangestomaster.gif" alt="lynda-git-trackchangestomaster" /></p>
+<h3 id="12-stashing-changes">12: Stashing Changes</h3>
+<ul>
+<li>
+<p>Stash file from Working</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git stash save &quot;message&quot;
+</span></code></pre>
+</li>
+<li>
+<p>Show stashed files</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git stash list
+</span></code></pre>
+</li>
+<li>
+<p>Show diff of stashed file</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git stash show -p {stash ref}
+</span></code></pre>
+</li>
+</ul>
+<p>Remember, stashing doesn't care what branch you are currently on or which branch you stashed it from. Stash when executed copies the file(s) to the Working tree.</p>
+<ul>
+<li>
+<p>Copy stashed file to Working tree and do not leave a copy in stash. Commonly used rather than git stash apply</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git stash pop
+</span></code></pre>
+</li>
+<li>
+<p>Copy stashed file to Working tree</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git stash apply
+</span></code></pre>
+</li>
+<li>
+<p>Delete stashed item</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git stash drop {stash ref}
+</span></code></pre>
+</li>
+<li>
+<p>Clears out all stashed items</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git stash clear
+</span></code></pre>
+</li>
+</ul>
+<h3 id="13-remotes">13: Remotes</h3>
+<ul>
+<li>
+<p>The best practice with syncing with a remote branch while minimizing conflicts with other collaborators is to fetch the changes from remote repository first before committing your own changes to the remote repository.</p>
+<ol>
+<li>
+<p>You made changes on your local computer and waiting to push changes to remote repository</p>
+</li>
+<li>
+<p>Fetch the new changes from remote repository. If you take a look at the gif below, origin/master is a local copy of the remote repository</p>
+</li>
+<li>
+<p>Merge your awaiting changes to the branch that you just fetched to remote repository</p>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://johntuyen.com/posts/tutorial-git/lynda-git-remoterepo.gif" alt="lynda-git-remoterepo" /></p>
+<ul>
+<li>
+<p>You can have multiple remote repositories per project.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git remote add &lt;alias (origin)&gt; &lt;git url&gt;.git
+</span></code></pre>
+</li>
+<li>
+<p>Remove remote alias</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git remote rm &lt;alias&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Push branch to remote repository. The -u switch enables git to keep tracking the files which is what you want usually.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git push -u &lt;alias&gt; &lt;branch&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Show local/remote branches</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git branch -a
+</span></code></pre>
+</li>
+<li>
+<p>Use this command when you forgot to use <code>git push -u</code> to track a branch. This modifies the .git/config file</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git branch --set-upstream &lt;non tracking&gt; &lt;alias(origin)/non tracking&gt;
+</span></code></pre>
+</li>
+<li>
+<p>No need to add tracking branch name for this command if you initially used <code>git push -u</code> to track the branch</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git push
+</span></code></pre>
+</li>
+<li>
+<p>This fetches the latest changes from remote repository and updates the local origin/master copy on your machine. Important reminder is that your origin/master does not reflect the changes of master. Git manages origin/master.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git fetch
+</span></code></pre>
+</li>
+<li>
+<p>Guidelines for fetching:</p>
+<ol>
+<li>
+<p>Fetch before you work</p>
+</li>
+<li>
+<p>Fetch before you push</p>
+</li>
+<li>
+<p>Fetch often</p>
+</li>
+</ol>
+</li>
+<li>
+<p><code>git pull</code> = <code>git fetch</code> + <code>git merge</code> - Convenient command but you should remember that <code>git pull</code> is a cominbation of these two commands. This way you know how to troubleshoot what is wrong in the fetch and merge process.</p>
+</li>
+<li>
+<p>Checkout and track non-tracking branch from origin then switch to that branch</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git checkout -b &lt;non tracking branch&gt; &lt;origin/non tracking branch&gt;
+</span></code></pre>
+</li>
+<li>
+<p>Pushing to an updated remote branch:</p>
+<ol>
+<li>
+<p>Fetch first</p>
+</li>
+<li>
+<p>Merge changes</p>
+</li>
+<li>
+<p>Push changes</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Delete branch from remote repository</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>git push origin --delete &lt;remote branch&gt;
+</span></code></pre>
+</li>
+<li>
+<p><a href="https://youtu.be/bRuHFZkaifM">Collaboration video example</a></p>
+</li>
+</ul>
+<p><img src="https://johntuyen.com/posts/tutorial-git/lynda-git-collaboration1.png" alt="lynda-git-collaboration1" /></p>
+<p><img src="https://johntuyen.com/posts/tutorial-git/lynda-git-collaboration2.png" alt="lynda-git-collaboration2" /></p>
+<p><img src="https://johntuyen.com/posts/tutorial-git/lynda-git-collaboration3.png" alt="lynda-git-collaboration3" /></p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/tutorial'>tutorial</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

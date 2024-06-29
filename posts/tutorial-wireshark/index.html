@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Wireshark Tutorial</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Wireshark Tutorial"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/tutorial-wireshark/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Wireshark Tutorial" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">01</span>
+        <span class="rest">Jul 22</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Wireshark Tutorial </h1>
+    </div>
+  </div>
+    
+  <article><h1 id="wireshark">Wireshark</h1>
+<p>I wouldn't say this is much of a tutorial but rather a quick protocol reference to read results from Wireshark and methods on how to extract data from data streams. The pattern of how to analyze protocols is similar across multiple protocols so if you learn one technique, the variation from the next shouldn't be difficult unless some complicated handshaking is involved like SSL/TLS. This guide should illuminate the common features used and most time spent in Wireshark.</p>
+<h2 id="essentials-capture-filters">Essentials: Capture Filters</h2>
+<p>Capture Filters are set before starting a packet capture and cannot be modified during the capture. This is where you set the parameters of which you want to capture data from specific or range of targets.
+<a href="https://wiki.wireshark.org/CaptureFilters">https://wiki.wireshark.org/CaptureFilters</a></p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/wireshark-main-window.png" alt="Wireshark Main Window" /></p>
+<p>Common examples of what you can do with capture filters:</p>
+<p>Capture only traffic to or from IP address 172.18.5.4:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>host 172.18.5.4
+</span></code></pre>
+<p>Capture traffic to or from a range of IP addresses:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>net 192.168.0.0/24
+</span></code></pre>
+<p>or</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>net 192.168.0.0 mask 255.255.255.0
+</span></code></pre>
+<p>Capture traffic from a range of IP addresses:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>src net 192.168.0.0/24
+</span></code></pre>
+<p>or</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>src net 192.168.0.0 mask 255.255.255.0
+</span></code></pre>
+<p>Capture traffic to a range of IP addresses:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>dst net 192.168.0.0/24
+</span></code></pre>
+<p>or</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>dst net 192.168.0.0 mask 255.255.255.0
+</span></code></pre>
+<p>Capture only DNS (port 53) traffic:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>port 53
+</span></code></pre>
+<p>Capture non-HTTP and non-SMTP traffic on your server (both are equivalent):</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>host www.example.com and not (port 80 or port 25)
+</span><span>
+</span><span>host www.example.com and not port 80 and not port 25
+</span></code></pre>
+<p>Capture except all ARP and DNS traffic:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>port not 53 and not arp
+</span></code></pre>
+<p>Capture traffic within a range of ports</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(tcp[0:2] &gt; 1500 and tcp[0:2] &lt; 1550) or (tcp[2:2] &gt; 1500 and tcp[2:2] &lt; 1550)
+</span></code></pre>
+<h2 id="essentials-display-filters">Essentials: Display Filters</h2>
+<p>Be aware, this feature is commonly confused with Capture Filter and it's entirely a different feature set. Display Filters are used for general filtering <em>after</em> capturing the network data traffic. </p>
+<p>Common examples of what you can do with capture filters:</p>
+<p>Show only SMTP (port 25) and ICMP traffic:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>tcp.port eq 25 or icmp
+</span></code></pre>
+<p>Show only traffic in the LAN (192.168.x.x), between workstations and servers -- no Internet:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ip.src==192.168.0.0/16 and ip.dst==192.168.0.0/16
+</span></code></pre>
+<p>TCP buffer full -- Source is instructing Destination to stop sending data</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>tcp.window_size == 0 &amp;&amp; tcp.flags.reset != 1
+</span></code></pre>
+<p>Filter on Windows -- Filter out noise, while watching Windows Client - DC exchanges</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>smb || nbns || dcerpc || nbss || dns
+</span></code></pre>
+<p>To better understand the basics of how you can filter any type of field items you would like, by selecting any items in the Packet Details section, it will show you the filter ID on the bottom of the window. In the filtering text box, if you sort using the filtering ID as desired, you can use comparison operators to find specific values or ranges.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/wireshark-filtering.png" alt="Wireshark Filtering" /></p>
+<h2 id="essentials-follow-the-protocol-stream">Essentials: Follow the Protocol Stream:</h2>
+<p>It can be very helpful to see a protocol in the way that the application layer sees it. Perhaps you are looking for passwords in a Telnet stream, or you are trying to make sense of a data stream. Maybe you just need a display filter to show only the packets in a TLS or SSL stream. By following a particular stream, you are able to trace and isolate network traffic for the specific protocol.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/wireshark-streams.png" alt="Wireshark Stream" /></p>
+<h2 id="essentials-export-objects">Essentials: Export Objects</h2>
+<p>Network traffic can be reconstructed back into readable files without the need for external tools. At times, there are plenty of readable files to sift through and it can be difficult to trace back which protocol stream it belongs to. In order to trace the exported file and the packet stream, take note of the packet number column in the export window. Back to the main window, there is a button to specify which packet you want to view in the packet list.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/wireshark-export.png" alt="Wireshark Export" /></p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/wireshark-goto.png" alt="Wireshark Goto" /></p>
+<h2 id="telnet">Telnet</h2>
+<p>Follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>........... ..!..&quot;..&#39;.....%..&amp;..... ..#..&#39;..$........!..&quot;..&quot;.........%..&amp;..#..$..&quot;...................	..
+</span><span>........................&quot;...... .....&#39;........... .0,0....&#39;.......UNKNOWN............UNKNOWN................!.....&quot;........&quot;
+</span><span>Linux 4.9.87-linuxkit-aufs (3413e600e1ec) (pts/0)
+</span><span>
+</span><span>..3413e600e1ec login: victim
+</span><span>.victim
+</span><span>..Password: PASSWORD123
+</span><span>.
+</span><span>uname -a
+</span><span>.uname -a
+</span><span>.Linux 3413e600e1ec 4.9.87-linuxkit-aufs #1 SMP Wed Mar 14 15:12:16 UTC 2018 x86_64
+</span><span>.
+</span><span>The programs included with the Debian GNU/Linux system are free software;
+</span><span>the exact distribution terms for each program are described in the
+</span><span>individual files in /usr/share/doc/*/copyright.
+</span><span>
+</span><span>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+</span><span>permitted by applicable law.
+</span><span>.victim@3413e600e1ec:~$ una.me -a
+</span><span>.Linux 3413e600e1ec 4.9.87-linuxkit-aufs #1 SMP Wed Mar 14 15:12:16 UTC 2018 x86_64 GNU/Linux
+</span><span>.victim@3413e600e1ec:~$
+</span></code></pre>
+<h2 id="ftp">FTP</h2>
+<p>Follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>220 0a316eeeb0c3 FTP server (GNU inetutils UNKNOWN) ready.
+</span><span>USER victim
+</span><span>331 Password required for victim.
+</span><span>PASS PASSWORD123
+</span><span>230- 
+</span><span>230- The programs included with the Debian GNU/Linux system are free software;
+</span><span>230- the exact distribution terms for each program are described in the
+</span><span>230- individual files in /usr/share/doc/*/copyright.
+</span><span>230- 
+</span><span>230- Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+</span><span>230- permitted by applicable law.
+</span><span>230 User victim logged in.
+</span><span>PWD
+</span><span>257 &quot;/home/victim&quot; is current directory.
+</span><span>FEAT
+</span><span>211- Supported extensions:
+</span><span> MDTM
+</span><span> SIZE
+</span><span> REST STREAM
+</span><span> EPRT
+</span><span> EPSV
+</span><span> LPRT
+</span><span> LPSV
+</span><span>211 End
+</span><span>HELP SITE
+</span><span>214- The following SITE commands are recognized (* =&gt;&#39;s unimplemented).
+</span><span>   CHMOD   HELP    IDLE    UMASK 
+</span><span>214 Direct comments to ftp-bugs@0a316eeeb0c3.
+</span><span>CLNT NcFTP 3.2.5 linux-x86_64-glibc2.13
+</span><span>500 &#39;CLNT NcFTP 3.2.5 linux-x86_64-glibc2.13&#39;: command not recognized
+</span><span>PWD
+</span><span>257 &quot;/home/victim&quot; is current directory.
+</span><span>QUIT
+</span><span>221 Goodbye.
+</span></code></pre>
+<h3 id="ftp-pasv">FTP: PASV</h3>
+<p>Follow TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>220 d18e9e5064da FTP server (GNU inetutils UNKNOWN) ready.
+</span><span>USER victim
+</span><span>331 Password required for victim.
+</span><span>PASS password
+</span><span>230- 
+</span><span>230- The programs included with the Debian GNU/Linux system are free software;
+</span><span>230- the exact distribution terms for each program are described in the
+</span><span>230- individual files in /usr/share/doc/*/copyright.
+</span><span>230- 
+</span><span>230- Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+</span><span>230- permitted by applicable law.
+</span><span>230 User victim logged in.
+</span><span>PWD
+</span><span>257 &quot;/home/victim&quot; is current directory.
+</span><span>FEAT
+</span><span>211- Supported extensions:
+</span><span> MDTM
+</span><span> SIZE
+</span><span> REST STREAM
+</span><span> EPRT
+</span><span> EPSV
+</span><span> LPRT
+</span><span> LPSV
+</span><span>211 End
+</span><span>HELP SITE
+</span><span>214- The following SITE commands are recognized (* =&gt;&#39;s unimplemented).
+</span><span>   CHMOD   HELP    IDLE    UMASK 
+</span><span>214 Direct comments to ftp-bugs@d18e9e5064da.
+</span><span>CLNT NcFTPGet 3.2.5 linux-x86_64-glibc2.13
+</span><span>500 &#39;CLNT NcFTPGet 3.2.5 linux-x86_64-glibc2.13&#39;: command not recognized
+</span><span>TYPE I
+</span><span>200 Type set to I.
+</span><span>MLST key.txt
+</span><span>500 &#39;MLST key.txt&#39;: command not recognized
+</span><span>SIZE key.txt
+</span><span>213 49
+</span><span>MDTM key.txt
+</span><span>213 20180725090145
+</span><span>PASV
+</span><span>227 Entering Passive Mode (172,21,0,2,134,155)
+</span><span>RETR key.txt
+</span><span>150 Opening BINARY mode data connection for &#39;key.txt&#39; (49 bytes).
+</span><span>226 Transfer complete.
+</span><span>QUIT
+</span><span>221 Goodbye.
+</span></code></pre>
+<p>Fundamental knowledge when analyzing protocols, if you see a data connection to obtain or read files, chances are there is a second stream of which you can view what is being downloaded or read. You can view the second TCP stream inside the same window of which when you use the Follow TCP stream function.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/ftp.png" alt="ftp" /></p>
+<h2 id="rsh-reading-client-and-server-interactions">RSH: Reading Client and Server Interactions</h2>
+<p>Follow the TCP stream:
+<img src="https://johntuyen.com/posts/tutorial-wireshark/rsh.png" alt="RSH" /></p>
+<h2 id="rlogin-viewing-credentials-in-cleartext">rLogin: Viewing Credentials in Cleartext</h2>
+<p>Follow the TCP stream:
+<img src="https://johntuyen.com/posts/tutorial-wireshark/rlogin.png" alt="rLogin" /></p>
+<h2 id="smtp">SMTP</h2>
+<p>Follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>220 pcap_08.libcurl.so ESMTP Postfix (Debian/GNU)
+</span><span>EHLO client
+</span><span>250-pcap_08.libcurl.so
+</span><span>250-PIPELINING
+</span><span>250-SIZE 10240000
+</span><span>250-VRFY
+</span><span>250-ETRN
+</span><span>250-AUTH PLAIN LOGIN
+</span><span>250-AUTH=PLAIN LOGIN
+</span><span>250-ENHANCEDSTATUSCODES
+</span><span>250-8BITMIME
+</span><span>250 DSN
+</span><span>AUTH LOGIN
+</span><span>334 VXNlcm5hbWU6
+</span><span>dmljdGlt
+</span><span>334 UGFzc3dvcmQ6
+</span><span>MTVhNjkwYjItYWE0Ni00NzlmLWJjNWUtMzQ0ODE1OGYwNmNl
+</span><span>235 2.7.0 Authentication successful
+</span><span>MAIL FROM:&lt;root@client&gt;
+</span><span>250 2.1.0 Ok
+</span><span>RCPT TO:&lt;root@server&gt;
+</span><span>250 2.1.5 Ok
+</span><span>DATA
+</span><span>354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+</span><span>Received: by client (sSMTP sendmail emulation); Tue, 31 Jul 2018 06:30:43 +0000
+</span><span>From: &quot;root&quot; &lt;root@client&gt;
+</span><span>Date: Tue, 31 Jul 2018 06:30:43 +0000
+</span><span>To: test@testlab.com
+</span><span>Subject: test email
+</span><span>
+</span><span>hello world!
+</span><span>.
+</span><span>250 2.0.0 Ok: queued as AE4254277D
+</span><span>QUIT
+</span><span>221 2.0.0 Bye
+</span></code></pre>
+<p>Decode the base64 values to reveal the string:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>echo &#39;VXNlcm5hbWU6&#39; | base64 -D
+</span></code></pre>
+<h3 id="smtp-email-zip-attachments">SMTP: Email Zip Attachments</h3>
+<p>Follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>220 pcap_08.libcurl.so ESMTP Postfix (Debian/GNU)
+</span><span>EHLO client
+</span><span>250-pcap_08.libcurl.so
+</span><span>250-PIPELINING
+</span><span>250-SIZE 10240000
+</span><span>250-VRFY
+</span><span>250-ETRN
+</span><span>250-AUTH PLAIN LOGIN
+</span><span>250-AUTH=PLAIN LOGIN
+</span><span>250-ENHANCEDSTATUSCODES
+</span><span>250-8BITMIME
+</span><span>250 DSN
+</span><span>AUTH LOGIN
+</span><span>334 VXNlcm5hbWU6
+</span><span>dmljdGlt
+</span><span>334 UGFzc3dvcmQ6
+</span><span>dmljdGlt
+</span><span>235 2.7.0 Authentication successful
+</span><span>MAIL FROM:&lt;root@client&gt;
+</span><span>250 2.1.0 Ok
+</span><span>RCPT TO:&lt;root@server&gt;
+</span><span>250 2.1.5 Ok
+</span><span>DATA
+</span><span>354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+</span><span>Received: by client (sSMTP sendmail emulation); Wed, 03 Oct 2018 23:19:57 +0000
+</span><span>From: &quot;root&quot; &lt;root@client&gt;
+</span><span>Date: Wed, 03 Oct 2018 23:19:57 +0000
+</span><span>To: test@test.com
+</span><span>Subject: test email
+</span><span>
+</span><span>hello world!
+</span><span>begin 644 attachment.zip
+</span><span>M4$L#!`H``````&#39;VZ0TTBWE0B,````#`````2`!P`=&amp;UP+V%T=&amp;%C:&amp;UE;G0N
+</span><span>M=&#39;AT550)``.=3K5;G4ZU6W5X&quot;P`!!``````$`````%1H92!K97D@:7,@.#1E
+</span><span>M,6-F-6,M-V1F.2TT96,Q+3AC8F$M8S8Y,C@W9C(V-#9F&quot;E!+`0(&gt;`PH`````
+</span><span>M`&#39;VZ0TTBWE0B,````#`````2`!@```````$```&quot;D@0````!T;7`O871T86-H
+</span><span>M;65N=&quot;YT&gt;&#39;155`4``YU.M5MU&gt;`L``00`````!`````!02P4&amp;``````$``0!8
+</span><span>)````?```````
+</span><span>`
+</span><span>end
+</span><span>.
+</span><span>250 2.0.0 Ok: queued as 07FBE34602F
+</span><span>QUIT
+</span><span>221 2.0.0 Bye
+</span></code></pre>
+<p>Save the attachment info a file:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>vi attachment.zip 
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>begin 644 attachment.zip
+</span><span>M4$L#!`H``````&#39;VZ0TTBWE0B,````#`````2`!P`=&amp;UP+V%T=&amp;%C:&amp;UE;G0N
+</span><span>M=&#39;AT550)``.=3K5;G4ZU6W5X&quot;P`!!``````$`````%1H92!K97D@:7,@.#1E
+</span><span>M,6-F-6,M-V1F.2TT96,Q+3AC8F$M8S8Y,C@W9C(V-#9F&quot;E!+`0(&gt;`PH`````
+</span><span>M`&#39;VZ0TTBWE0B,````#`````2`!@```````$```&quot;D@0````!T;7`O871T86-H
+</span><span>M;65N=&quot;YT&gt;&#39;155`4``YU.M5MU&gt;`L``00`````!`````!02P4&amp;``````$``0!8
+</span><span>)````?```````
+</span><span>`
+</span><span>end
+</span></code></pre>
+<p>Decode the data filed using <code>uudecode</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>uudecode attachment.zip
+</span></code></pre>
+<p>The data file is ready to unzip:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>unzip attachment.zip
+</span></code></pre>
+<p>FYI, the other easier method rather than doing it manual is using Wireshark's Export feature:
+<img src="https://johntuyen.com/posts/tutorial-wireshark/smtp-export.png" alt="smtp-export" /></p>
+<h2 id="pop">POP</h2>
+<p>Follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>+OK Dovecot ready.
+</span><span>CAPA
+</span><span>+OK
+</span><span>CAPA
+</span><span>TOP
+</span><span>UIDL
+</span><span>RESP-CODES
+</span><span>PIPELINING
+</span><span>AUTH-RESP-CODE
+</span><span>USER
+</span><span>SASL PLAIN
+</span><span>.
+</span><span>USER victim
+</span><span>+OK
+</span><span>PASS mypassword123
+</span><span>+OK Logged in.
+</span><span>STAT
+</span><span>+OK 0 0
+</span><span>QUIT
+</span><span>+OK Logging out.
+</span></code></pre>
+<h2 id="imap">IMAP</h2>
+<p>Follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>* OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE AUTH=PLAIN] Dovecot ready.
+</span><span>A0001 CAPABILITY
+</span><span>* CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE AUTH=PLAIN
+</span><span>A0001 OK Pre-login capabilities listed, post-login capabilities have more.
+</span><span>A0002 LOGIN &quot;victim&quot; &quot;mypassword123&quot;
+</span><span>* CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS SPECIAL-USE BINARY MOVE
+</span><span>A0002 OK Logged in
+</span><span>A0003 SELECT &quot;INBOX&quot;
+</span><span>* FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
+</span><span>* OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
+</span><span>* 0 EXISTS
+</span><span>* 0 RECENT
+</span><span>* OK [UIDVALIDITY 1538980287] UIDs valid
+</span><span>* OK [UIDNEXT 1] Predicted next UID
+</span><span>A0003 OK [READ-WRITE] Select completed (0.000 secs).
+</span><span>A0004 LOGOUT
+</span><span>* BYE Logging out
+</span><span>A0004 OK Logout completed.
+</span></code></pre>
+<h2 id="http">HTTP</h2>
+<p>What is important about analyzing HTTP protocol is looking at the overall content of the data stream. Look for clues like type of HTTP request, sensitive authorization headers, cookies, parameters, tokens, response body.</p>
+<p>Follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>GET /?key=SENSITIVE_TOKEN HTTP/1.1
+</span><span>User-Agent: curl/7.38.0
+</span><span>Host: server
+</span><span>Accept: */*
+</span><span>
+</span><span>HTTP/1.1 200 OK 
+</span><span>Etag: 103f70-8-5b7a70d6
+</span><span>Content-Type: text/html
+</span><span>Content-Length: 8
+</span><span>Last-Modified: Mon, 20 Aug 2018 07:42:14 GMT
+</span><span>Server: WEBrick/1.3.1 (Ruby/2.1.5/2014-11-13)
+</span><span>Date: Mon, 20 Aug 2018 08:05:31 GMT
+</span><span>Connection: Keep-Alive
+</span><span>
+</span><span>Welcome
+</span></code></pre>
+<p>Authorization header example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>GET / HTTP/1.1
+</span><span>Authorization: Basic YWRtaW46NjhiZGFiMzAtZmJmNy00Njc5LTgxZWMtZDBmOGM2MTNhNGMy
+</span><span>User-Agent: curl/7.38.0
+</span><span>Host: server
+</span><span>Accept: */*
+</span><span>
+</span><span>HTTP/1.1 200 OK
+</span><span>Host: server
+</span><span>Connection: close
+</span><span>X-Powered-By: PHP/5.6.38-0+deb8u1
+</span><span>Content-type: text/html; charset=UTF-8
+</span><span>
+</span><span>&lt;html&gt;
+</span><span>  &lt;head&gt;
+</span><span>    &lt;title&gt;Welcome to TestLabs&lt;/title&gt;
+</span><span>  &lt;/head&gt;
+</span><span>  &lt;body&gt;
+</span><span>    &lt;h1&gt;The key is not here!&lt;/h1&gt;
+</span><span>  &lt;/body&gt;
+</span><span>&lt;/html&gt;
+</span></code></pre>
+<p>Decode the Authorization header by using <code>base64</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>echo &#39;YWRtaW46NjhiZGFiMzAtZmJmNy00Njc5LTgxZWMtZDBmOGM2MTNhNGMy&#39; | base64 -D
+</span></code></pre>
+<p>JWT header example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>GET / HTTP/1.1
+</span><span>User-Agent: curl/7.38.0
+</span><span>Host: server
+</span><span>Accept: */*
+</span><span>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJteV9rZXkiOiIxYzRiNzQ5My0wODZkLTQ4MDUtYTY3Yi1kMjRkMmQ3NjBkODIifQ._OFtLxzAf72yb0xlud0wYlEQMPWXw5szxDIKhiW0yIw
+</span><span>
+</span><span>HTTP/1.1 200 OK
+</span><span>Host: server
+</span><span>Connection: close
+</span><span>X-Powered-By: PHP/5.6.38-0+deb8u1
+</span><span>Content-type: text/html; charset=UTF-8
+</span><span>
+</span><span>&lt;html&gt;
+</span><span>  &lt;head&gt;
+</span><span>    &lt;title&gt;Welcome to TestLabs&lt;/title&gt;
+</span><span>  &lt;/head&gt;
+</span><span>  &lt;body&gt;
+</span><span>    &lt;h1&gt;The key is not here!&lt;/h1&gt;
+</span><span>  &lt;/body&gt;
+</span><span>&lt;/html&gt;
+</span></code></pre>
+<p>Decode the JWT token using <code>jwt-cli</code> tool:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>jwt decode eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJteV9rZXkiOiIxYzRiNzQ5My0wODZkLTQ4MDUtYTY3Yi1kMjRkMmQ3NjBkODIifQ._OFtLxzAf72yb0xlud0wYlEQMPWXw5szxDIKhiW0yIw
+</span></code></pre>
+<h3 id="http-follow-tcp-stream-vs-http-stream">HTTP: Follow TCP Stream vs HTTP Stream</h3>
+<p>This is what the output would look like when you follow the TCP stream:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>GET / HTTP/1.1
+</span><span>User-Agent: curl/7.38.0
+</span><span>Host: server
+</span><span>Accept: */*
+</span><span>Accept-Encoding: gzip
+</span><span>
+</span><span>HTTP/1.1 200 OK
+</span><span>Host: server
+</span><span>Connection: close
+</span><span>X-Powered-By: PHP/5.6.38-0+deb8u1
+</span><span>Content-Encoding: gzip
+</span><span>Vary: Accept-Encoding
+</span><span>Content-type: text/html; charset=UTF-8
+</span><span>
+</span><span>..........5.A
+</span><span>. .D.=...$j...O.E...5~1.$..Mn_S....{....w...}&lt;C.4SA..2m..mp..p&#39;|.|.].O..C6l...Y.GFx....q2..Q....)..fL.Y..s.*.A^.H4a......4.Q.....
+</span></code></pre>
+<p>As you can see, the stream is not decoded correctly as this is a display of a ASCII format. In order to read the body of the HTTP packet, you need to
+follow the stream as HTML instead and it would detect the <code>Content-Encoding</code> type and decode accordingly:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>GET / HTTP/1.1
+</span><span>User-Agent: curl/7.38.0
+</span><span>Host: server
+</span><span>Accept: */*
+</span><span>Accept-Encoding: gzip
+</span><span>
+</span><span>HTTP/1.1 200 OK
+</span><span>Host: server
+</span><span>Connection: close
+</span><span>X-Powered-By: PHP/5.6.38-0+deb8u1
+</span><span>Content-Encoding: gzip
+</span><span>Vary: Accept-Encoding
+</span><span>Content-type: text/html; charset=UTF-8
+</span><span>
+</span><span>&lt;html&gt;
+</span><span>  &lt;head&gt;
+</span><span>    &lt;title&gt;Welcome to TestLabs&lt;/title&gt;
+</span><span>  &lt;/head&gt;
+</span><span>  &lt;body&gt;
+</span><span>    &lt;h1&gt;The key is MYPASSWORD123&lt;/h1&gt;
+</span><span>  &lt;/body&gt;
+</span><span>&lt;/html&gt;
+</span></code></pre>
+<p>The more difficult way to do this is follow the TCP stream as usual, convert the content type as RAW instead of ASCII and save the file as <code>.gz</code>
+because the <code>Content-Encoding</code> type. Manually extract the <code>.gz</code> file afterwards. As an example, this method can be performed for <code>Content-Encoding: deflated</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>GET / HTTP/1.1
+</span><span>User-Agent: curl/7.38.0
+</span><span>Host: server
+</span><span>Accept: */*
+</span><span>Accept-Encoding: deflate
+</span><span>
+</span><span>HTTP/1.1 200 OK
+</span><span>Host: server
+</span><span>Connection: close
+</span><span>X-Powered-By: PHP/5.6.38-0+deb8u1
+</span><span>Content-Encoding: deflate
+</span><span>Vary: Accept-Encoding
+</span><span>Content-type: text/html; charset=UTF-8
+</span><span>
+</span><span>x.5.A.. .E..b&lt;..%...p...L\C..FZ.;..^*..??....Kv&#39;....#..3grO.cY....V...}..vm&gt;....P...S....E;....&#39;....&#39;/..R .%.........U.7a........-
+</span></code></pre>
+<p>Keep in mind, the difference between <code>gzip</code> and <code>deflate</code> is the way it compresses the data. <code>deflate</code> uses <code>zlib</code> which will require a header to
+reconstruct the file:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>vi data
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>x.5.A.. .E..b&lt;..%...p...L\C..FZ.;..^*..??....Kv&#39;....#..3grO.cY....V...}..vm&gt;....P...S....E;....&#39;....&#39;/..R .%.........U.7a........-
+</span></code></pre>
+<p>Now we need to insert the <code>zlib</code> header for <code>gzip</code> to recognize the file for extraction:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>printf &quot;\x1f\x8b\x08\x00\x00\x00\x00\x00&quot; | cat - data | gunzip
+</span></code></pre>
+<h2 id="dns-reading-dns-queries">DNS: Reading DNS Queries</h2>
+<p>To read DNS queries, select the DNS protocol captured, in the Packet Details window, there is a <code>Queries</code> dropdown menu of which will display the DNS
+query types and the answer provided from the server. Keep in mind, DNS queries can also be sent using TCP so keep an eye out for those data streams when identifying DNS
+protocols.</p>
+<h3 id="dns-predictable-transaction-ids">DNS: Predictable Transaction IDs</h3>
+<p>There is an old attack called &quot;Birthday Attack&quot; of which forged DNS response queries with predictable transaction ID is sent to the client before the real DNS
+response is received. To analyze the DNS transaction ID, select the DNS packet and view the Packet Details window, select the <code>Domain Name System (query)</code> dropdown to view the <code>Transaction ID</code> field. If the ID starts with <code>0x0000</code>, there might be a chance that the next packet sent is
+predictable. View the pattern from the rest of the DNS data stream to try and identify a sequential pattern by converting the hexadecimal to decimal. Be aware, this attack doesn't commonly
+found with the exception of IoT and legacy devices.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/birthdayattack.png" alt="birthdayattack" /></p>
+<h2 id="icmp-finding-covert-data">ICMP: Finding covert data</h2>
+<p>ICMP protocols can be used as a covert channel to send information from one system to another without raising alarms.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/icmp-covert.png" alt="icmp_covert" /></p>
+<h2 id="tls-1-2-identifying-certificate-names">TLS 1.2: Identifying Certificate Names</h2>
+<p>Client TLS connections perform a handshake with a server endpoint. Identifying the certificate used in the handshake process can reveal information about the server being established by the client. This is good for tracing encrypted communication and perform additional reconnaissance.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-certificate.png" alt="tls-handshake" /></p>
+<h3 id="tls-1-2-server-name-indication-sni">TLS 1.2: Server Name Indication (SNI)</h3>
+<p>Like a HTTP server, using HTTP headers can indicate where responses are being sent and the responses received. When TLS is applied to the HTTP request, the HTTP headers do not get initiated until the TLS connection is established first. This is where exploration of TLS extension called Server Name Indiciation (SNI) is important to learn about.</p>
+<p>A single IP may host multiple TLS server on the same port and the server needs to identify what certificate it needs to send to the client. If the server sends the wrong certificate to the client, it will be rejected by the client. The way to indicate the certificate that belongs to which server is using SNI. The client will send a TLS handshake request to the server and the server will serve the certificate being requested. By looking at the TLS packet, you can find where the TLS traffic is being requested by the client.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-sni.png" alt="tls-sni" /></p>
+<h3 id="tls-1-2-decrypting-using-private-key">TLS 1.2: Decrypting using Private Key</h3>
+<p>Wireshark has the ability to decrypt TLS connections if provided a private key to read the communication. However, this only applies if the connection does not use Forward Secrecy. Forward Secrecy is used to prevent mishaps such as leaked private keys or broken cryptography from being used to decrypt the traffic prior to the compromise to cleartext.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-privatekey.png" alt="tls-privatekey" /></p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-decrypt.png" alt="tls-decrypt" /></p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-decrypted-http.png" alt="tls-decrypted-http" /></p>
+<h3 id="tls-1-2-forward-secrecy-and-pre-master-key">TLS 1.2: Forward Secrecy and Pre-master Key</h3>
+<p>If the captured TLS traffic is using Forward Secrecy, you cannot decrypt the connection with the server's private key. This ensures that if the server's private key is compromised, someone sniffing the traffic prior to the compromise cannot recover the cleartext traffic. However, by modifying the client or the server, it's possible to retrieve the pre-shared key used to secure the communication using premaster key. The premaster key is essentially the two random numbers used in the encryption process between client and server. If you have the premaster key along with the server's private key, you can decrypt the TLS stream using forward secrecy.</p>
+<p>Add the private key to the TLS key settings:
+<img src="https://johntuyen.com/posts/tutorial-wireshark/tls-privatekey2.png" alt="tls-privatekey2" /></p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-decrypt2.png" alt="tls-decrypt2" /></p>
+<p>Configure the debug output in order to view the decrypted results. This step will allow you to debug the TLS sessions in play and you can follow play by play with how the TLS session is doing:
+<img src="https://johntuyen.com/posts/tutorial-wireshark/tls-debug.png" alt="tls-debug" /></p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-debug2.png" alt="tls-debug2" /></p>
+<p>Configure the premaster key:
+<img src="https://johntuyen.com/posts/tutorial-wireshark/tls-premasterkey.png" alt="tls-premaster" /></p>
+<p>The premaster key file contains the following:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>CLIENT_RANDOM 0297ECADDD0596D3BDAFA2439DD9981F830290B9244BB9DF8E518F6078217F85A88112AF1D1BA6661EB48427D880AC182752764D104F1C42608883DFC594991ADFFEB6578311FF97195C061FD1DF1997
+</span><span>CLIENT_RANDOM 0297ECADDD0596D3BDAFA2439DD9981F830290B9244BB9DF8E518F6078217F85A88112AF1D1BA6661EB48427D880AC182752764D104F1C42608883DFC594991ADFFEB6578311FF97195C061FD1DF1997
+</span><span>CLIENT_RANDOM 7D1522A21B103244102DFB4EB1AF935DF3A0A3053D942EEB7A87F9D270AF37C531660A7646F61D5B1ABA597BFC726B53A9C337A2DD0D29684FD48FD3BD0C936EA21D62AB749ED08AADDF5DDB7AEA36DF
+</span><span>CLIENT_RANDOM 7D1522A21B103244102DFB4EB1AF935DF3A0A3053D942EEB7A87F9D270AF37C531660A7646F61D5B1ABA597BFC726B53A9C337A2DD0D29684FD48FD3BD0C936EA21D62AB749ED08AADDF5DDB7AEA36DF
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/tls-premaster2.png" alt="tls-premaster2" /></p>
+<p>The TLS stream should be now decrypted and you can follow the TLS stream to view the decrypted traffic. Lastly, pay attention to the bottom where an arrow is marked.
+<img src="https://johntuyen.com/posts/tutorial-wireshark/tls-premaster-decrypt.png" alt="tls-premaster-decrypt" /></p>
+<h2 id="mysql-login-and-password">MySQL: Login and Password</h2>
+<p>MySQL request and responses can be read in plaintext only if encryption is not used.</p>
+<p><img src="https://johntuyen.com/posts/tutorial-wireshark/mysql.png" alt="mysql" /></p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/tutorial'>tutorial</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

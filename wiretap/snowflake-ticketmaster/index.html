@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+<meta name="description"
+      content="Adventures of Functional Mediocrity" />
+<meta name="keywords"
+      content="zola, theme, ink, hugo-ink, john tuyen, jtuyen" /> 
+
+<title>John Tuyen | Snowflake Data Breach</title>
+<meta
+  property="og:title"
+  content="John Tuyen | Snowflake Data Breach"
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://johntuyen.com/wiretap/snowflake-ticketmaster/" />
+<meta property="og:description" content="Adventures of Functional Mediocrity" />
+<meta property="og:image" content="" />
+<meta property="og:image:url" content="" />
+<meta property="og:image:secure_url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Snowflake Data Breach" />
+<meta name="twitter:description" content="Adventures of Functional Mediocrity" />
+<meta property="twitter:image" content="" />
+
+<link rel="alternate"
+          type="application/rss+xml"
+          title="John Tuyen"
+          href="https://johntuyen.com/atom.xml">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap&family=Playfair+Display"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://johntuyen.com/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+            integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a class="site-name"
+           href="/">
+            <h1>John Tuyen</h1>
+        </a>
+        <div class="site-description">
+            <p>Adventures of Functional Mediocrity</p>
+        </div>
+        <nav>
+            <div class="links"> 
+            <a 
+                href="https://johntuyen.com/ ">About</a> 
+            <a 
+                href="https://johntuyen.com/posts/ ">Posts</a> 
+            <a 
+                href="https://johntuyen.com/gaze/ ">Gaze</a> 
+            <a 
+                href="https://johntuyen.com/wiretap/ ">Wiretap</a> 
+            <a 
+                href="https://johntuyen.com/tags/ ">Tags</a> 
+            <a 
+                href="https://johntuyen.com/search/ ">Search</a> 
+            </div>
+        </nav>
+    </header>
+    <article>
+    
+
+<section class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">19</span>
+        <span class="rest">Jun 24</span>
+      </div>
+    </div>
+
+    <div class="matter">
+      <h1 class="title">Snowflake Data Breach </h1>
+    </div>
+  </div>
+    
+  <article><p><a href="https://www.wired.com/story/epam-snowflake-ticketmaster-breach-shinyhunters">Hackers Details How They Allegedly Stole Ticketmaster Data From Snowflake</a></p>
+<blockquote>
+<p>About 165 customer accounts were potentially affected in the recent hacking campaign targeting Snowflake’s customers, but only a few of these have been identified so far.</p>
+</blockquote>
+<blockquote>
+<p>Wired, however, has independently confirmed that it was a Snowflake account; the stolen data included bank account details for 30 million customers, including 6 million account numbers and balances, 28 million credit card numbers, and human resources information about staff, according to a post published by the hackers. Lending Tree and Advance Auto Parts have also said they might be victims as well.</p>
+</blockquote>
+<p>Quite significant considering what has announced publicly so far. I hope others have data salted and hashed at the very minimum.</p>
+<blockquote>
+<p>The hacker who spoke with WIRED says that a computer belonging to one of EPAM’s employees in Ukraine was infected with info-stealer malware through a spear-phishing attack. It’s unclear if someone from ShinyHunters conducted this initial breach or just purchased access to the infected system from someone else who hacked the worker and installed the infostealer. The hacker says that once on the EPAM worker’s system, they installed a remote-access Trojan, giving them complete access to everything on the worker’s computer.</p>
+</blockquote>
+<p>Hackers installed a RAT on a machine? Two scenarios that came to mind is this user's machine has local admin privileges enabled or the adversaries were clever enough to privesc without alerting AV/EDR. Both of which are a clear indication that device compliance isn't strongly enforced.</p>
+<blockquote>
+<p>Using this access, they say, they found unencrypted usernames and passwords that the worker used to access and manage EPAM customers’ Snowflake accounts</p>
+</blockquote>
+<p>Infostealers are growing in popularity over the years and rapidly growing due to malware-as-a-service offerings. It is as simple as generate a payload and fire it off via email or host it on an endpoint. The main purpose of this type of malware is about data exfiltration of sensitive data as fast as they can before it's detected by AV/EDR. You only need to be right once and unsophisticated adversaries wouldn't care if the payload has been detected, they have the data they wanted and it's going to be sold in bulk on the dark web. Whether the compromised organization has the ability to identify and deal with such situations can be a crap shoot (lack of expertise) and that's what unsophisicated adveraries are banking on. If you don't take action on it, it's a matter of time someone will be purchasing bulk credentials and try it out.</p>
+<blockquote>
+<p>The hacker says the credentials were stored on the worker’s machine in a project management tool called Jira.</p>
+</blockquote>
+<p>Of course, we all do 😅 /s</p>
+<blockquote>
+<p>Snowflake accounts didn’t require multifactor authentication (MFA) to access them.</p>
+</blockquote>
+<p>And this is the downfall for Snowflake and it's customers. It should've been enforced right from the get go. Instead, I'm guessing Snowflake made it optional and companies who used their service did not perform a third-party risk assessment before going into production. IMO both parties are to blame here.</p>
+<blockquote>
+<p>But in cases where Snowflake credentials weren’t stored on the worker’s system, the hacker claims they sifted through stockpiles of old credentials stolen in previous breaches by hackers using infostealer malware and found additional usernames and passwords for Snowflake accounts</p>
+</blockquote>
+<blockquote>
+<p>Mandiant said that about 80 percent of the victims it identified in the Snowflake campaign were compromised using credentials that had previously been stolen and exposed by infostealers.</p>
+</blockquote>
+<blockquote>
+<p>Mandiant suggested that multiple contractors were breached to gain access to Snowflake accounts, noting that contractors—often known as business process outsourcing (BPO) companies—are a potential gold mine for hackers</p>
+</blockquote>
+<blockquote>
+<p>noting that the majority of the credentials the hackers used in the Snowflake campaign came from repositories of data previously stolen by various infostealer campaigns, some of which dated as far back as 2020.</p>
+</blockquote>
+<p>This won't be the last story we will hear about compromising contractors as a way to gain initial access to a company they are working for. From what I can recall, the last major story was <a href="https://krebsonsecurity.com/2014/02/target-hackers-broke-in-via-hvac-company/">Target</a> being compromised via HVAC company. This is why segregation and defense in depth is important and not an after thought.</p>
+</article>
+
+  
+    
+  
+  <ul class="tags">
+    
+      <li><a href='https://johntuyen.com/tags/snowflake'>snowflake</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/breach'>breach</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/infostealer'>infostealer</a></li>
+    
+      <li><a href='https://johntuyen.com/tags/malware'>malware</a></li>
+    
+  </ul>
+  
+  
+    
+</section>
+</article>
+    <footer>
+        <div class="social">
+            <ul> 
+                 
+                <li>
+                    <a href="https://github.com/jtuyen"
+                       title="Github" rel="me"><i data-feather="github"></i></a>
+                </li>
+                 
+                 
+                <li>
+                    <a href="https://twitter.com/jtuyen"
+                       title="Twitter"
+                       rel="me"><i data-feather="twitter"></i></a>
+                </li>
+                
+                
+                
+                <li>
+                    <a href="https://johntuyen.com/johntuyenprotonmailcom-pgp.asc" title="PGP" rel="me">
+                        <i data-feather="lock"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://johntuyen.com/atom.xml"
+                       title="John Tuyen"><i data-feather="rss"></i></a>
+                </li>
+            </ul>
+        </div>
+        <p> © John Tuyen 2024
+
+        
+        
+        </p>
+    </footer>
+    <script>
+        feather.replace();
+    </script> 
+    </body>
+</html>
